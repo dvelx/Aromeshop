@@ -1,9 +1,5 @@
 import express from "express";
-import Database from "./database.js";
 import router from "./controllers/database.controller.js";
-
-const database = new Database();
-database.connect();
 
 const app = express();
 

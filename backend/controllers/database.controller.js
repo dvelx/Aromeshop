@@ -1,4 +1,8 @@
 import exprepress from "express";
+import Database from "../database.js";
+
+const database = new Database();
+database.connect();
 
 const router = exprepress.Router();
 
