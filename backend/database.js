@@ -70,4 +70,10 @@ export default class Database {
       console.log(result);
     });
   }
+
+  getCategories() {
+    
+  }
+
+  getProducts() {}
 }
