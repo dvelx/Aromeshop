@@ -16,7 +16,10 @@ const options = {
   },
 };
 
+// подключение станической папки с админкой
 app.use(express.static("admin", options));
+
+// подключение контроллера БД
 app.use("/api/", router);
 
 app.listen("3000", () => {
