@@ -1,10 +1,11 @@
-import exprepress from "express";
+import exprepress, { response } from "express";
 import Database from "../database.js";
 
 const database = new Database();
 database.connect();
 
 const router = exprepress.Router();
+router.use(exprepress.json());
 
 router.get("/", (req, res) => {
   res.send("api...");
@@ -27,6 +28,25 @@ router.get("/create_categories", (req, res) => {
 router.get("/create_products", (req, res) => {
   database.createProductsTable();
   res.send(`Table \`products\` created...`);
+});
+
+// Получение списка категорий
+router.route("/categories").get((request, response) => {
+  const result = database.getCategories();
+
+  result
+    .then((data) => response.json({ data }))
+    .catch((err) => console.log(err));
+});
+
+// Создание категории
+router.route("/category").post((request, response) => {
+  const { title, slug, image } = request.body;
+  const result = database.addCategory(title, slug, image);
+
+  result
+    .then((data) => response.json({ data: data }))
+    .catch((err) => console.log(err));
 });
 
 // В остальных случаях отправим HTML-страницу

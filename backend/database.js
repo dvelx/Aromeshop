@@ -15,6 +15,7 @@ export default class Database {
       host: this.db_host,
       user: this.db_user,
       password: this.db_password,
+      database: this.db_name,
       multipleStatements: true, // нужно для выполнения нескольких команд в одном запросе
     });
   }
@@ -47,8 +48,8 @@ export default class Database {
     const sql = `USE ${this.db_name}; 
     CREATE TABLE IF NOT EXISTS \`categories\` (
         \`id\` INT AUTO_INCREMENT, 
-        \`title\` VARCHAR(255) CHARSET utf8, 
-        \`slug\` VARCHAR(255), 
+        \`title\` VARCHAR(255) CHARSET utf8 UNIQUE, 
+        \`slug\` VARCHAR(255) UNIQUE, 
         \`image\` VARCHAR(2048), 
         PRIMARY KEY (id));`;
     this.db.query(sql, (err, result) => {
@@ -71,8 +72,40 @@ export default class Database {
     });
   }
 
-  getCategories() {
-    
+  async getCategories() {
+    const sql = `SELECT * FROM categories;`;
+    const data = await new Promise((resolve, reject) => {
+      this.db.query(sql, (err, results) => {
+        if (err) {
+          reject(new Error(err.message));
+        }
+        resolve(results);
+      });
+    });
+
+    return data;
+  }
+
+  async addCategory(title, slug, image) {
+    try {
+      const sql = `INSERT INTO categories (title, slug, image) VALUES(?, ?, ?);`;
+      const insertId = await new Promise((resolve, reject) => {
+        this.db.query(sql, [title, slug, image], (err, results) => {
+          if (err) {
+            reject(new Error(err.message));
+          }
+          resolve(results.insertId);
+        });
+      });
+      return {
+        id: insertId,
+        title,
+        slug,
+        image,
+      };
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   getProducts() {}
