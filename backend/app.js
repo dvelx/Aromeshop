@@ -22,6 +22,11 @@ app.use(express.static("admin", options));
 // подключение контроллера БД
 app.use("/api/", router);
 
+/* В остальных случаях отправим HTML-страницу */
+app.get("/admin", (req, res) => {
+  res.sendFile("/admin/index.html", { root: "." });
+});
+
 app.listen("3000", () => {
   console.log("Server started on port 3000 ...");
 });
