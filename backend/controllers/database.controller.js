@@ -1,5 +1,6 @@
 import exprepress, { response } from "express";
 import Database from "../database.js";
+import slugify from "slugify";
 
 const database = new Database();
 database.connect();
@@ -39,8 +40,13 @@ router.route("/categories").get((request, response) => {
 
 // Создание категории
 router.route("/category").post((request, response) => {
-  const { title, slug, image } = request.body;
-  const result = database.addCategory(title, slug, image);
+  const { title, image } = request.body;
+  const slugParams = {
+    locale: "ru",
+    lower: true,
+    strict: true,
+  };
+  const result = database.addCategory(title, slugify(title, slugParams), image);
 
   result.then((data) => response.json(data)).catch((err) => console.log(err));
 });
