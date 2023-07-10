@@ -89,20 +89,32 @@ export default class Database {
   async addCategory(title, slug, image) {
     try {
       const sql = `INSERT INTO categories (title, slug, image) VALUES(?, ?, ?);`;
-      const insertId = await new Promise((resolve, reject) => {
+
+      let response = {
+        data: null,
+        error: null,
+      };
+      await new Promise((resolve, reject) => {
         this.db.query(sql, [title, slug, image], (err, results) => {
           if (err) {
-            reject(new Error(err.message));
-          }
-          resolve(results.insertId);
+            reject(`MySQL: ${new Error(err.message).message}`);
+          } else resolve(results.insertId);
         });
-      });
-      return {
-        id: insertId,
-        title,
-        slug,
-        image,
-      };
+      }).then(
+        (insertId) => {
+          response.data = {
+            id: insertId,
+            title,
+            slug,
+            image,
+          };
+        },
+        (error) => {
+          response.error = error;
+        }
+      );
+
+      return response;
     } catch (error) {
       console.log(error);
     }

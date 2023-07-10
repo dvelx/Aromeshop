@@ -34,9 +34,7 @@ router.get("/create_products", (req, res) => {
 router.route("/categories").get((request, response) => {
   const result = database.getCategories();
 
-  result
-    .then((data) => response.json({ data }))
-    .catch((err) => console.log(err));
+  result.then((data) => response.json(data)).catch((err) => console.log(err));
 });
 
 // Создание категории
@@ -44,9 +42,7 @@ router.route("/category").post((request, response) => {
   const { title, slug, image } = request.body;
   const result = database.addCategory(title, slug, image);
 
-  result
-    .then((data) => response.json({ data: data }))
-    .catch((err) => console.log(err));
+  result.then((data) => response.json(data)).catch((err) => console.log(err));
 });
 
 // В остальных случаях отправим HTML-страницу
