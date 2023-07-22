@@ -44,12 +44,18 @@ router.route("/categories").get((request, response) => {
   result.then((data) => response.json(data)).catch((err) => console.log(err));
 });
 
-/* Получение списка продуктов */
+/* Получение списка товаров */
 router.route("/products").get((request, response) => {
   const result = database.getProducts();
   result.then((data) => response.json(data)).catch((err) => console.log(err));
 });
 
+/* Получение товара по id */
+router.route("/product").get((request, response) => {
+  const productId = request.query.id;
+  const result = database.getProductById(productId);
+  result.then((data) => response.json(data)).catch((err) => console.log(err));
+});
 /* Создание категории */
 router.route("/category").post((request, response) => {
   const { title, image } = request.body;

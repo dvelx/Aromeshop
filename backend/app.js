@@ -1,5 +1,6 @@
 import express from "express";
 import router from "./controllers/database.controller.js";
+import Mailer from "./mail.js";
 
 const app = express();
 
@@ -29,6 +30,21 @@ app.use("/api/", router);
 /* В остальных случаях отправим HTML-страницу */
 app.get("/admin", (req, res) => {
   res.sendFile("/admin/index.html", { root: "." });
+});
+
+// Пример отправки почты
+app.get("/mail", async (req, res) => {
+  const mailer = new Mailer();
+  mailer
+    .sendMail({
+      to: "goffdmitriy@gmail.com",
+      subject: '"Message from Node js"',
+      text: "This message was sent from Node js server.",
+      html: "This <i>message</i> was sent from <strong>Node js</strong> server.",
+    })
+    .then(() => {
+      res.status(200);
+    });
 });
 
 app.listen("3000", () => {

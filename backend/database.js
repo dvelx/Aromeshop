@@ -41,58 +41,14 @@ export default class Database {
     });
   }
 
-  dropDatabase() {
-    const sql = `DROP DATABASE IF EXISTS \`${this.db_name}\`;`;
-    this.db.query(sql, (err, result) => {
-      if (err) throw err;
-      console.log(result);
-    });
-  }
-
-  createDatabase() {
-    const sql = `CREATE DATABASE IF NOT EXISTS \`${this.db_name}\``;
-    this.db.query(sql, (err, result) => {
-      if (err) throw err;
-      console.log(result);
-    });
-  }
-
-  createCategoriesTable() {
-    const sql = `USE ${this.db_name}; 
-    CREATE TABLE IF NOT EXISTS \`categories\` (
-        \`id\` INT AUTO_INCREMENT, 
-        \`title\` VARCHAR(255) CHARSET utf8 UNIQUE, 
-        \`slug\` VARCHAR(255) UNIQUE, 
-        \`image\` VARCHAR(2048), 
-        PRIMARY KEY (id));`;
-    this.db.query(sql, (err, result) => {
-      if (err) throw err;
-      console.log(result);
-    });
-  }
-
-  createProductsTable() {
-    const sql = `CREATE TABLE IF NOT EXISTS \`products\`(
-        \`id\` int AUTO_INCREMENT PRIMARY KEY,
-        \`title\` VARCHAR(255) CHARSET utf8 UNIQUE,
-        \`slug\` VARCHAR(255) UNIQUE,
-        \`image\` VARCHAR(2048),
-        \`description\` VARCHAR(2048) CHARSET utf8,
-        \`price\` DECIMAL(10,2));`;
-    this.db.query(sql, (err, result) => {
-      if (err) throw err;
-      console.log(result);
-    });
-  }
-
   async getCategories() {
-    const sql = `SELECT * FROM categories;`;
+    const sql = `SELECT * FROM ${this.db_name}.categories;`;
     return await this.runQuery(sql);
   }
 
-  async addCategory(title, slug, image) {
+  async addCategory({ title, slug, image }) {
     try {
-      const sql = `INSERT INTO categories (title, slug, image) VALUES(?, ?, ?);`;
+      const sql = `INSERT INTO ${this.db_name}.categories (title, slug, image) VALUES(?, ?, ?);`;
 
       let response = {
         data: null,
@@ -124,9 +80,9 @@ export default class Database {
     }
   }
 
-  async addProduct(title, slug, image, description, price) {
+  async addProduct({ title, slug, image, description, price }) {
     try {
-      const sql = `INSERT INTO products (title, slug, image, description, price) VALUES(?, ?, ?, ?, ?);`;
+      const sql = `INSERT INTO ${this.db_name}.products (title, slug, image, description, price) VALUES(?, ?, ?, ?, ?);`;
 
       let response = {
         data: null,
@@ -143,9 +99,9 @@ export default class Database {
           }
         );
       }).then(
-        (insertId) => {
+        (id) => {
           response.data = {
-            id: insertId,
+            id,
             title,
             slug,
             image,
@@ -165,7 +121,12 @@ export default class Database {
   }
 
   async getProducts() {
-    const sql = `SELECT * FROM products;`;
+    const sql = `SELECT * FROM ${this.db_name}.products_view;`;
+    return await this.runQuery(sql);
+  }
+
+  async getProductById(id) {
+    const sql = `SELECT * FROM ${this.db_name}.products_view WHERE id='${id}';`;
     return await this.runQuery(sql);
   }
 }
