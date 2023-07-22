@@ -20,6 +20,9 @@ const options = {
 // подключение станической папки с админкой
 app.use(express.static("admin", options));
 
+// подключение станической папки с картинками
+app.use("/img", express.static("img"));
+
 // подключение Bootstrap
 app.use("/", express.static("./node_modules/bootstrap/dist/"));
 app.use("/icons", express.static("./node_modules/bootstrap-icons/"));
