@@ -25,7 +25,7 @@ CREATE TABLE shop_data.products (
   `category_id` int NOT NULL,
   `brand_id` int NOT NULL,
   `title` varchar(255) CHARSET utf8 UNIQUE NOT NULL,
-  `image` varchar(2048) DEFAULT NULL,
+  `image` varchar(2048) UNIQUE DEFAULT NULL,
   `description` varchar(2048) CHARSET utf8 DEFAULT NULL,
   `price` decimal(10, 2) DEFAULT NULL,
   FOREIGN KEY (`category_id`) REFERENCES categories (`id`) ON DELETE RESTRICT,
@@ -36,9 +36,9 @@ CREATE TABLE shop_data.feedback (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `subject` VARCHAR(500) CHARSET utf8 DEFAULT NULL,
   `message` VARCHAR(2000) NOT NULL,
-  `name` VARCHAR(150) CHARSET utf8,
-  `phone` VARCHAR(20),
-  `email` VARCHAR(150),
+  `name` VARCHAR(150) CHARSET utf8 NOT NULL,
+  `phone` VARCHAR(20) NOT NULL,
+  `email` VARCHAR(150) NOT NULL,
   `received_date` timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
