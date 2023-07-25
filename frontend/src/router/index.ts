@@ -1,10 +1,13 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import {ROUTES_PATHS} from "@/constants/router";
-import MainPage from "@/pages/MainPage.vue";
-import AromaHomePage from "@/pages/AromaHomePage.vue";
-import AromaAutoPage from "@/pages/AromaAutoPage.vue";
-import CosmetologyPage from "@/pages/CosmetologyPage.vue";
-import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage.vue";
+import {ROUTES_PATHS} from "../constans/router.ts";
+import MainPage from "../pages/MainPage.vue";
+import ProductPage from "../pages/ProductPage.vue";
+import ProductList from "../pages/ProductList.vue";
+import AboutPage from "../pages/AboutPage.vue";
+import BlogPage from "../pages/BlogPage.vue";
+import ReviewsPage from "../pages/ReviewsPage.vue";
+import CartPage from "../pages/CartPage.vue";
+import ContactsPage from "../pages/ContactsPage.vue";
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -15,25 +18,39 @@ const router = createRouter({
       component: MainPage
     },
     {
-      name: ROUTES_PATHS.AROMAHOME,
-      path: ROUTES_PATHS.AROMAHOME,
-      component: AromaHomePage
+      path: ROUTES_PATHS.PRODUCTPAGE,
+      name: ROUTES_PATHS.PRODUCTPAGE,
+      component: ProductPage
     },
     {
-      path: ROUTES_PATHS.AROMAAUTO,
-      name: ROUTES_PATHS.AROMAAUTO,
-      component: AromaAutoPage
+      path: ROUTES_PATHS.PRODUCTLIST,
+      name: ROUTES_PATHS.PRODUCTLIST,
+      component: ProductList
     },
     {
-      path: ROUTES_PATHS.COSMETOLOGY,
-      name: ROUTES_PATHS.COSMETOLOGY,
-      component: CosmetologyPage
-    }
-    ,
+      path: ROUTES_PATHS.ABOUTUS,
+      name: ROUTES_PATHS.ABOUTUS,
+      component: AboutPage
+    },
     {
-      path: ROUTES_PATHS.PRIVATE_POLICY,
-      name: ROUTES_PATHS.PRIVATE_POLICY,
-      component: PrivacyPolicyPage
+      path: ROUTES_PATHS.BLOG,
+      name: ROUTES_PATHS.BLOG,
+      component: BlogPage
+    },
+    {
+      path: ROUTES_PATHS.REVIEWS,
+      name: ROUTES_PATHS.REVIEWS,
+      component: ReviewsPage
+    },
+    {
+      path: ROUTES_PATHS.CART,
+      name: ROUTES_PATHS.CART,
+      component: CartPage
+    },
+    {
+      path: ROUTES_PATHS.CONTACTS,
+      name: ROUTES_PATHS.CONTACTS,
+      component: ContactsPage
     }
   ]
 })

@@ -1,34 +1,59 @@
 <template>
+  <HeaderPromotion />
   <header class="header">
-    <div class="header__container">
-      <div class="header__logo">
-        <a href="/">
-          <h1>AromeShop</h1>
-        </a>
-      </div>
-      <nav class="header__nav">
+    <div class="header__container container">
+      <nav class="nav">
         <ul class="nav__list">
           <li class="nav__item">
-            <router-link to="/aromahome">Ароматы для дома</router-link>
+            <router-link to="/filter-product" class="nav__link">
+              МАГАЗИН
+            </router-link>
           </li>
           <li class="nav__item">
-            <router-link to="/aromaauto">Ароматы для авто</router-link>
+            <router-link to="/about-us" class="nav__link">
+              О&nbspНАС
+            </router-link>
           </li>
           <li class="nav__item">
-            <router-link to="/cosmetology">Косметология</router-link>
+            <router-link to="/blog" class="nav__link">
+              БЛОГ
+            </router-link>
+          </li>
+          <li class="nav__item">
+            <router-link to="/reviews" class="nav__link">
+              ОТЗЫВЫ
+            </router-link>
           </li>
         </ul>
       </nav>
-      <div class="header__btns">
-        <a class="header__btns-link" href="">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100.36 100.36"><defs></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M99.08,92.88,70.53,64.32a39.6,39.6,0,1,0-6.21,6.21L92.88,99.08a4.38,4.38,0,0,0,6.2-6.2ZM39.64,70.44a30.8,30.8,0,1,1,30.8-30.8A30.8,30.8,0,0,1,39.64,70.44Z"/></g></g></svg>
-        </a>
-        <a class="header__btns-link" href="">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 117.05 100.08"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M58.52,100.08a7.26,7.26,0,0,1-5.16-2.14L9.51,54.15C-2.84,41.82-3.21,21.81,8.69,9.55A31.55,31.55,0,0,1,53.57,9.2l5,5,4.94-5a31.56,31.56,0,0,1,44.89.35c11.91,12.25,11.54,32.26-.81,44.6h0L63.68,97.94A7.24,7.24,0,0,1,58.52,100.08ZM31.3,5a26.32,26.32,0,0,0-19,8C2.25,23.33,2.59,40.2,13,50.63L56.88,94.42a2.33,2.33,0,0,0,3.28,0L104,50.63c10.44-10.43,10.77-27.3.75-37.61A26.56,26.56,0,0,0,67,12.73l-6.69,6.7a2.5,2.5,0,0,1-3.53,0l-6.71-6.7A26.34,26.34,0,0,0,31.3,5Zm74.48,47.57h0Z"/></g></g></svg>
-        </a>
-        <a class="header__btns-link" href="">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.87 99.96"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M120.8,31H84.93L73.56,1.34a2,2,0,0,0-3.84,1.43h0L80.57,32H42.12L53,2.76a2,2,0,0,0-3.84-1.43L37.75,32H2A2,2,0,0,0,.12,34.7L23.43,98.62A2,2,0,0,0,25.35,100h71.8a2.05,2.05,0,0,0,1.94-1.36l23.66-64.86a2.07,2.07,0,0,0-2-2.78ZM95.92,96H26.77L4.89,36H36.24l-3.66,9.95a2,2,0,1,0,3.83,1.44L40.61,37H82.09l4.19,10.39a2.05,2.05,0,0,0,3.84-1.44L86.45,36h31.36Z"/></g></g></svg>
-        </a>
+      <div class="right">
+        <div class="right__top">
+          <div class="logo">
+            <router-link to="/">
+              <img src="../../src/assets/images/svg/aroma-logo.svg" alt="logo">
+            </router-link>
+          </div>
+          <div class="right__top-action">
+            <div class="right__top-search">
+              <a href="#">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11.5 21.75C5.85 21.75 1.25 17.15 1.25 11.5C1.25 5.85 5.85 1.25 11.5 1.25C17.15 1.25 21.75 5.85 21.75 11.5C21.75 17.15 17.15 21.75 11.5 21.75ZM11.5 2.75C6.67 2.75 2.75 6.68 2.75 11.5C2.75 16.32 6.67 20.25 11.5 20.25C16.33 20.25 20.25 16.32 20.25 11.5C20.25 6.68 16.33 2.75 11.5 2.75Z" fill="#0C0D12"/>
+                  <path d="M22 22.7499C21.81 22.7499 21.62 22.6799 21.47 22.5299L19.47 20.5299C19.18 20.2399 19.18 19.7599 19.47 19.4699C19.76 19.1799 20.24 19.1799 20.53 19.4699L22.53 21.4699C22.82 21.7599 22.82 22.2399 22.53 22.5299C22.38 22.6799 22.19 22.7499 22 22.7499Z" fill="#0C0D12"/>
+                </svg>
+              </a>
+            </div>
+            <div class="right__top-cart">
+              <router-link to="/cart">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16.5 8.62981C16.09 8.62981 15.75 8.28981 15.75 7.87981V6.49981C15.75 5.44981 15.3 4.42981 14.52 3.71981C13.73 2.99981 12.71 2.66981 11.63 2.76981C9.83 2.93981 8.25 4.77981 8.25 6.69981V7.66981C8.25 8.07981 7.91 8.41981 7.5 8.41981C7.09 8.41981 6.75 8.07981 6.75 7.66981V6.68981C6.75 3.99981 8.92 1.51981 11.49 1.26981C12.99 1.12981 14.43 1.59981 15.53 2.60981C16.62 3.59981 17.25 5.01981 17.25 6.49981V7.87981C17.25 8.28981 16.91 8.62981 16.5 8.62981Z" fill="#0C0D12"/>
+                  <path d="M15 22.75H9C4.38 22.75 3.52 20.6 3.3 18.51L2.55 12.52C2.44 11.44 2.4 9.89 3.45 8.73C4.35 7.73 5.84 7.25 8 7.25H16C18.17 7.25 19.66 7.74 20.55 8.73C21.59 9.89 21.56 11.44 21.45 12.5L20.7 18.51C20.48 20.6 19.62 22.75 15 22.75ZM8 8.75C6.31 8.75 5.15 9.08 4.56 9.74C4.07 10.28 3.91 11.11 4.04 12.35L4.79 18.34C4.96 19.94 5.4 21.26 9 21.26H15C18.6 21.26 19.04 19.95 19.21 18.36L19.96 12.35C20.09 11.13 19.93 10.3 19.44 9.75C18.85 9.08 17.69 8.75 16 8.75H8Z" fill="#0C0D12"/>
+                  <path d="M15.42 13.1499C14.86 13.1499 14.41 12.6999 14.41 12.1499C14.41 11.5999 14.86 11.1499 15.41 11.1499C15.96 11.1499 16.41 11.5999 16.41 12.1499C16.41 12.6999 15.97 13.1499 15.42 13.1499Z" fill="#0C0D12"/>
+                  <path d="M8.42 13.1499C7.86 13.1499 7.41 12.6999 7.41 12.1499C7.41 11.5999 7.86 11.1499 8.41 11.1499C8.96 11.1499 9.41 11.5999 9.41 12.1499C9.41 12.6999 8.97 13.1499 8.42 13.1499Z" fill="#0C0D12"/>
+                </svg>
+              </router-link>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </header>
@@ -36,42 +61,59 @@
 
 <script setup lang="ts">
 
+
+import HeaderPromotion from "./HeaderPromotion.vue";
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import "src/assets/style/main";
 .header {
-  width: 100%;
-  padding: 30px;
-  color: white;
-  background-color: black;
+  position: absolute;
+  top: 40px;
+}
+.header__container {
+  display: flex;
+  margin-bottom: 30px;
+  justify-content: space-between;
+  align-items: center;
+}
+.nav {
+  padding: 30px 80px;
 
-  &__container {
+  &__list {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+  }
+
+  &__link {
+    font-size: 20px;
+    line-height: 32px;
+    letter-spacing: 0.6px;
+    color: $dark_text;
+  }
+}
+.right {
+  width: 100%;
+  padding: 30px 50px;
+
+  &__top {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-  }
-  &__btns {
-    display: flex;
-    flex-direction: row;
-    width: 120px;
-    justify-content: space-between;
-  }
-  &__btns-link {
-    display: flex;
-    flex-direction: row;
-    width: 30px;
-  }
-  &__btns-link svg path {
-    fill: white;
+
+    &-action {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 30px;
+    }
   }
 }
-.nav__list {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 20px;
-  font-size: 20px;
-  font-weight: 700;
+.logo {
+  width: 170px;
+  margin-left: 40px;
+
 }
 </style>
