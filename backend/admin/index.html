@@ -12,36 +12,121 @@
 </head>
 
 <body>
-  <table>
-  </table>
-  <form>
-    <div class="form-group">
-      <label for="category">Категория</label>
-      <select id="category" class="form-control" placeholder="Категория">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-      </select>
+  <div class="container">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button"
+          role="tab" aria-controls="home-tab-pane" aria-selected="true">Home</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button"
+          role="tab" aria-controls="profile-tab-pane" aria-selected="false">Profile</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button"
+          role="tab" aria-controls="contact-tab-pane" aria-selected="false">Contact</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane"
+          type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false" disabled>Disabled</button>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+        <table class="table">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Наименование</th>
+              <th scope="col">Производитель</th>
+              <th scope="col">Категория</th>
+              <th scope="col">Описание</th>
+              <th scope="col">Цена</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Imola (V05-08)</td>
+              <td>VINOVE</td>
+              <td>Арома для авто</td>
+              <td>Ароматизатор VINOVE Imola (V05-08) - излучает сияние, свежесть и женскую энергию...</td>
+              <td>508 руб.</td>
+            </tr>
+            <tr>
+              <th scope="row">1</th>
+              <td>Imola (V05-08)</td>
+              <td>VINOVE</td>
+              <td>Арома для авто</td>
+              <td>Ароматизатор VINOVE Imola (V05-08) - излучает сияние, свежесть и женскую энергию...</td>
+              <td>508 руб.</td>
+            </tr>
+            <tr>
+              <th scope="row">1</th>
+              <td>Imola (V05-08)</td>
+              <td>VINOVE</td>
+              <td>Арома для авто</td>
+              <td>Ароматизатор VINOVE Imola (V05-08) - излучает сияние, свежесть и женскую энергию...</td>
+              <td>508 руб.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <form>
+          <div class="form-group row">
+            <label class="form-label col" for="category">Категория</label>
+            <div class="col">
+              <select id="category" class="form-control" placeholder="Категория">
+                <option value="1">Для авто</option>
+                <option value="2">Для дома</option>
+                <option value="3">Услуги</option>
+              </select>
+            </div>
+
+          </div>
+          <div class="form-group row">
+            <label class="form-label col" for="brand">Производитель</label>
+            <div class="col">
+              <select id="brand" type="input" class="form-control" placeholder="Производитель">
+                <option value="1">VINOVE</option>
+                <option value="2">MR&MRS FRAGRANCE</option>
+              </select>
+            </div>
+
+          </div>
+          <div class="form-group row">
+            <label class="form-label col" for="title">Название товара</label>
+            <div class="col">
+              <input id="title" type="input" class="form-control" placeholder="Название товара">
+            </div>
+
+          </div>
+          <div class="form-group row">
+            <label class="form-label col" for="image">Изображение</label>
+            <div class="col">
+              <input type="file" class="form-control" id="image" accept="image/*" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="form-label col" for="price">Цена</label>
+            <div class="col">
+              <input id="price" type="input" class="form-control" placeholder="Цена">
+            </div>
+
+          </div>
+          <button type="submit" class="btn btn-primary"><i class="bi bi-plus"></i> Добавить</button>
+        </form>
+      </div>
+      <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">...
+      </div>
+      <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">...
+      </div>
+      <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">...
+      </div>
     </div>
-    <div class="form-group">
-      <label for="brand">Производитель</label>
-      <input id="brand" type="input" class="form-control" placeholder="Производитель">
-    </div>
-    <div class="form-group">
-      <label for="title">Название товара</label>
-      <input id="title" type="input" class="form-control" placeholder="Название товара">
-    </div>
-    <div class="form-group">
-      <label for="image">Изображение</label>
-      <input id="image" type="input" class="form-control" placeholder="Изображение">
-    </div>
-    <div class="form-group">
-      <label for="price">Цена</label>
-      <input id="price" type="input" class="form-control" placeholder="Цена">
-    </div>
-  </form>
+
+  </div>
+
 
 </body>
 

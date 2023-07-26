@@ -120,9 +120,9 @@ export default class Database {
     }
   }
 
-  async getProducts() {
-    const sql = `SELECT * FROM ${this.db_name}.products_view;`;
-    return await this.runQuery(sql);
+  async getProducts(hostname) {
+    const sql = `SELECT *, CONCAT('${hostname}', image) as image_url FROM ${this.db_name}.products_view;`;
+    return await this.runQuery(sql, "http://localhost:3000/");
   }
 
   async getProductById(id) {

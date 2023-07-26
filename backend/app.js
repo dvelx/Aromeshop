@@ -1,7 +1,7 @@
 import express from "express";
 import router from "./controllers/database.controller.js";
 import Mailer from "./mail.js";
-
+import cors from "cors";
 const app = express();
 
 // параметры для статических файлов
@@ -16,7 +16,7 @@ const options = {
     res.set("x-timestamp", Date.now());
   },
 };
-
+app.use(cors());
 // подключение станической папки с админкой
 app.use(express.static("admin", options));
 

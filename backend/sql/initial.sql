@@ -25,7 +25,7 @@ CREATE TABLE shop_data.products (
   `category_id` int NOT NULL,
   `brand_id` int NOT NULL,
   `title` varchar(255) CHARSET utf8 UNIQUE NOT NULL,
-  `image` varchar(2048) UNIQUE DEFAULT NULL,
+  `image` varchar(2048) DEFAULT NULL,
   `description` varchar(2048) CHARSET utf8 DEFAULT NULL,
   `price` decimal(10, 2) DEFAULT NULL,
   FOREIGN KEY (`category_id`) REFERENCES categories (`id`) ON DELETE RESTRICT,
