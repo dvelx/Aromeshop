@@ -36,6 +36,8 @@
 import PopularProducts from "../components/PopularProducts.vue";
 import Promotion from "../components/Promotion.vue";
 import Hero from "../components/MainContent.vue";
+
+
 </script>
 
 <style lang="scss" scoped>

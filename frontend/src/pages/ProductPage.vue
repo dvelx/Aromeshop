@@ -1,13 +1,13 @@
 <template>
   <div class="product-page__container container">
     <div class="product-page__left">
-      <img src="../../src/assets/images/JNIKIBX001V00.webp" alt="#" class="product-page__image">
+      <img :src="product.image" :alt="product.title" class="product-page__image">
       <img src="../../src/assets/images/JNIKIBX001V00.webp" alt="#" class="product-page__image">
       <img src="../../src/assets/images/JNIKIBX001V00.webp" alt="#" class="product-page__image">
       <img src="../../src/assets/images/JNIKIBX001V00.webp" alt="#" class="product-page__image">
     </div>
     <div class="product-page__right">
-      <h1 class="product-page__title">VINOVE</h1>
+      <h1 class="product-page__title">{{ product.title }}</h1>
       <div class="product-page__btn-block">
         <button class="product-page__btn-add">Добавить в корзину</button>
       </div>
@@ -31,9 +31,26 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue";
+import {reactive, ref} from "vue";
 import { Collapse } from 'vue-collapsed'
 import PopularProducts from "../components/PopularProducts.vue";
+import axios from "axios";
+import {API_URL} from "../constans/api.ts";
+import {useRoute} from "vue-router";
+
+
+const route = useRoute()
+
+const product = ref(null)
+
+
+const loadProductsId = () => {
+  product.value = null
+   axios.get(API_URL + '/product/?id=' + route.query.id)
+    .then(res => product.value = res.data)
+}
+loadProductsId()
+
 
 const questions = reactive([
   {

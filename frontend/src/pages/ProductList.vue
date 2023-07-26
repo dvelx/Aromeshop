@@ -3,271 +3,18 @@
     <FilteredProducts />
 
     <div class="product-list__list">
-      <div class="card">
-        <router-link to="/product">
-          <img src="../../src/assets/images/JQUEEN050001.jpg" alt="" class="card__image">
+      <div class="card" v-for="item of products" :key="item.id">
+        <router-link :to="{ path: '/product', query: {id: item.id}}">
+          <img :src="item.image" alt="" class="card__image">
         </router-link>
         <div class="card__desc">
           <h5 class="card__title">
-            QUEEN
+            {{ item.title }}
           </h5>
-          <p class="card__price">1200 p</p>
+          <p class="card__price">{{ item.price }} p</p>
         </div>
         <p class="card__text">
-          Home fragrance
-        </p>
-        <button class="card__btn btn">
-          В КОРЗИНУ
-
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" fill="#0C0D12"/>
-            <path d="M9 12H15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12 9V15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-      <div class="card">
-        <router-link to="/product">
-          <img src="../../src/assets/images/JQUEEN050001.jpg" alt="" class="card__image">
-        </router-link>
-        <div class="card__desc">
-          <h5 class="card__title">
-            QUEEN
-          </h5>
-          <p class="card__price">1200 p</p>
-        </div>
-        <p class="card__text">
-          Home fragrance
-        </p>
-        <button class="card__btn btn">
-          В КОРЗИНУ
-
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" fill="#0C0D12"/>
-            <path d="M9 12H15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12 9V15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-      <div class="card">
-        <router-link to="/product">
-          <img src="../../src/assets/images/JQUEEN050001.jpg" alt="" class="card__image">
-        </router-link>
-        <div class="card__desc">
-          <h5 class="card__title">
-            QUEEN
-          </h5>
-          <p class="card__price">1200 p</p>
-        </div>
-        <p class="card__text">
-          Home fragrance
-        </p>
-        <button class="card__btn btn">
-          В КОРЗИНУ
-
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" fill="#0C0D12"/>
-            <path d="M9 12H15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12 9V15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-      <div class="card">
-        <router-link to="/product">
-          <img src="../../src/assets/images/JQUEEN050001.jpg" alt="" class="card__image">
-        </router-link>
-        <div class="card__desc">
-          <h5 class="card__title">
-            QUEEN
-          </h5>
-          <p class="card__price">1200 p</p>
-        </div>
-        <p class="card__text">
-          Home fragrance
-        </p>
-        <button class="card__btn btn">
-          В КОРЗИНУ
-
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" fill="#0C0D12"/>
-            <path d="M9 12H15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12 9V15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-      <div class="card">
-        <router-link to="/product">
-          <img src="../../src/assets/images/JQUEEN050001.jpg" alt="" class="card__image">
-        </router-link>
-        <div class="card__desc">
-          <h5 class="card__title">
-            QUEEN
-          </h5>
-          <p class="card__price">1200 p</p>
-        </div>
-        <p class="card__text">
-          Home fragrance
-        </p>
-        <button class="card__btn btn">
-          В КОРЗИНУ
-
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" fill="#0C0D12"/>
-            <path d="M9 12H15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12 9V15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-      <div class="card">
-        <router-link to="/product">
-          <img src="../../src/assets/images/JQUEEN050001.jpg" alt="" class="card__image">
-        </router-link>
-        <div class="card__desc">
-          <h5 class="card__title">
-            QUEEN
-          </h5>
-          <p class="card__price">1200 p</p>
-        </div>
-        <p class="card__text">
-          Home fragrance
-        </p>
-        <button class="card__btn btn">
-          В КОРЗИНУ
-
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" fill="#0C0D12"/>
-            <path d="M9 12H15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12 9V15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-      <div class="card">
-        <router-link to="/product">
-          <img src="../../src/assets/images/JQUEEN050001.jpg" alt="" class="card__image">
-        </router-link>
-        <div class="card__desc">
-          <h5 class="card__title">
-            QUEEN
-          </h5>
-          <p class="card__price">1200 p</p>
-        </div>
-        <p class="card__text">
-          Home fragrance
-        </p>
-        <button class="card__btn btn">
-          В КОРЗИНУ
-
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" fill="#0C0D12"/>
-            <path d="M9 12H15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12 9V15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-      <div class="card">
-        <router-link to="/product">
-          <img src="../../src/assets/images/JQUEEN050001.jpg" alt="" class="card__image">
-        </router-link>
-        <div class="card__desc">
-          <h5 class="card__title">
-            QUEEN
-          </h5>
-          <p class="card__price">1200 p</p>
-        </div>
-        <p class="card__text">
-          Home fragrance
-        </p>
-        <button class="card__btn btn">
-          В КОРЗИНУ
-
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" fill="#0C0D12"/>
-            <path d="M9 12H15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12 9V15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-      <div class="card">
-        <router-link to="/product">
-          <img src="../../src/assets/images/JQUEEN050001.jpg" alt="" class="card__image">
-        </router-link>
-        <div class="card__desc">
-          <h5 class="card__title">
-            QUEEN
-          </h5>
-          <p class="card__price">1200 p</p>
-        </div>
-        <p class="card__text">
-          Home fragrance
-        </p>
-        <button class="card__btn btn">
-          В КОРЗИНУ
-
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" fill="#0C0D12"/>
-            <path d="M9 12H15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12 9V15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-      <div class="card">
-        <router-link to="/product">
-          <img src="../../src/assets/images/JQUEEN050001.jpg" alt="" class="card__image">
-        </router-link>
-        <div class="card__desc">
-          <h5 class="card__title">
-            QUEEN
-          </h5>
-          <p class="card__price">1200 p</p>
-        </div>
-        <p class="card__text">
-          Home fragrance
-        </p>
-        <button class="card__btn btn">
-          В КОРЗИНУ
-
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" fill="#0C0D12"/>
-            <path d="M9 12H15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12 9V15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-      <div class="card">
-        <router-link to="/product">
-          <img src="../../src/assets/images/JQUEEN050001.jpg" alt="" class="card__image">
-        </router-link>
-        <div class="card__desc">
-          <h5 class="card__title">
-            QUEEN
-          </h5>
-          <p class="card__price">1200 p</p>
-        </div>
-        <p class="card__text">
-          Home fragrance
-        </p>
-        <button class="card__btn btn">
-          В КОРЗИНУ
-
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" fill="#0C0D12"/>
-            <path d="M9 12H15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12 9V15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-      <div class="card">
-        <router-link to="/product">
-          <img src="../../src/assets/images/JQUEEN050001.jpg" alt="" class="card__image">
-        </router-link>
-        <div class="card__desc">
-          <h5 class="card__title">
-            QUEEN
-          </h5>
-          <p class="card__price">1200 p</p>
-        </div>
-        <p class="card__text">
-          Home fragrance
+          {{ item.brand_title }}
         </p>
         <button class="card__btn btn">
           В КОРЗИНУ
@@ -280,6 +27,7 @@
         </button>
       </div>
       
+      
     </div>
   </div>
 </template>
@@ -287,10 +35,27 @@
 <script setup lang="ts">
 
 import FilteredProducts from "../components/FilteredProducts.vue";
+
+import axios from "axios";
+import {ref} from "vue";
+import { API_URL } from '../constans/api.ts'
+
+const products = ref(null)
+
+const loadProducts = () => {
+  axios.get(API_URL + '/products')
+    .then(res => products.value = res.data)
+}
+
+loadProducts()
+
+
+
 </script>
 
+
 <style lang="scss" scoped>
-@import "src/assets/style/main";
+@import "../assets/style/main";
 .product-list {
 
   &__container {
@@ -349,6 +114,7 @@ import FilteredProducts from "../components/FilteredProducts.vue";
     flex-direction: row;
     justify-content: center;
     padding: 10px 12px;
+    margin-top: auto;
     align-items: center;
     border: 1px solid $primary;
     border-radius: 100px;
