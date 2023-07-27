@@ -39,7 +39,11 @@ router.route("/product").get((request, response) => {
   const hostname = getRequestHostUrl(request);
   const productId = request.query.id;
   const result = database.getProductById(productId, hostname);
-  result.then((data) => response.json(data)).catch((err) => console.log(err));
+  result
+    .then((data) => {
+      response.json(data[0].product);
+    })
+    .catch((err) => console.log(err));
 });
 /* Создание категории */
 router.route("/category").post((request, response) => {

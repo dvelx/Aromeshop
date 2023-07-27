@@ -64,7 +64,7 @@ const loadProductById = () => {
   axios
     .get(API_URL + "/product/?id=" + route.query.id)
     .then((res) => {
-      product.value = res.data[0];
+      product.value = res.data;
     })
     .then(() => (loading.value = false));
 };
