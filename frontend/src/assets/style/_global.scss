@@ -73,9 +73,10 @@ button {
 }
 
 .container {
-  width: 1440px;
-  padding-left: 15px;
-  padding-right: 15px;
+  max-width: 100vw;
+  padding-left: 100px;
+  padding-right: 100px;
   margin-left: auto;
   margin-right: auto;
 }
+

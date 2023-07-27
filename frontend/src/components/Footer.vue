@@ -18,7 +18,7 @@
               </router-link>
             </li>
             <li class="footer__links-list-item">
-              <router-link to="/filter-product" class="footer__links-list-link">
+              <router-link to="/catalog" class="footer__links-list-link">
                 Магазин
               </router-link>
             </li>
@@ -95,7 +95,8 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 20px 15px;
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
   &__logo {
     margin-right: 30px;

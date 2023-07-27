@@ -1,7 +1,7 @@
 <template>
   <div class="product-page__container container">
     <div class="product-page__left">
-      <img :src="product.image" :alt="product.title" class="product-page__image">
+      <img src="" :alt="product.title" class="product-page__image">
       <img src="../../src/assets/images/JNIKIBX001V00.webp" alt="#" class="product-page__image">
       <img src="../../src/assets/images/JNIKIBX001V00.webp" alt="#" class="product-page__image">
       <img src="../../src/assets/images/JNIKIBX001V00.webp" alt="#" class="product-page__image">
@@ -11,18 +11,18 @@
       <div class="product-page__btn-block">
         <button class="product-page__btn-add">Добавить в корзину</button>
       </div>
-      <div class="product-page__right-accordion accordion">
-        <div v-for="(question, index) in questions" :key="question.title">
-          <button class="accordion__btn" @click="() => handleAccordion(index)">
-            {{ question.title }}
-          </button>
-          <Collapse :when="questions[index].isExpanded"  class="collapse">
-            <p>
-              {{ question.answer }}
-            </p>
-          </Collapse>
-        </div>
-      </div>
+<!--      <div class="product-page__right-accordion accordion">-->
+<!--        <div v-for="(question, index) in questions" :key="question.title">-->
+<!--          <button class="accordion__btn" @click="() => handleAccordion(index)">-->
+<!--            {{ question.title }}-->
+<!--          </button>-->
+<!--          <Collapse :when="questions[index].isExpanded"  class="collapse">-->
+<!--            <p>-->
+<!--              {{ question.answer }}-->
+<!--            </p>-->
+<!--          </Collapse>-->
+<!--        </div>-->
+<!--      </div>-->
     </div>
   </div>
   <div class="container">
@@ -31,50 +31,41 @@
 </template>
 
 <script setup lang="ts">
-import {reactive, ref} from "vue";
 import { Collapse } from 'vue-collapsed'
 import PopularProducts from "../components/PopularProducts.vue";
-import axios from "axios";
-import {API_URL} from "../constans/api.ts";
+
 import {useRoute} from "vue-router";
+import useProduct from "@/hooks/useProduct.js";
 
-
+const { product, fetchProduct } = useProduct()
 const route = useRoute()
 
-const product = ref(null)
+fetchProduct(route.query.id)
 
 
-const loadProductsId = () => {
-  product.value = null
-   axios.get(API_URL + '/product/?id=' + route.query.id)
-    .then(res => product.value = res.data)
-}
-loadProductsId()
-
-
-const questions = reactive([
-  {
-    title: 'Описание',
-    answer: 'Описание выбранного ароматизатора',
-    isExpanded: true // Initial value
-  },
-  {
-    title: 'Состав продукта',
-    answer: 'Какие ароматы присутствуют',
-    isExpanded: false
-  },
-  {
-    title: 'Question three',
-    answer: 'Answer three',
-    isExpanded: false
-  }
-])
-
-function handleAccordion(selectedIndex: number) {
-  questions.forEach((_, index) => {
-    questions[index].isExpanded = index === selectedIndex ? !questions[index].isExpanded : false
-  })
-}
+// const questions = ref([
+//   {
+//     title: 'Описание',
+//     answer: 'Описание выбранного ароматизатора',
+//     isExpanded: true // Initial value
+//   },
+//   {
+//     title: 'Состав продукта',
+//     answer: 'Какие ароматы присутствуют',
+//     isExpanded: false
+//   },
+//   {
+//     title: 'Question three',
+//     answer: 'Answer three',
+//     isExpanded: false
+//   }
+// ])
+//
+// function handleAccordion(selectedIndex: number) {
+//   questions.forEach((_, index) => {
+//     questions[index].isExpanded = index === selectedIndex ? !questions[index].isExpanded : false
+//   })
+// }
 
 </script>
 

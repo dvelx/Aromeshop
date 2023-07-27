@@ -2,10 +2,15 @@
   <HeaderPromotion />
   <header class="header">
     <div class="header__container container">
+      <div class="logo">
+        <router-link to="/">
+          <img src="../../src/assets/images/svg/aroma-logo.svg" alt="logo">
+        </router-link>
+      </div>
       <nav class="nav">
         <ul class="nav__list">
           <li class="nav__item">
-            <router-link to="/filter-product" class="nav__link">
+            <router-link to="/catalog" class="nav__link">
               МАГАЗИН
             </router-link>
           </li>
@@ -28,11 +33,7 @@
       </nav>
       <div class="right">
         <div class="right__top">
-          <div class="logo">
-            <router-link to="/">
-              <img src="../../src/assets/images/svg/aroma-logo.svg" alt="logo">
-            </router-link>
-          </div>
+
           <div class="right__top-action">
             <div class="right__top-search">
               <a href="#">
@@ -68,22 +69,22 @@ import HeaderPromotion from "./HeaderPromotion.vue";
 <style lang="scss" scoped>
 @import "src/assets/style/main";
 .header {
-  position: absolute;
-  top: 40px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 50px;
 }
 .header__container {
   display: flex;
-  margin-bottom: 30px;
   justify-content: space-between;
   align-items: center;
+  width: 100vw;
 }
 .nav {
-  padding: 30px 80px;
 
   &__list {
     display: flex;
     flex-direction: row;
-    gap: 32px;
+    gap: 90px;
   }
 
   &__link {
@@ -94,8 +95,6 @@ import HeaderPromotion from "./HeaderPromotion.vue";
   }
 }
 .right {
-  width: 100%;
-  padding: 30px 50px;
 
   &__top {
     display: flex;
@@ -112,8 +111,7 @@ import HeaderPromotion from "./HeaderPromotion.vue";
   }
 }
 .logo {
-  width: 170px;
-  margin-left: 40px;
+  align-self: center;
 
 }
 </style>

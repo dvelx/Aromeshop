@@ -27,15 +27,15 @@
   margin-bottom: 70px;
 }
 .hero__bg {
-  width: 130%;
-  padding: 30px 150px;
+  width: 50%;
   background-repeat: no-repeat;
   background-size: contain;
   background-image: url("../../src/assets/images/2022-06-22 Mr & Mrs Fragrances0862.jpg");
 
 }
 .right {
-  padding: 200px 50px 0 50px;
+  width: 50%;
+  padding: 0px 50px 0 50px;
 
   &__top {
     margin-bottom: 130px;
@@ -55,13 +55,14 @@
     font-size: 18px;
     line-height: 29px;
     letter-spacing: 4.32px;
+    margin-bottom: 50px;
   }
 
   &__main-text {
     font-size: 60px;
     font-weight: 600;
     letter-spacing: 1.8px;
-    margin-bottom: 50px;
+    margin-bottom: 150px;
 
     & span {
       color: $primary;
@@ -84,5 +85,13 @@
   width: 100px;
 }
 
+@media (max-width: 1440px) {
+  .right {
+    
+    &__main-text {
+      font-size: 35px;
+    }
+  }
+}
 
 </style>

@@ -12,7 +12,7 @@ interface ROUTES_PATHS {
 export const ROUTES_PATHS: ROUTES_PATHS = {
   MAIN: '',
   PRODUCTPAGE: '/product',
-  PRODUCTLIST: '/filter-product',
+  PRODUCTLIST: '/catalog',
   ABOUTUS: '/about-us',
   BLOG: '/blog',
   REVIEWS: '/reviews',

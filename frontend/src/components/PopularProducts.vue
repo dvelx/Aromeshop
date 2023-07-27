@@ -1,12 +1,12 @@
 <template>
-  <div class="popular-container">
+  <div class="popular-container container">
     <h1 class="title">Популярные ароматизаторы</h1>
     <h3 class="title-cta">
       Купи наши популярные свечи
     </h3>
       <swiper
           :modules="[Pagination, Autoplay]"
-          :autoplay="{delay: 3000}"
+          :autoplay="{delay: 6000}"
           :slides-per-view="3"
           :space-between="50"
           :pagination="{clickable: true}"
@@ -187,7 +187,6 @@ import 'swiper/css/pagination';
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 300px;
   margin-top: 30px;
   margin-bottom: 30px;
   border: 1px solid rgba(242, 242, 242, .5);

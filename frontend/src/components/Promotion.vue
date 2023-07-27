@@ -25,7 +25,6 @@
   &-container {
     margin-bottom: 50px;
     display: flex;
-    min-width: 100%;
     flex-direction: column;
     justify-content: center;
   }

@@ -76,7 +76,7 @@
     height: fit-content;
     border: 1px solid $primary;
     border-radius: 20px;
-    width: 300px;
+    min-width: 300px;
     margin-right: auto;
     padding: 20px;
 

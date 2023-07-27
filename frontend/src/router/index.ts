@@ -8,6 +8,7 @@ import BlogPage from "../pages/BlogPage.vue";
 import ReviewsPage from "../pages/ReviewsPage.vue";
 import CartPage from "../pages/CartPage.vue";
 import ContactsPage from "../pages/ContactsPage.vue";
+import NotFoundPage from "../pages/NotFoundPage.vue";
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -51,7 +52,13 @@ const router = createRouter({
       path: ROUTES_PATHS.CONTACTS,
       name: ROUTES_PATHS.CONTACTS,
       component: ContactsPage
-    }
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'notFound',
+      component: NotFoundPage
+    },
+
   ]
 })
 

@@ -71,13 +71,16 @@ loadProducts();
   &__container {
     display: flex;
     flex-direction: row;
-    margin-top: 200px;
+    width: 100vw;
+    gap: 50px;
   }
 
   &__list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template: repeat(2, 1fr) / repeat(4, 1fr);
+    grid-auto-flow: column;
     gap: 30px;
+    width: 100%;
   }
 }
 .card {

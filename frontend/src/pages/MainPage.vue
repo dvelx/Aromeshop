@@ -1,41 +1,36 @@
 <template>
-  <main>
-    <div class="container">
-      <Hero />
-      <PopularProducts/>
+  <MainContent />
+  <PopularProducts/>
 
-      <Promotion />
-    </div>
-
-    <section class="content">
-      <div class="content__container container">
-        <div class="content__card card">
-          <img src="../assets/images/VINOVE-PARIS-collage.jpg" alt="">
-        </div>
-        <div class="content__card card">
-          <div class="card__image"></div>
-          <h2 class="card__text">
-            Создайте уютную атмосферу в своем доме с ароматизаторами от нашей компании. Наслаждайтесь идеальной атмосферой дома каждый день с нашими ароматизаторами!
-          </h2>
-        </div>
-        <div class="content__card card">
-          <div class="card__image-2"></div>
-          <h2 class="card__text">
-            Мы предлагаем широкий выбор ароматов, от свежих цветочных до теплых и уютных, которые подходят для любого времени года.
-          </h2>
-        </div>
-        <div class="content__card card">
-          <img src="../assets/images/2022-06-22%20Mr%20&%20Mrs%20Fragrances0756.webp" alt="">
-        </div>
+  <Promotion />
+  <section class="content">
+    <div class="content__container container">
+      <div class="content__card card">
+        <img src="../assets/images/VINOVE-PARIS-collage.jpg" alt="">
       </div>
-    </section>
-  </main>
+      <div class="content__card card">
+        <div class="card__image"></div>
+        <h2 class="card__text">
+          Создайте уютную атмосферу в своем доме с ароматизаторами от нашей компании. Наслаждайтесь идеальной атмосферой дома каждый день с нашими ароматизаторами!
+        </h2>
+      </div>
+      <div class="content__card card">
+        <div class="card__image-2"></div>
+        <h2 class="card__text">
+          Мы предлагаем широкий выбор ароматов, от свежих цветочных до теплых и уютных, которые подходят для любого времени года.
+        </h2>
+      </div>
+      <div class="content__card card">
+        <img src="../assets/images/2022-06-22%20Mr%20&%20Mrs%20Fragrances0756.webp" alt="">
+      </div>
+    </div>
+  </section>
 </template>
 
 <script setup lang="ts">
 import PopularProducts from "../components/PopularProducts.vue";
 import Promotion from "../components/Promotion.vue";
-import Hero from "../components/MainContent.vue";
+import MainContent from "../components/MainContent.vue";
 
 
 </script>
@@ -44,7 +39,6 @@ import Hero from "../components/MainContent.vue";
 @import "src/assets/style/main";
 .content {
   background-color: #ECDFDB;
-  width: 100vw;
   padding-top: 50px;
   padding-bottom: 50px;
 
