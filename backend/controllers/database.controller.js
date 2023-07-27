@@ -18,6 +18,9 @@ const slugParams = {
   strict: true,
 };
 
+function getRequestHostUrl(request) {
+  return `${request.protocol}://${request.get("host")}/`;
+}
 /* Получение списка категорий */
 router.route("/categories").get((request, response) => {
   const result = database.getCategories();
@@ -26,15 +29,16 @@ router.route("/categories").get((request, response) => {
 
 /* Получение списка товаров */
 router.route("/products").get((request, response) => {
-  const hostname = `${request.protocol}://${request.get("host")}/`;
+  const hostname = getRequestHostUrl(request);
   const result = database.getProducts(hostname);
   result.then((data) => response.json(data)).catch((err) => console.log(err));
 });
 
 /* Получение товара по id */
 router.route("/product").get((request, response) => {
+  const hostname = getRequestHostUrl(request);
   const productId = request.query.id;
-  const result = database.getProductById(productId);
+  const result = database.getProductById(productId, hostname);
   result.then((data) => response.json(data)).catch((err) => console.log(err));
 });
 /* Создание категории */
