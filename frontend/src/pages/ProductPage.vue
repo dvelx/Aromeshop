@@ -1,5 +1,5 @@
 <template>
-  <div class="product-page__container container">
+  <div v-if="!loading" class="product-page__container container">
     <div class="product-page__left">
       <img src="" :alt="product.title" class="product-page__image">
       <img src="../../src/assets/images/JNIKIBX001V00.webp" alt="#" class="product-page__image">
@@ -31,16 +31,28 @@
 </template>
 
 <script setup lang="ts">
-import { Collapse } from 'vue-collapsed'
+// import { Collapse } from 'vue-collapsed'
 import PopularProducts from "../components/PopularProducts.vue";
-
 import {useRoute} from "vue-router";
-import useProduct from "@/hooks/useProduct.js";
+import {ref} from "vue";
+import axios from "axios";
+import {API_URL} from "../constans/api.ts";
 
-const { product, fetchProduct } = useProduct()
 const route = useRoute()
 
-fetchProduct(route.query.id)
+const product = ref(null)
+const loading = ref(false)
+
+const loadProductById = () => {
+  loading.value = true
+  axios.get(API_URL + '/product/?id=' + route.query.id)
+    .then(res => {
+      product.value = res.data[0]
+    })
+    .then(() => loading.value = false)
+}
+loadProductById()
+console.log(product.value)
 
 
 // const questions = ref([

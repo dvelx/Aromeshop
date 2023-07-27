@@ -78,7 +78,6 @@ loadProducts();
   &__list {
     display: grid;
     grid-template: repeat(2, 1fr) / repeat(4, 1fr);
-    grid-auto-flow: column;
     gap: 30px;
     width: 100%;
   }
