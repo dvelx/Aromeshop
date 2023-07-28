@@ -1,44 +1,26 @@
 <template>
   <div v-if="!loading" class="product-page__container container">
     <div class="product-page__left">
-      <img
-        :src="product.image_url"
-        :alt="product.title"
-        class="product-page__image"
-      />
-      <img
-        src="../../src/assets/images/JNIKIBX001V00.webp"
-        alt="#"
-        class="product-page__image"
-      />
-      <img
-        src="../../src/assets/images/JNIKIBX001V00.webp"
-        alt="#"
-        class="product-page__image"
-      />
-      <img
-        src="../../src/assets/images/JNIKIBX001V00.webp"
-        alt="#"
-        class="product-page__image"
-      />
+      <img :src="product.image_url" :alt="product.title" class="product-page__image">
+      
     </div>
     <div class="product-page__right">
       <h1 class="product-page__title">{{ product.title }}</h1>
       <div class="product-page__btn-block">
         <button class="product-page__btn-add">Добавить в корзину</button>
       </div>
-      <!--      <div class="product-page__right-accordion accordion">-->
-      <!--        <div v-for="(question, index) in questions" :key="question.title">-->
-      <!--          <button class="accordion__btn" @click="() => handleAccordion(index)">-->
-      <!--            {{ question.title }}-->
-      <!--          </button>-->
-      <!--          <Collapse :when="questions[index].isExpanded"  class="collapse">-->
-      <!--            <p>-->
-      <!--              {{ question.answer }}-->
-      <!--            </p>-->
-      <!--          </Collapse>-->
-      <!--        </div>-->
-      <!--      </div>-->
+      <div class="product-page__right-accordion accordion">
+        <div v-for="(question, index) in questions" :key="question.title">
+          <button class="accordion__btn" @click="() => handleAccordion(index)">
+            {{ question.title }}
+          </button>
+          <Collapse :when="questions[index].isExpanded"  class="collapse">
+            <p>
+              {{ question.answer }}
+            </p>
+          </Collapse>
+        </div>
+      </div>
     </div>
   </div>
   <div class="container">
@@ -47,59 +29,87 @@
 </template>
 
 <script setup lang="ts">
-// import { Collapse } from 'vue-collapsed'
+import { Collapse } from 'vue-collapsed'
 import PopularProducts from "../components/PopularProducts.vue";
-import { useRoute } from "vue-router";
-import { ref } from "vue";
+import {useRoute} from "vue-router";
+import {reactive, ref} from "vue";
 import axios from "axios";
-import { API_URL } from "../constans/api.ts";
+import {API_URL} from "../constans/api.ts";
 
-const route = useRoute();
+const route = useRoute()
 
-const product = ref(null);
-const loading = ref(false);
+const product = ref<IProduct>({})
+const loading = ref<boolean>(false)
 
-const loadProductById = () => {
-  loading.value = true;
-  axios
-    .get(API_URL + "/product/?id=" + route.query.id)
-    .then((res) => {
-      product.value = res.data;
+interface IProduct {
+  brand_id?: number,
+  brand_title?: string,
+  category_id?: number,
+  category_name?: string,
+  description?: string,
+  id?: number,
+  image_url?: string,
+  price?: string,
+  title?: string
+}
+const loadProductById = (): object => {
+  loading.value = true
+  return axios.get(API_URL + '/product/?id=' + route.query.id)
+    .then(res => {
+      const data = res.data
+      console.log(res.data)
+      product.value = Object.assign(data, (item: IProduct) => {
+        return {
+          brand_id: item?.brand_id,
+          brand_title: item?.brand_title,
+          category_id: item?.category_id,
+          category_name: item?.category_name,
+          description: item?.description,
+          id: item?.id,
+          image: item?.image_url,
+          price: item?.price,
+          title: item?.title,
+        }
+      })
     })
-    .then(() => (loading.value = false));
-};
-loadProductById();
-console.log(product.value);
+    .then(() => loading.value = false)
+    .catch(console.log)
+}
+loadProductById()
 
-// const questions = ref([
-//   {
-//     title: 'Описание',
-//     answer: 'Описание выбранного ароматизатора',
-//     isExpanded: true // Initial value
-//   },
-//   {
-//     title: 'Состав продукта',
-//     answer: 'Какие ароматы присутствуют',
-//     isExpanded: false
-//   },
-//   {
-//     title: 'Question three',
-//     answer: 'Answer three',
-//     isExpanded: false
-//   }
-// ])
-//
-// function handleAccordion(selectedIndex: number) {
-//   questions.forEach((_, index) => {
-//     questions[index].isExpanded = index === selectedIndex ? !questions[index].isExpanded : false
-//   })
-// }
+
+const questions = reactive([
+  {
+    title: 'Описание',
+    answer: 'Описание выбранного ароматизатора',
+    isExpanded: true // Initial value
+  },
+  {
+    title: 'Состав продукта',
+    answer: 'Какие ароматы присутствуют',
+    isExpanded: false
+  },
+  {
+    title: 'Question three',
+    answer: 'Answer three',
+    isExpanded: false
+  }
+])
+
+function handleAccordion(selectedIndex: number) {
+  questions.forEach((_, index) => {
+    questions[index].isExpanded = index === selectedIndex ? !questions[index].isExpanded : false
+  })
+}
+
 </script>
 
 <style lang="scss" scoped>
+
 @import "src/assets/style/main";
 
 .product-page {
+
   &__container {
     margin-top: 200px;
     display: flex;
@@ -126,6 +136,7 @@ console.log(product.value);
     flex-direction: column;
     width: 50%;
   }
+
 
   &__btn-add {
     border: none;
@@ -156,4 +167,5 @@ console.log(product.value);
 .collapse {
   transition: height 600ms cubic-bezier(0.3, 0, 0.6, 1);
 }
+
 </style>
