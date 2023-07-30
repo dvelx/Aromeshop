@@ -42,6 +42,13 @@ CREATE TABLE shop_data.feedback (
   `received_date` timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE shop_data.images (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `product_id` int NOT NULL,
+  `path` varchar(2048) NOT NULL,
+  FOREIGN KEY (`product_id`) REFERENCES products (`id`) ON DELETE RESTRICT
+);
+
 -- создание виртуальной таблицы
 CREATE
 OR REPLACE VIEW `products_view` AS
