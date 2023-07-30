@@ -72,4 +72,13 @@ import MainContent from "../components/MainContent.vue";
     align-self: flex-end;
   }
 }
+
+@media (max-width: 1199px) {
+  .card {
+    
+    &__text {
+      font-size: 13px;
+    }
+  }
+}
 </style>

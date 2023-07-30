@@ -53,9 +53,41 @@
                 </svg>
               </router-link>
             </div>
+            <div class="right__left-burger-btn">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="right__top-burger-menu">
+      <nav class="nav burger-nav">
+        <ul class="nav__list">
+          <li class="nav__item">
+            <router-link to="/catalog" class="nav__link">
+              МАГАЗИН
+            </router-link>
+          </li>
+          <li class="nav__item">
+            <router-link to="/about-us" class="nav__link">
+              О&nbspНАС
+            </router-link>
+          </li>
+          <li class="nav__item">
+            <router-link to="/blog" class="nav__link">
+              БЛОГ
+            </router-link>
+          </li>
+          <li class="nav__item">
+            <router-link to="/reviews" class="nav__link">
+              ОТЗЫВЫ
+            </router-link>
+          </li>
+        </ul>
+      </nav>
     </div>
   </header>
 </template>
@@ -80,7 +112,7 @@ import HeaderPromotion from "./HeaderPromotion.vue";
   width: 100vw;
 }
 .nav {
-
+  
   &__list {
     display: flex;
     flex-direction: row;
@@ -106,8 +138,13 @@ import HeaderPromotion from "./HeaderPromotion.vue";
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      align-items: center;
       gap: 30px;
     }
+  }
+  &__left-burger-btn,
+  &__top-burger-menu {
+    display: none;
   }
 }
 .logo {
@@ -116,6 +153,42 @@ import HeaderPromotion from "./HeaderPromotion.vue";
   a {
     img {
       width: 200px;
+    }
+  }
+}
+
+@media (max-width: 1199px) {
+  .nav {
+    display: none;
+    &__list {
+      gap: 30px;
+    }
+  }
+  .right {
+    &__left-burger-btn {
+      width: 26px;
+      height: 20px;
+      position: relative;
+      cursor: pointer;
+    }
+    &__left-burger-btn span {
+      position: absolute;
+      display: block;
+      background-color: $dark_text;
+      height: 10%;
+      width: inherit;
+    }
+    &__left-burger-btn span:nth-child(1) {
+      top: 0;
+    }
+    &__left-burger-btn span:nth-child(2) {
+      top: 40%;
+    }
+    &__left-burger-btn span:nth-child(3) {
+      top: 80%;
+    }
+    &__left-burger-btn {
+      display: block;
     }
   }
 }

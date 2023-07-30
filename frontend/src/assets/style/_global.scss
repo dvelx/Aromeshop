@@ -80,5 +80,10 @@ button {
   margin-right: auto;
 }
 
-
+@media (max-width: 1199px) {
+  .container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
 

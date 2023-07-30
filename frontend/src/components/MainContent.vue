@@ -85,11 +85,15 @@
   width: 100px;
 }
 
-@media (max-width: 1440px) {
+@media (max-width: 1199px) {
   .right {
-    
+      padding: 0 25px 0 25px;
     &__main-text {
-      font-size: 35px;
+      font-size: 30px;
+      margin-bottom: 30px;
+    }
+    &__hashtag {
+      margin-bottom: 20px;
     }
   }
 }
