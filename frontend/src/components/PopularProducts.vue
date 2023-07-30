@@ -7,7 +7,7 @@
       <swiper
           :modules="[Pagination, Autoplay]"
           :autoplay="{delay: 6000}"
-          :slides-per-view="3"
+          :slides-per-view="4"
           :space-between="50"
           :pagination="{clickable: true}"
       >

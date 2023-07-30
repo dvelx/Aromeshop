@@ -112,6 +112,11 @@ import HeaderPromotion from "./HeaderPromotion.vue";
 }
 .logo {
   align-self: center;
-
+  
+  a {
+    img {
+      width: 200px;
+    }
+  }
 }
 </style>

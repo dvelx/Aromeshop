@@ -2,25 +2,28 @@
   <div v-if="!loading" class="product-page__container container">
     <div class="product-page__left">
       <img :src="product.image_url" :alt="product.title" class="product-page__image">
-      
+      <img :src="product.image_url" :alt="product.title" class="product-page__image">
     </div>
     <div class="product-page__right">
       <h1 class="product-page__title">{{ product.title }}</h1>
+      <span class="product-page__price">{{ product.price }}</span>
+      
+      <p class="product-page__description">{{ product.description }}</p>
       <div class="product-page__btn-block">
         <button class="product-page__btn-add">Добавить в корзину</button>
       </div>
-      <div class="product-page__right-accordion accordion">
-        <div v-for="(question, index) in questions" :key="question.title">
-          <button class="accordion__btn" @click="() => handleAccordion(index)">
-            {{ question.title }}
-          </button>
-          <Collapse :when="questions[index].isExpanded"  class="collapse">
-            <p>
-              {{ question.answer }}
-            </p>
-          </Collapse>
-        </div>
-      </div>
+<!--      <div class="product-page__right-accordion accordion">-->
+<!--        <div v-for="(question, index) in questions" :key="question.title">-->
+<!--          <button class="accordion__btn" @click="() => handleAccordion(index)">-->
+<!--            {{ question.title }}-->
+<!--          </button>-->
+<!--          <Collapse :when="questions[index].isExpanded"  class="collapse">-->
+<!--            <p>-->
+<!--              {{ question.answer }}-->
+<!--            </p>-->
+<!--          </Collapse>-->
+<!--        </div>-->
+<!--      </div>-->
     </div>
   </div>
   <div class="container">
@@ -29,12 +32,12 @@
 </template>
 
 <script setup lang="ts">
-import { Collapse } from 'vue-collapsed'
-import PopularProducts from "../components/PopularProducts.vue";
+// import { Collapse } from 'vue-collapsed'
+import PopularProducts from "@/components/PopularProducts.vue";
 import {useRoute} from "vue-router";
-import {reactive, ref} from "vue";
+import {ref} from "vue";
 import axios from "axios";
-import {API_URL} from "../constans/api.ts";
+import {API_URL} from "@/constans/api.ts";
 
 const route = useRoute()
 
@@ -49,7 +52,7 @@ interface IProduct {
   description?: string,
   id?: number,
   image_url?: string,
-  price?: string,
+  price?: number,
   title?: string
 }
 const loadProductById = (): object => {
@@ -57,7 +60,6 @@ const loadProductById = (): object => {
   return axios.get(API_URL + '/product/?id=' + route.query.id)
     .then(res => {
       const data = res.data
-      console.log(res.data)
       product.value = Object.assign(data, (item: IProduct) => {
         return {
           brand_id: item?.brand_id,
@@ -78,29 +80,29 @@ const loadProductById = (): object => {
 loadProductById()
 
 
-const questions = reactive([
-  {
-    title: 'Описание',
-    answer: 'Описание выбранного ароматизатора',
-    isExpanded: true // Initial value
-  },
-  {
-    title: 'Состав продукта',
-    answer: 'Какие ароматы присутствуют',
-    isExpanded: false
-  },
-  {
-    title: 'Question three',
-    answer: 'Answer three',
-    isExpanded: false
-  }
-])
-
-function handleAccordion(selectedIndex: number) {
-  questions.forEach((_, index) => {
-    questions[index].isExpanded = index === selectedIndex ? !questions[index].isExpanded : false
-  })
-}
+// const questions = reactive([
+//   {
+//     title: 'Описание',
+//     answer: 'Описание выбранного ароматизатора',
+//     isExpanded: true // Initial value
+//   },
+//   {
+//     title: 'Состав продукта',
+//     answer: 'Какие ароматы присутствуют',
+//     isExpanded: false
+//   },
+//   {
+//     title: 'Question three',
+//     answer: 'Answer three',
+//     isExpanded: false
+//   }
+// ])
+//
+// function handleAccordion(selectedIndex: number) {
+//   questions.forEach((_, index) => {
+//     questions[index].isExpanded = index === selectedIndex ? !questions[index].isExpanded : false
+//   })
+// }
 
 </script>
 
@@ -111,7 +113,6 @@ function handleAccordion(selectedIndex: number) {
 .product-page {
 
   &__container {
-    margin-top: 200px;
     display: flex;
     flex-direction: row;
     gap: 60px;
@@ -122,7 +123,6 @@ function handleAccordion(selectedIndex: number) {
     width: 50%;
     gap: 20px;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
     justify-items: center;
   }
   &__image {
@@ -132,11 +132,22 @@ function handleAccordion(selectedIndex: number) {
   }
 
   &__right {
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 50%;
   }
-
+  &__title {
+    margin-bottom: 30px;
+  }
+  &__price {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  &__description {
+    margin-bottom: 30px;
+  }
 
   &__btn-add {
     border: none;
@@ -147,6 +158,7 @@ function handleAccordion(selectedIndex: number) {
     font-size: 18px;
     font-weight: 700;
     letter-spacing: 1.34px;
+    margin-left: auto;
   }
 }
 
