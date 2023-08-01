@@ -53,7 +53,7 @@
                 </svg>
               </router-link>
             </div>
-            <div class="right__left-burger-btn">
+            <div class="right__burger-btn" @click="isOpenBurgerMenu">
               <span></span>
               <span></span>
               <span></span>
@@ -93,10 +93,18 @@
 </template>
 
 <script setup lang="ts">
-
-
 import HeaderPromotion from "./HeaderPromotion.vue";
+import {onMounted} from "vue";
+
+onMounted(() => {
+  const isOpenBurgerMenu = () => {
+    const menu = document.querySelector('.right__top-burger-menu')
+    menu.style.display = 'block'
+  }
+})
 </script>
+
+
 
 <style lang="scss" scoped>
 @import "src/assets/style/main";
@@ -142,7 +150,7 @@ import HeaderPromotion from "./HeaderPromotion.vue";
       gap: 30px;
     }
   }
-  &__left-burger-btn,
+  &__burger-btn,
   &__top-burger-menu {
     display: none;
   }
@@ -165,29 +173,29 @@ import HeaderPromotion from "./HeaderPromotion.vue";
     }
   }
   .right {
-    &__left-burger-btn {
+    &__burger-btn {
       width: 26px;
       height: 20px;
       position: relative;
       cursor: pointer;
     }
-    &__left-burger-btn span {
+    &__burger-btn span {
       position: absolute;
       display: block;
       background-color: $dark_text;
       height: 10%;
       width: inherit;
     }
-    &__left-burger-btn span:nth-child(1) {
+    &__burger-btn span:nth-child(1) {
       top: 0;
     }
-    &__left-burger-btn span:nth-child(2) {
+    &__burger-btn span:nth-child(2) {
       top: 40%;
     }
-    &__left-burger-btn span:nth-child(3) {
+    &__burger-btn span:nth-child(3) {
       top: 80%;
     }
-    &__left-burger-btn {
+    &__burger-btn {
       display: block;
     }
   }

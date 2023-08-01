@@ -10,6 +10,7 @@
       
       <p class="product-page__description">{{ product.description }}</p>
       <div class="product-page__btn-block">
+        <BaseCounter />
         <button class="product-page__btn-add">Добавить в корзину</button>
       </div>
 <!--      <div class="product-page__right-accordion accordion">-->
@@ -38,6 +39,7 @@ import {useRoute} from "vue-router";
 import {ref} from "vue";
 import axios from "axios";
 import {API_URL} from "@/constans/api.ts";
+import BaseCounter from "@/components/BaseCounter.vue";
 
 const route = useRoute()
 
@@ -147,6 +149,11 @@ loadProductById()
   }
   &__description {
     margin-bottom: 30px;
+  }
+  
+  &__btn-block {
+    display: flex;
+    flex-direction: row;
   }
 
   &__btn-add {

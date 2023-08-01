@@ -133,4 +133,18 @@ loadProducts();
     gap: 8px;
   }
 }
+@media (max-width: 1199px) {
+  .product-list {
+    &__container {
+      gap: 25px;
+    }
+
+    &__list {
+      display: grid;
+      grid-template: repeat(2, 1fr) / repeat(2, 1fr);
+      gap: 30px;
+      width: 100%;
+    }
+  }
+}
 </style>

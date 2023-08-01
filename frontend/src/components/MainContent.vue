@@ -8,7 +8,7 @@
           #AROMAHOME_NN
         </p>
         <h1 class="right__main-text">Наслаждайтесь идеальной <span>атмосферой дома</span> каждый день с нашими <span>ароматизаторами!</span></h1>
-        <button class="right__btn btn">button</button>
+        <router-link to="/catalog" tag="button" class="right__btn btn">Смотреть товары</router-link>
       </div>
     </div>
   </section>
