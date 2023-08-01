@@ -47,15 +47,17 @@
 
 <script setup lang="ts">
 const props = defineProps({
-  amount: Number,
+  amount: {
+    type: Number,
+  },
 });
 const emits = defineEmits(["update:amount"]);
 // функция изменения props +1
-const plus = (value) => {
+const plus = (value: number) => {
   emits("update:amount", value + 1);
 };
 // функция изменения props -1
-const minus = (value) => {
+const minus = (value: number) => {
   if (props.amount <= 1) {
     value = 1;
   } else {
