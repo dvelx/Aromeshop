@@ -3,18 +3,21 @@
     <div class="container footer__container">
       <div class="footer__left">
         <div class="footer__logo">
-          <img src="../../src/assets/images/svg/aroma-logo-dark.svg" alt="logo">
+          <img
+            src="../../src/assets/images/svg/aroma-logo-dark.svg"
+            alt="logo"
+          />
         </div>
         <div class="footer__links">
           <ul class="footer__links-list">
             <li class="footer__links-list-item">
               <a href="" class="footer__links-list-link">
-                Новые&nbspПоступления
+                Новые&nbsp;Поступления
               </a>
             </li>
             <li class="footer__links-list-item">
               <router-link to="/about-us" class="footer__links-list-link">
-                О&nbspнас
+                О&nbsp;нас
               </router-link>
             </li>
             <li class="footer__links-list-item">
@@ -37,32 +40,23 @@
         <div class="footer__social">
           <ul class="footer__social-list">
             <li class="footer__social-item">
-              <a href="" class="footer__social-link">
-                Facebook
-              </a>
+              <a href="" class="footer__social-link"> Facebook </a>
             </li>
             <li class="footer__social-item">
-              <a href="" class="footer__social-link">
-                Instagram
-              </a>
+              <a href="" class="footer__social-link"> Instagram </a>
             </li>
             <li class="footer__social-item">
-              <a href="" class="footer__social-link">
-                Threads
-              </a>
+              <a href="" class="footer__social-link"> Threads </a>
             </li>
             <li class="footer__social-item">
-              <a href="" class="footer__social-link">
-                Telegram
-              </a>
+              <a href="" class="footer__social-link"> Telegram </a>
             </li>
           </ul>
         </div>
       </div>
       <div class="footer__right">
         <h5 class="footer__slogan">
-          Stay in the know — we’ll
-          send you offers & more.
+          Stay in the know — we’ll send you offers & more.
         </h5>
       </div>
     </div>
@@ -79,9 +73,7 @@
   </footer>
 </template>
 
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss" scoped>
 @import "src/assets/style/main";
@@ -112,7 +104,6 @@
   &__social-item {
     margin-bottom: 10px;
   }
-
 
   &__bottom {
     border-top: 1px solid $white;

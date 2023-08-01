@@ -9,15 +9,11 @@
         <p>Используй свою скидку прямо сейчас</p>
       </div>
     </div>
-    <button class="button promotion__btn btn">
-      ПОДРОБНЕЕ...
-    </button>
+    <button class="button promotion__btn btn">ПОДРОБНЕЕ...</button>
   </div>
 </template>
 
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss" scoped>
 @import "src/assets/style/main";
@@ -64,5 +60,4 @@
     width: 35%;
   }
 }
-
 </style>

@@ -1,75 +1,89 @@
 <template>
   <div class="popular-container container">
     <h1 class="title">Популярные ароматизаторы</h1>
-    <h3 class="title-cta">
-      Купи наши популярные свечи
-    </h3>
-      <swiper
-          :modules="[Pagination, Autoplay]"
-          :autoplay="{delay: 6000}"
-          :slides-per-view="4"
-          :space-between="50"
-          :pagination="{clickable: true}"
-      >
-        <swiper-slide v-for="item in products" :key="item.id">
-          <router-link :to="{ path: '/product', query: { id: item.id } }">
-            <div class="card">
-              <img :src="item.image_url" alt="" class="card__image">
-              <div class="card__desc">
-                <h5 class="card__title">
-                  {{ item.title }}
-                </h5>
-                <p class="card__price">{{ item.price }} p</p>
-              </div>
-              <p class="card__text">
-                {{ item.brand_title }}
-              </p>
-              <button class="card__btn btn">
-                В КОРЗИНУ
-
-                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" fill="#0C0D12"/>
-                  <path d="M9 12H15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M12 9V15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
+    <h3 class="title-cta">Купи наши популярные свечи</h3>
+    <swiper
+      :modules="[Pagination, Autoplay]"
+      :autoplay="{ delay: 6000 }"
+      :slides-per-view="4"
+      :space-between="50"
+      :pagination="{ clickable: true }"
+    >
+      <swiper-slide v-for="item in products" :key="item.id">
+        <router-link :to="{ path: '/product', query: { id: item.id } }">
+          <div class="card">
+            <img :src="item.image_url" alt="" class="card__image" />
+            <div class="card__desc">
+              <h5 class="card__title">
+                {{ item.title }}
+              </h5>
+              <p class="card__price">{{ item.price }} p</p>
             </div>
-          </router-link>
-        </swiper-slide>
-        ...
-      </swiper>
-    </div>
+            <p class="card__text">
+              {{ item.brand_title }}
+            </p>
+            <button class="card__btn btn">
+              В КОРЗИНУ
 
-
-
+              <svg
+                width="30"
+                height="30"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
+                  fill="#0C0D12"
+                />
+                <path
+                  d="M9 12H15"
+                  stroke="white"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12 9V15"
+                  stroke="white"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+        </router-link>
+      </swiper-slide>
+      ...
+    </swiper>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import 'swiper/css'
-import 'swiper/css/pagination';
-import {ref} from "vue";
+import "swiper/css";
+import "swiper/css/pagination";
+import { ref } from "vue";
 import axios from "axios";
-import {API_URL} from "@/constans/api.ts";
+import { API_URL } from "../constans/api.ts";
 
 interface IProducts {
-  brand_id?: number,
-  brand_title?: string,
-  category_id?: number,
-  category_name?: string,
-  description?: string,
-  id?: number,
-  image_url?: string,
-  price?: number,
-  title?: string
+  brand_id?: number;
+  brand_title?: string;
+  category_id?: number;
+  category_name?: string;
+  description?: string;
+  id?: number;
+  image_url?: string;
+  price?: number;
+  title?: string;
 }
 
 const products = ref({});
 
 const loadProducts = () => {
-  axios.get(API_URL + "/products").then(res => {
-    const data = res.data
+  axios.get(API_URL + "/products").then((res) => {
+    const data = res.data;
     products.value = Object.assign(data, (item: IProducts) => {
       return {
         brand_id: item?.brand_id,
@@ -81,14 +95,12 @@ const loadProducts = () => {
         image: item?.image_url,
         price: item?.price,
         title: item?.title,
-      }
-    })
+      };
+    });
   });
 };
 
 loadProducts();
-
-
 </script>
 
 <style lang="scss" scoped>
@@ -97,7 +109,9 @@ loadProducts();
   margin-bottom: 30px;
 }
 .title {
-  font-family: Zilla Slab,serif;
+  font-family:
+    Zilla Slab,
+    serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
@@ -125,14 +139,15 @@ loadProducts();
   flex-direction: column;
   margin-top: 30px;
   margin-bottom: 30px;
-  border: 1px solid rgba(242, 242, 242, .5);
+  border: 1px solid rgba(242, 242, 242, 0.5);
   border-radius: 10px;
   padding: 30px;
   background-color: white;
-  box-shadow: 5px 5px 10px rgba(242, 242, 242, .5),
-  -5px -5px 10px rgba(242, 242, 242, .5),
-  5px -5px 10px rgba(242, 242, 242, .5),
-  -5px 5px 10px rgba(242, 242, 242, .5);
+  box-shadow:
+    5px 5px 10px rgba(242, 242, 242, 0.5),
+    -5px -5px 10px rgba(242, 242, 242, 0.5),
+    5px -5px 10px rgba(242, 242, 242, 0.5),
+    -5px 5px 10px rgba(242, 242, 242, 0.5);
 
   &__image {
     margin-bottom: 24px;
@@ -171,5 +186,4 @@ loadProducts();
     gap: 8px;
   }
 }
-
 </style>

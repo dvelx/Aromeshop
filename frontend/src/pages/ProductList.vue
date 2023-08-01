@@ -3,7 +3,7 @@
     <FilteredProducts />
 
     <div class="product-list__list">
-      <div class="card" v-for="item of products" :key="item.id">
+      <div v-for="item of products" :key="item.id" class="card">
         <router-link :to="{ path: '/product', query: { id: item.id } }">
           <img :src="item.image_url" alt="" class="card__image" />
         </router-link>
@@ -93,7 +93,8 @@ loadProducts();
   border-radius: 10px;
   padding: 30px;
   background-color: white;
-  box-shadow: 5px 5px 10px rgba(242, 242, 242, 0.5),
+  box-shadow:
+    5px 5px 10px rgba(242, 242, 242, 0.5),
     -5px -5px 10px rgba(242, 242, 242, 0.5),
     5px -5px 10px rgba(242, 242, 242, 0.5),
     -5px 5px 10px rgba(242, 242, 242, 0.5);

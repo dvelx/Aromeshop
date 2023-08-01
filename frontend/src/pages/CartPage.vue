@@ -13,10 +13,7 @@
         </div>
 
         <div class="cart__block">
-          
-          <p class="cart__price">
-            Итого: <span>1000 ₽</span>
-          </p>
+          <p class="cart__price">Итого: <span>1000 ₽</span></p>
 
           <a class="cart__button button button--primary" type="submit">
             Оформить заказ
@@ -28,7 +25,6 @@
 </template>
 
 <script setup lang="ts">
-
 import CartItem from "@/components/CartItem.vue";
 </script>
 
@@ -46,7 +42,6 @@ import CartItem from "@/components/CartItem.vue";
     grid-template-rows: auto 1fr;
     gap: 20px 40px;
     width: 100%;
-    
   }
   &__block {
     border: 1px solid $primary;

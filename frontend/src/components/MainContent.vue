@@ -3,22 +3,20 @@
     <div class="hero__container container">
       <div class="hero__bg"></div>
       <div class="right">
-
-        <p class="right__hashtag">
-          #AROMAHOME_NN
-        </p>
-        <h1 class="right__main-text">Наслаждайтесь идеальной <span>атмосферой дома</span> каждый день с нашими <span>ароматизаторами!</span></h1>
-        <router-link to="/catalog" tag="button" class="right__btn btn">Смотреть товары</router-link>
+        <p class="right__hashtag">#AROMAHOME_NN</p>
+        <h1 class="right__main-text">
+          Наслаждайтесь идеальной <span>атмосферой дома</span> каждый день с
+          нашими <span>ароматизаторами!</span>
+        </h1>
+        <router-link to="/catalog" class="right__btn btn"
+          >Смотреть товары</router-link
+        >
       </div>
     </div>
   </section>
-
-
 </template>
 
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss" scoped>
 @import "src/assets/style/main";
@@ -31,7 +29,6 @@
   background-repeat: no-repeat;
   background-size: contain;
   background-image: url("../../src/assets/images/2022-06-22 Mr & Mrs Fragrances0862.jpg");
-
 }
 .right {
   width: 50%;
@@ -74,7 +71,7 @@
     color: $white;
     padding: 16px 40px;
     border-radius: 100px;
-    font-family: 'Zilla Slab', serif;
+    font-family: "Zilla Slab", serif;
     font-size: 20px;
     letter-spacing: 0.6px;
     text-transform: uppercase;
@@ -87,7 +84,7 @@
 
 @media (max-width: 1199px) {
   .right {
-      padding: 0 25px 0 25px;
+    padding: 0 25px 0 25px;
     &__main-text {
       font-size: 30px;
       margin-bottom: 30px;
@@ -97,5 +94,4 @@
     }
   }
 }
-
 </style>
