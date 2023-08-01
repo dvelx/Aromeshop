@@ -11,18 +11,18 @@
           :space-between="50"
           :pagination="{clickable: true}"
       >
-        <swiper-slide>
-          <router-link to="/product">
+        <swiper-slide v-for="item in products" :key="item.id">
+          <router-link :to="{ path: '/product', query: { id: item.id } }">
             <div class="card">
-              <img src="../../src/assets/images/JQUEEN050001.jpg" alt="" class="card__image">
+              <img :src="item.image_url" alt="" class="card__image">
               <div class="card__desc">
                 <h5 class="card__title">
-                  QUEEN
+                  {{ item.title }}
                 </h5>
-                <p class="card__price">1200 p</p>
+                <p class="card__price">{{ item.price }} p</p>
               </div>
               <p class="card__text">
-                Home fragrance
+                {{ item.brand_title }}
               </p>
               <button class="card__btn btn">
                 В КОРЗИНУ
@@ -35,106 +35,6 @@
               </button>
             </div>
           </router-link>
-        </swiper-slide>
-        <swiper-slide>
-            <div class="card">
-              <router-link to="/product">
-                <img src="../../src/assets/images/JQUEEN050001.jpg" alt="" class="card__image">
-              </router-link>
-              <div class="card__desc">
-                <h5 class="card__title">
-                  QUEEN
-                </h5>
-                <p class="card__price">1200 p</p>
-              </div>
-              <p class="card__text">
-                Home fragrance
-              </p>
-              <button class="card__btn btn">
-                В КОРЗИНУ
-
-                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" fill="#0C0D12"/>
-                  <path d="M9 12H15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M12 9V15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
-            </div>
-        </swiper-slide>
-        <swiper-slide>
-            <div class="card">
-              <router-link to="/product">
-                <img src="../../src/assets/images/JQUEEN050001.jpg" alt="" class="card__image">
-              </router-link>
-              <div class="card__desc">
-                <h5 class="card__title">
-                  QUEEN
-                </h5>
-                <p class="card__price">1200 p</p>
-              </div>
-              <p class="card__text">
-                Home fragrance
-              </p>
-              <button class="card__btn btn">
-                В КОРЗИНУ
-
-                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" fill="#0C0D12"/>
-                  <path d="M9 12H15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M12 9V15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
-            </div>
-        </swiper-slide>
-        <swiper-slide>
-            <div class="card">
-              <router-link to="/product">
-                <img src="../../src/assets/images/JQUEEN050001.jpg" alt="" class="card__image">
-              </router-link>
-              <div class="card__desc">
-                <h5 class="card__title">
-                  QUEEN
-                </h5>
-                <p class="card__price">1200 p</p>
-              </div>
-              <p class="card__text">
-                Home fragrance
-              </p>
-              <button class="card__btn btn">
-                В КОРЗИНУ
-
-                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" fill="#0C0D12"/>
-                  <path d="M9 12H15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M12 9V15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
-            </div>
-        </swiper-slide>
-        <swiper-slide>
-            <div class="card">
-              <router-link to="/product">
-                <img src="../../src/assets/images/JQUEEN050001.jpg" alt="" class="card__image">
-              </router-link>
-              <div class="card__desc">
-                <h5 class="card__title">
-                  QUEEN
-                </h5>
-                <p class="card__price">1200 p</p>
-              </div>
-              <p class="card__text">
-                Home fragrance
-              </p>
-              <button class="card__btn btn">
-                В КОРЗИНУ
-
-                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" fill="#0C0D12"/>
-                  <path d="M9 12H15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M12 9V15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
-            </div>
         </swiper-slide>
         ...
       </swiper>
@@ -149,8 +49,44 @@ import { Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import 'swiper/css'
 import 'swiper/css/pagination';
+import {ref} from "vue";
+import axios from "axios";
+import {API_URL} from "@/constans/api.ts";
 
+interface IProducts {
+  brand_id?: number,
+  brand_title?: string,
+  category_id?: number,
+  category_name?: string,
+  description?: string,
+  id?: number,
+  image_url?: string,
+  price?: number,
+  title?: string
+}
 
+const products = ref({});
+
+const loadProducts = () => {
+  axios.get(API_URL + "/products").then(res => {
+    const data = res.data
+    products.value = Object.assign(data, (item: IProducts) => {
+      return {
+        brand_id: item?.brand_id,
+        brand_title: item?.brand_title,
+        category_id: item?.category_id,
+        category_name: item?.category_name,
+        description: item?.description,
+        id: item?.id,
+        image: item?.image_url,
+        price: item?.price,
+        title: item?.title,
+      }
+    })
+  });
+};
+
+loadProducts();
 
 
 </script>
@@ -200,6 +136,7 @@ import 'swiper/css/pagination';
 
   &__image {
     margin-bottom: 24px;
+    height: 300px;
   }
 
   &__desc {
@@ -214,9 +151,13 @@ import 'swiper/css/pagination';
     font-weight: 600;
     line-height: 160%; /* 32px */
     letter-spacing: 0.6px;
+    color: $dark-text;
+    padding-left: 20px;
   }
   &__text {
     margin-bottom: 24px;
+    color: $dark-text;
+    padding-left: 20px;
   }
 
   &__btn {

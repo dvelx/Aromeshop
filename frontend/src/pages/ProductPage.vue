@@ -11,7 +11,7 @@
       <p class="product-page__description">{{ product.description }}</p>
       <div class="product-page__btn-block">
         <BaseCounter />
-        <button class="product-page__btn-add">Добавить в корзину</button>
+        <router-link to="/cart" class="product-page__btn-add">Добавить в корзину</router-link>
       </div>
 <!--      <div class="product-page__right-accordion accordion">-->
 <!--        <div v-for="(question, index) in questions" :key="question.title">-->
