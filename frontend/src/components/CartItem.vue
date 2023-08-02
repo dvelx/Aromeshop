@@ -9,13 +9,14 @@
 
     <BaseCounter v-model:amount="item.amount" />
 
-    <b class="product__price"> {{ item.price }} ₽ </b>
+    <b class="product__price"> {{ productTotalPrice }} ₽ </b>
 
     <button
       class="product__del button-del"
       style="cursor: pointer"
       type="button"
       aria-label="Удалить товар из корзины"
+      @click="deleteProduct(item.id)"
     >
       <svg
         width="18"
@@ -33,15 +34,29 @@
 
 <script setup lang="ts">
 import BaseCounter from "@/components/BaseCounter.vue";
-import { ref } from "vue";
+import { computed } from "vue";
+import { cartStore } from "@/store/cartStore.ts";
 
-const productTotalAmount = ref<number>(1);
+const store = cartStore();
 
-defineProps({
+interface Props {
   item: {
-    type: Object,
-  },
+    id: number;
+    title: string;
+    img: string;
+    price: number;
+    amount: number;
+  };
+}
+
+const props = defineProps<Props>();
+
+const productTotalPrice = computed(() => {
+  return props.item.amount * props.item.price;
 });
+const deleteProduct = (id: number) => {
+  return store.deleteProduct(id);
+};
 </script>
 
 <style lang="scss" scoped>

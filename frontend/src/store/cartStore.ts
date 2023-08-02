@@ -1,9 +1,16 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
+interface IItem {
+  price: number;
+  amount: number;
+  id: number;
+  title: string;
+  img: string;
+}
 export const cartStore = defineStore("cartStore", () => {
   const state = ref({
-    cartProduct: [] as Object[],
+    cartProduct: [] as IItem[],
     totalPrice: 0 as number,
   });
 
@@ -24,17 +31,19 @@ export const cartStore = defineStore("cartStore", () => {
   };
 
   const cartTotalPrice = () => {
-    console.log(
-      state.value.cartProduct.reduce(
-        (acc: number, item) => item.price * item.amount + acc,
-        0,
-      ),
+    state.value.totalPrice = state.value.cartProduct.reduce(
+      (acc, item) => item.price * item.amount + acc,
+      0,
     );
+  };
+  const deleteProduct = (productId: number) => {
+    state.value.cartProduct.filter((item) => item.id !== productId);
   };
 
   return {
     state,
     addProductToCart,
     cartTotalPrice,
+    deleteProduct,
   };
 });

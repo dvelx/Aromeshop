@@ -37,6 +37,7 @@ const store = cartStore();
 
 const cartProducts = store.state.cartProduct;
 const totalPrice = computed(() => {
+  store.cartTotalPrice();
   return store.state.totalPrice;
 });
 </script>
@@ -63,10 +64,12 @@ const totalPrice = computed(() => {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: fit-content;
   }
   &__price {
     font-size: 30px;
     line-height: 48px;
+    margin-bottom: 40px;
   }
   &__button {
     background-color: $dark-text;
