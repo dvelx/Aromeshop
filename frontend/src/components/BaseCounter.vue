@@ -47,10 +47,10 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  amount: number
+  amount: number;
 }>();
 const emits = defineEmits<{
-  (e: 'update:amount', amount: number): void
+  (e: "update:amount", amount: number): void;
 }>();
 // функция изменения props +1
 const plus = (value: number) => {

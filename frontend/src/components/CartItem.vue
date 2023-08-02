@@ -1,20 +1,15 @@
 <template>
   <li class="cart__item product">
     <div class="product__pic">
-      <img
-        src="../assets/images/JNIKIBX001V00.webp"
-        width="120"
-        height="120"
-        alt="title"
-      />
+      <img :src="item.img" width="120" height="120" alt="title" />
     </div>
-    <h3 class="product__title">title</h3>
+    <h3 class="product__title">{{ item.title }}</h3>
 
-    <span class="product__code"> Артикул: id </span>
+    <span class="product__code"> Артикул: {{ item.id }} </span>
 
-    <BaseCounter v-model:amount="productTotalAmount"/>
+    <BaseCounter v-model:amount="item.amount" />
 
-    <b class="product__price"> total price ₽ </b>
+    <b class="product__price"> {{ item.price }} ₽ </b>
 
     <button
       class="product__del button-del"
@@ -40,7 +35,13 @@
 import BaseCounter from "@/components/BaseCounter.vue";
 import { ref } from "vue";
 
-const productTotalAmount = ref<number>(1)
+const productTotalAmount = ref<number>(1);
+
+defineProps({
+  item: {
+    type: Object,
+  },
+});
 </script>
 
 <style lang="scss" scoped>
@@ -53,6 +54,7 @@ const productTotalAmount = ref<number>(1)
   -ms-flex-align: center;
   align-items: center;
   grid-gap: 10px 20px;
+  margin-bottom: 20px;
 
   &__pic {
     align-self: flex-start;

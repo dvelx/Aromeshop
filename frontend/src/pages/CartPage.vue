@@ -5,15 +5,18 @@
         <div class="cart__field">
           <ul class="cart__list">
             <!--          <CartItem v-for="item in products" :key="item.productId" :item="item"/>-->
-            <CartItem />
-            <CartItem />
-            <CartItem />
-            <CartItem />
+            <CartItem
+              v-for="item of cartProducts"
+              :key="item.id"
+              :item="item"
+            />
           </ul>
         </div>
 
         <div class="cart__block">
-          <p class="cart__price">Итого: <span>1000 ₽</span></p>
+          <p class="cart__price">
+            Итого: <span>{{ totalPrice }} ₽</span>
+          </p>
 
           <a class="cart__button button button--primary" type="submit">
             Оформить заказ
@@ -26,6 +29,16 @@
 
 <script setup lang="ts">
 import CartItem from "@/components/CartItem.vue";
+
+import { cartStore } from "@/store/cartStore.ts";
+import { computed } from "vue";
+
+const store = cartStore();
+
+const cartProducts = store.state.cartProduct;
+const totalPrice = computed(() => {
+  return store.state.totalPrice;
+});
 </script>
 
 <style lang="scss" scoped>

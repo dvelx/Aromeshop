@@ -19,9 +19,20 @@
       <p class="product-page__description">{{ product.description }}</p>
       <div class="product-page__btn-block">
         <BaseCounter v-model:amount="productAmount" />
-        <router-link to="/cart" class="product-page__btn-add"
-          >Добавить в корзину</router-link
+        <button
+          class="product-page__btn-add"
+          @click="
+            addCart(
+              product.id,
+              productAmount,
+              product.title,
+              product.price,
+              product.image_url,
+            )
+          "
         >
+          Добавить в корзину
+        </button>
       </div>
       <!--      <div class="product-page__right-accordion accordion">-->
       <!--        <div v-for="(question, index) in questions" :key="question.title">-->
@@ -50,12 +61,23 @@ import { ref } from "vue";
 import axios from "axios";
 import { API_URL } from "../constans/api.ts";
 import BaseCounter from "@/components/BaseCounter.vue";
+import { cartStore } from "@/store/cartStore.ts";
 
 const route = useRoute();
+const store = cartStore();
 
 const product = ref<IProduct>({});
 const loading = ref<boolean>(false);
-const productAmount = ref<number>(1)
+const productAmount = ref<number>(1);
+const addCart = (
+  id: number,
+  amount: number,
+  title: string,
+  price: number,
+  img: string,
+) => {
+  store.addProductToCart(id, amount, title, price, img);
+};
 
 interface IProduct {
   brand_id?: number;
