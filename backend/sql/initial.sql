@@ -4,7 +4,8 @@ CREATE DATABASE `shop_data`;
 
 USE `shop_data`;
 
-CREATE TABLE shop_data.categories (
+-- создание таблицы категорий
+CREATE TABLE categories (
   `id` INT AUTO_INCREMENT,
   `title` VARCHAR(255) CHARSET utf8 UNIQUE NOT NULL,
   `slug` VARCHAR(255) UNIQUE NOT NULL,
@@ -12,7 +13,8 @@ CREATE TABLE shop_data.categories (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE shop_data.brands (
+-- создание таблицы производителей
+CREATE TABLE brands (
   `id` INT AUTO_INCREMENT,
   `title` VARCHAR(255) CHARSET utf8 UNIQUE NOT NULL,
   `slug` VARCHAR(255) UNIQUE NOT NULL,
@@ -20,7 +22,8 @@ CREATE TABLE shop_data.brands (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE shop_data.products (
+-- создание таблицы товаров
+CREATE TABLE products (
   `id` int AUTO_INCREMENT PRIMARY KEY,
   `category_id` int NOT NULL,
   `brand_id` int NOT NULL,
@@ -32,7 +35,8 @@ CREATE TABLE shop_data.products (
   FOREIGN KEY (`brand_id`) REFERENCES brands (`id`) ON DELETE RESTRICT
 );
 
-CREATE TABLE shop_data.feedback (
+-- создание таблицы обратной связи
+CREATE TABLE feedback (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `subject` VARCHAR(500) CHARSET utf8 DEFAULT NULL,
   `message` VARCHAR(2000) NOT NULL,
@@ -42,11 +46,32 @@ CREATE TABLE shop_data.feedback (
   `received_date` timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE shop_data.images (
+-- создание таблицы с картинками
+CREATE TABLE images (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `product_id` int NOT NULL,
   `path` varchar(2048) NOT NULL,
   FOREIGN KEY (`product_id`) REFERENCES products (`id`) ON DELETE RESTRICT
+);
+
+-- создание таблицы пользователей
+CREATE TABLE users (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `access_key` VARCHAR(36) UNIQUE NOT NULL
+);
+
+-- создание триггера для генерации UID пользователя 
+CREATE TRIGGER before_insert_users BEFORE
+INSERT
+  ON users FOR EACH ROW
+SET
+  new.access_key = REPLACE(uuid(), '-', '');
+
+-- создание таблицы с корзинами
+CREATE TABLE baskets (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `user_id` INT NOT NULL,
+  FOREIGN KEY (`user_id`) REFERENCES users (`id`) ON DELETE CASCADE
 );
 
 -- создание виртуальной таблицы
@@ -69,34 +94,34 @@ FROM
 
 -- вставка категорий
 INSERT INTO
-  shop_data.categories(`id`, `title`, `slug`)
+  categories(`id`, `title`, `slug`)
 VALUES
   ('1', 'для дома', 'dlia_doma');
 
 INSERT INTO
-  shop_data.categories(`id`, `title`, `slug`)
+  categories(`id`, `title`, `slug`)
 VALUES
   ('2', 'для авто', 'dlia_avto');
 
 INSERT INTO
-  shop_data.categories(`id`, `title`, `slug`)
+  categories(`id`, `title`, `slug`)
 VALUES
   ('3', 'услуги космологии', 'uslugi_kosmetologii');
 
 -- вставка производителей
 INSERT INTO
-  shop_data.brands(`id`, `title`, `slug`)
+  brands(`id`, `title`, `slug`)
 VALUES
   ('1', 'VINOVE', 'vinove');
 
 INSERT INTO
-  shop_data.brands(`id`, `title`, `slug`)
+  brands(`id`, `title`, `slug`)
 VALUES
   ('2', 'MR&MRS FRAGRANCE', 'mrandmrs_fragrance');
 
 -- вставка продуктов
 INSERT INTO
-  shop_data.products(
+  products(
     `category_id`,
     `brand_id`,
     `title`,
@@ -116,7 +141,7 @@ VALUES
   );
 
 INSERT INTO
-  shop_data.products(
+  products(
     `category_id`,
     `brand_id`,
     `title`,
@@ -135,7 +160,7 @@ VALUES
   );
 
 INSERT INTO
-  shop_data.products(
+  products(
     `category_id`,
     `brand_id`,
     `title`,
@@ -154,7 +179,7 @@ VALUES
   );
 
 INSERT INTO
-  shop_data.products(
+  products(
     `category_id`,
     `brand_id`,
     `title`,
@@ -173,7 +198,7 @@ VALUES
   );
 
 INSERT INTO
-  shop_data.products(
+  products(
     `category_id`,
     `brand_id`,
     `title`,
@@ -192,7 +217,7 @@ VALUES
   );
 
 INSERT INTO
-  shop_data.products(
+  products(
     `category_id`,
     `brand_id`,
     `title`,
@@ -211,7 +236,7 @@ VALUES
   );
 
 INSERT INTO
-  shop_data.products(
+  products(
     `category_id`,
     `brand_id`,
     `title`,
@@ -230,7 +255,7 @@ VALUES
   );
 
 INSERT INTO
-  shop_data.products(
+  products(
     `category_id`,
     `brand_id`,
     `title`,
@@ -249,7 +274,7 @@ VALUES
   );
 
 INSERT INTO
-  shop_data.products(
+  products(
     `category_id`,
     `brand_id`,
     `title`,
@@ -268,7 +293,7 @@ VALUES
   );
 
 INSERT INTO
-  shop_data.products(
+  products(
     `category_id`,
     `brand_id`,
     `title`,
@@ -285,3 +310,258 @@ VALUES
     'img/yas-marina.jpg',
     '1080.00'
   );
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();
+
+INSERT INTO
+  users ()
+VALUES
+  ();

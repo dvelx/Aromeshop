@@ -85,4 +85,19 @@ router.route("/product").post((request, response) => {
     .catch((err) => console.log(err));
 });
 
+/* Создание продукта */
+router.route("/users/accessKey").get((request, response) => {
+  // запрос к БД
+  const result = database.addUser();
+
+  result
+    .then((data) => {
+      // если в ответе есть ошибка, меняем статус
+      if (data?.error) response.statusCode = 400;
+
+      response.json(data);
+    })
+    .catch((err) => console.log(err));
+});
+
 export default router;

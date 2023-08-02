@@ -120,6 +120,33 @@ export default class Database {
     }
   }
 
+  async addUser() {
+    try {
+      const sql = `INSERT INTO ${this.db_name}.users () VALUES();`;
+
+      let response = {};
+
+      await new Promise((resolve, reject) => {
+        this.db.query(sql, (err, results) => {
+          if (err) {
+            reject(`MySQL: ${new Error(err.message).message}`);
+          } else resolve(results.insertId);
+        });
+      }).then(
+        async () => {
+          const lastUser = await this.getLastInsertedUser();
+          response = { ...response, accessKey: lastUser.pop()?.access_key };
+        },
+        (error) => {
+          response = { ...response, error };
+        }
+      );
+
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
   async getProducts(hostname) {
     const sql = `SELECT *, CONCAT('${hostname}', image) as image_url FROM ${this.db_name}.products_view;`;
     return await this.runQuery(sql);
@@ -150,6 +177,11 @@ FROM
 ${this.db_name}.products_view
 WHERE
     id = '${id}'`; //`SELECT *, CONCAT('${hostname}', image) as image_url FROM ${this.db_name}.products_view WHERE id='${id}';`;
+    return await this.runQuery(sql);
+  }
+
+  async getLastInsertedUser() {
+    const sql = `SELECT * FROM ${this.db_name}.users WHERE id = LAST_INSERT_ID()`;
     return await this.runQuery(sql);
   }
 }
