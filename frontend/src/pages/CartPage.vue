@@ -36,8 +36,8 @@ import { computed } from "vue";
 const store = cartStore();
 
 const cartProducts = computed(() => {
-  return store.state.cartProduct
-})
+  return store.state.cartProduct;
+});
 const totalPrice = computed(() => {
   store.cartTotalPrice();
   return store.state.totalPrice;

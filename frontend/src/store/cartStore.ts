@@ -37,8 +37,9 @@ export const cartStore = defineStore("cartStore", () => {
     );
   };
   const deleteProduct = (productId: number) => {
-    console.log(productId)
-    state.value.cartProduct =  state.value.cartProduct.filter((item) => item.id !== productId);
+    state.value.cartProduct = state.value.cartProduct.filter(
+      (item) => item.id !== productId,
+    );
   };
 
   return {
