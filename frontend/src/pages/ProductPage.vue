@@ -18,7 +18,7 @@
 
       <p class="product-page__description">{{ product.description }}</p>
       <div class="product-page__btn-block">
-        <BaseCounter :amount="1" />
+        <BaseCounter v-model:amount="productAmount" />
         <router-link to="/cart" class="product-page__btn-add"
           >Добавить в корзину</router-link
         >
@@ -55,6 +55,7 @@ const route = useRoute();
 
 const product = ref<IProduct>({});
 const loading = ref<boolean>(false);
+const productAmount = ref<number>(1)
 
 interface IProduct {
   brand_id?: number;

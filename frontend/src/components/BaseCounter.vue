@@ -19,8 +19,8 @@
 
     <input
       type="text"
-      :value="1"
-      @input="$emit('update:amount', $event.target.value)"
+      :value="amount"
+      @input="$emit('update:amount', ($event.target as HTMLInputElement).value)"
     />
 
     <button
@@ -46,12 +46,12 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-  amount: {
-    type: Number,
-  },
-});
-const emits = defineEmits(["update:amount"]);
+const props = defineProps<{
+  amount: number
+}>();
+const emits = defineEmits<{
+  (e: 'update:amount', amount: number): void
+}>();
 // функция изменения props +1
 const plus = (value: number) => {
   emits("update:amount", value + 1);
@@ -118,8 +118,5 @@ const minus = (value: number) => {
     line-height: 1;
     text-align: center;
   }
-}
-
-.form__counter input {
 }
 </style>

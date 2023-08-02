@@ -12,7 +12,7 @@
 
     <span class="product__code"> Артикул: id </span>
 
-    <BaseCounter />
+    <BaseCounter v-model:amount="productTotalAmount"/>
 
     <b class="product__price"> total price ₽ </b>
 
@@ -38,6 +38,9 @@
 
 <script setup lang="ts">
 import BaseCounter from "@/components/BaseCounter.vue";
+import { ref } from "vue";
+
+const productTotalAmount = ref<number>(1)
 </script>
 
 <style lang="scss" scoped>
