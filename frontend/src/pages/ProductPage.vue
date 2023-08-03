@@ -196,6 +196,11 @@ loadProductById();
     font-weight: 700;
     letter-spacing: 1.34px;
     margin-left: auto;
+    transition: all .4s ease-in-out;
+  }
+  &__btn-add:hover {
+    background-color: $primary;
+    color: $dark-text;
   }
 }
 

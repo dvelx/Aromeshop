@@ -184,6 +184,10 @@ loadProducts();
     border: 1px solid $primary;
     border-radius: 100px;
     gap: 8px;
+    transition: all .4s ease-in-out;
+  }
+  &__btn:hover {
+    background-color: $primary;
   }
 }
 </style>

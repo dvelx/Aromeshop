@@ -18,7 +18,7 @@
             Итого: <span>{{ totalPrice }} ₽</span>
           </p>
 
-          <a class="cart__button button button--primary" type="submit">
+          <a class="cart__button" type="submit">
             Оформить заказ
           </a>
         </div>
@@ -32,6 +32,7 @@ import CartItem from "@/components/CartItem.vue";
 
 import { cartStore } from "@/store/cartStore.ts";
 import { computed } from "vue";
+import numberFormatter from "@/helpers/numberFormatter.ts";
 
 const store = cartStore();
 
@@ -40,7 +41,7 @@ const cartProducts = computed(() => {
 });
 const totalPrice = computed(() => {
   store.cartTotalPrice();
-  return store.state.totalPrice;
+  return numberFormatter(store.state.totalPrice);
 });
 </script>
 
@@ -79,6 +80,11 @@ const totalPrice = computed(() => {
     font-size: 20px;
     margin-top: auto;
     border-radius: 50px;
+    transition: all .4s ease-in-out;
+  }
+  &__button:hover {
+    background-color: $primary;
+    color: $dark-text;
   }
 }
 </style>

@@ -76,6 +76,11 @@
     letter-spacing: 0.6px;
     text-transform: uppercase;
     margin-bottom: auto;
+    transition:all .4s ease-in-out;
+  }
+  &__btn:hover {
+    background-color: $primary;
+    color: $dark-text
   }
 }
 .logo {

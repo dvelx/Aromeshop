@@ -36,6 +36,7 @@
 import BaseCounter from "@/components/BaseCounter.vue";
 import { computed } from "vue";
 import { cartStore } from "@/store/cartStore.ts";
+import numberFormatter from "@/helpers/numberFormatter.ts";
 
 const store = cartStore();
 
@@ -52,7 +53,7 @@ interface Props {
 const props = defineProps<Props>();
 
 const productTotalPrice = computed(() => {
-  return props.item.amount * props.item.price;
+  return numberFormatter(props.item.amount * props.item.price);
 });
 const deleteProduct = (id: number) => {
   return store.deleteProduct(id);
@@ -105,6 +106,9 @@ const deleteProduct = (id: number) => {
   &__del {
     grid-column: 5/6;
     grid-row: 1/2;
+  }
+  &__del:hover svg path {
+    stroke: black;
   }
 }
 </style>

@@ -143,6 +143,21 @@ const isOpenBurgerMenu = () => {
     line-height: 32px;
     letter-spacing: 0.6px;
     color: $dark_text;
+    position: relative;
+  }
+  &__link:after {
+    display: block;
+    position: absolute;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: $primary;
+    content: "";
+    transition: width 0.3s ease-out;
+  }
+  &__link:hover:after,
+  &__link:focus:after {
+    width: 100%;
   }
 }
 .right {
