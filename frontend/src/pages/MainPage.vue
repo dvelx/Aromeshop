@@ -25,7 +25,7 @@
       </div>
       <div class="content__card card">
         <img
-          src="../assets/images/2022-06-22%20Mr%20&%20Mrs%20Fragrances0756.webp"
+          src="../assets/images/2022-06-22Mr&MrsFragrances0756.webp"
           alt=""
         />
       </div>

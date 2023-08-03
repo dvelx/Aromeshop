@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!loading" class="product-page__container container">
+  <div class="product-page__container container">
     <div class="product-page__left">
       <img
         :src="product.image_url"
@@ -14,7 +14,7 @@
     </div>
     <div class="product-page__right">
       <h1 class="product-page__title">{{ product.title }}</h1>
-      <span class="product-page__price">{{ product.price }}</span>
+      <span class="product-page__price">{{ numberFormatter(product.price)}} ₽</span>
 
       <p class="product-page__description">{{ product.description }}</p>
       <div class="product-page__btn-block">
@@ -63,12 +63,12 @@ import { cartStore } from "@/store/cartStore.ts";
 import apiDataService from "@/services/apiDataService.ts";
 import ResponseData from "@/types/ResponseData.ts";
 import Products from "@/types/Products.ts";
+import numberFormatter from "@/helpers/numberFormatter.ts";
 
 const route = useRoute();
 const store = cartStore();
 
 const product = ref({} as Products);
-const loading = ref<boolean>(false);
 const productAmount = ref<number>(1);
 const addCart = (
   id: number,

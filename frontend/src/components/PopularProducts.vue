@@ -17,7 +17,7 @@
               <h5 class="card__title">
                 {{ item.title }}
               </h5>
-              <p class="card__price">{{ item.price }} p</p>
+              <p class="card__price">{{ numberFormatter(item.price) }} ₽</p>
             </div>
             <p class="card__text">
               {{ item.brand_title }}
@@ -63,44 +63,21 @@ import { Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/pagination";
-import { ref } from "vue";
-import axios from "axios";
-import { API_URL } from "../constans/apiURL.ts";
+import { onMounted, ref } from "vue";
+import apiDataService from "@/services/apiDataService.ts";
+import ResponseData from "@/types/ResponseData.ts";
+import Products from "@/types/Products.ts";
+import numberFormatter from "@/helpers/numberFormatter.ts";
 
-interface IProducts {
-  brand_id?: number;
-  brand_title?: string;
-  category_id?: number;
-  category_name?: string;
-  description?: string;
-  id?: number;
-  image_url?: string;
-  price?: number;
-  title?: string;
-}
-
-const products = ref({});
+const products = ref({} as Products[]);
 
 const loadProducts = () => {
-  axios.get<Array<IProducts>>(API_URL + "/products").then((res) => {
-    const data = res.data;
-    products.value = Object.assign(data, (item) => {
-      return {
-        brand_id: item?.brand_id,
-        brand_title: item?.brand_title,
-        category_id: item?.category_id,
-        category_name: item?.category_name,
-        description: item?.description,
-        id: item?.id,
-        image: item?.image_url,
-        price: item?.price,
-        title: item?.title,
-      };
-    });
-  });
+  apiDataService
+    .getAll()
+    .then((res: ResponseData) => (products.value = res.data));
 };
 
-loadProducts();
+onMounted(loadProducts);
 </script>
 
 <style lang="scss" scoped>
@@ -159,6 +136,9 @@ loadProducts();
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+  }
+  &__price {
+    color: $dark-text;
   }
 
   &__title {

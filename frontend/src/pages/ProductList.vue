@@ -11,7 +11,7 @@
           <h5 class="card__title">
             {{ item.title }}
           </h5>
-          <p class="card__price">{{ item.price }} p</p>
+          <p class="card__price">{{ numberFormatter(item.price) }} ₽</p>
         </div>
         <p class="card__text">
           {{ item.brand_title }}
@@ -55,8 +55,9 @@ import { onMounted, ref } from "vue";
 import apiDataService from "@/services/apiDataService.ts";
 import ResponseData from "@/types/ResponseData.ts";
 import Products from "@/types/Products.ts";
+import numberFormatter from "@/helpers/numberFormatter.ts";
 
-const products = ref({} as Products);
+const products = ref({} as Products[]);
 
 const loadProducts = () => {
   apiDataService

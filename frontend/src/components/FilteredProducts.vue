@@ -29,10 +29,7 @@
         <label class="form__label form__label--select">
           <select class="form__select" name="category">
             <option value="0">Все категории</option>
-            <option>Категории тут всякие</option>
-            <option>Категории тут всякие2</option>
-            <option>Категории тут всякие3</option>
-            <option>Категории тут всякие4</option>
+            <option v-for="item of categories" :key="item.id" :value="item.id">{{ item.title }}</option>
           </select>
         </label>
       </fieldset>
@@ -62,7 +59,21 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+
+import {onMounted, ref} from "vue";
+import apiDataService from "@/services/apiDataService.ts";
+import ResponseData from "@/types/ResponseData.ts";
+import Categories from "@/types/Categories.ts";
+
+const categories = ref({} as Categories[])
+
+const loadCategories = () => {
+  apiDataService.getCategories().then((res: ResponseData) => categories.value = res.data)
+}
+
+onMounted(loadCategories)
+</script>
 
 <style lang="scss" scoped>
 @import "src/assets/style/main";

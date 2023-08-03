@@ -6,7 +6,7 @@
     <h3 class="product__title">{{ item.title }}</h3>
 
     <span class="product__code"> Артикул: {{ item.id }} </span>
-
+<!--eslint-disable-next-line vue/no-mutating-props-->
     <BaseCounter v-model:amount="item.amount" />
 
     <b class="product__price"> {{ productTotalPrice }} ₽ </b>

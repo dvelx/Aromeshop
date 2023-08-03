@@ -12,6 +12,14 @@ class productDataService {
   getUserAccessKey(): Promise<any> {
     return  api.get('/users/accessKey')
   }
+  
+  getCategories(): Promise<any> {
+    return api.get('/categories')
+  }
+  
+  getBrands(): Promise<any> {
+    return api.get('/brands')
+  }
 }
 
 export default new productDataService();
