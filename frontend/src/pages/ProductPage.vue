@@ -57,16 +57,17 @@
 // import { Collapse } from 'vue-collapsed'
 import PopularProducts from "@/components/PopularProducts.vue";
 import { useRoute } from "vue-router";
-import { ref } from "vue";
-import axios from "axios";
-import { API_URL } from "../constans/api.ts";
+import { onMounted, ref } from "vue";
 import BaseCounter from "@/components/BaseCounter.vue";
 import { cartStore } from "@/store/cartStore.ts";
+import apiDataService from "@/services/apiDataService.ts";
+import ResponseData from "@/types/ResponseData.ts";
+import Products from "@/types/Products.ts";
 
 const route = useRoute();
 const store = cartStore();
 
-const product = ref<IProduct>({});
+const product = ref({} as Products);
 const loading = ref<boolean>(false);
 const productAmount = ref<number>(1);
 const addCart = (
@@ -79,41 +80,12 @@ const addCart = (
   store.addProductToCart(id, amount, title, price, img);
 };
 
-interface IProduct {
-  brand_id?: number;
-  brand_title?: string;
-  category_id?: number;
-  category_name?: string;
-  description?: string;
-  id?: number;
-  image_url?: string;
-  price?: number;
-  title?: string;
-}
-const loadProductById = (): object => {
-  loading.value = true;
-  return axios
-    .get(API_URL + "/product/?id=" + route.query.id)
-    .then((res) => {
-      const data = res.data;
-      product.value = Object.assign(data, (item: IProduct) => {
-        return {
-          brand_id: item?.brand_id,
-          brand_title: item?.brand_title,
-          category_id: item?.category_id,
-          category_name: item?.category_name,
-          description: item?.description,
-          id: item?.id,
-          image: item?.image_url,
-          price: item?.price,
-          title: item?.title,
-        };
-      });
-    })
-    .then(() => (loading.value = false))
-    .catch(console.log);
+const loadProducts = () => {
+  apiDataService
+    .getById(Number(route.query.id))
+    .then((res: ResponseData) => (product.value = res.data));
 };
-loadProductById();
+onMounted(loadProducts);
 
 // const questions = reactive([
 //   {
@@ -196,7 +168,7 @@ loadProductById();
     font-weight: 700;
     letter-spacing: 1.34px;
     margin-left: auto;
-    transition: all .4s ease-in-out;
+    transition: all 0.4s ease-in-out;
   }
   &__btn-add:hover {
     background-color: $primary;

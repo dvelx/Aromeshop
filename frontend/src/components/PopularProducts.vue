@@ -82,9 +82,9 @@ interface IProducts {
 const products = ref({});
 
 const loadProducts = () => {
-  axios.get(API_URL + "/products").then((res) => {
+  axios.get<Array<IProducts>>(API_URL + "/products").then((res) => {
     const data = res.data;
-    products.value = Object.assign(data, (item: IProducts) => {
+    products.value = Object.assign(data, (item) => {
       return {
         brand_id: item?.brand_id,
         brand_title: item?.brand_title,
@@ -184,10 +184,11 @@ loadProducts();
     border: 1px solid $primary;
     border-radius: 100px;
     gap: 8px;
-    transition: all .4s ease-in-out;
+    transition: all 0.4s ease-in-out;
   }
   &__btn:hover {
     background-color: $primary;
+    color: $white;
   }
 }
 </style>

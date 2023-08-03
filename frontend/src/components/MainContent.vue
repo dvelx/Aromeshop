@@ -28,11 +28,13 @@
   width: 50%;
   background-repeat: no-repeat;
   background-size: contain;
-  background-image: url("../../src/assets/images/2022-06-22 Mr & Mrs Fragrances0862.jpg");
+  background-image: url("../../src/assets/images/2022-06-22 Mr & Mrs Fragrances0862.webp");
 }
 .right {
   width: 50%;
-  padding: 0px 50px 0 50px;
+  padding: 0 50px 0 50px;
+  display: flex;
+  flex-direction: column;
 
   &__top {
     margin-bottom: 130px;
@@ -67,6 +69,8 @@
   }
 
   &__btn {
+    width: 45%;
+    text-align: center;
     background-color: $dark_text;
     color: $white;
     padding: 16px 40px;
@@ -75,12 +79,12 @@
     font-size: 20px;
     letter-spacing: 0.6px;
     text-transform: uppercase;
-    margin-bottom: auto;
-    transition:all .4s ease-in-out;
+    margin-right: auto;
+    transition: all 0.4s ease-in-out;
   }
   &__btn:hover {
     background-color: $primary;
-    color: $dark-text
+    color: $dark-text;
   }
 }
 .logo {

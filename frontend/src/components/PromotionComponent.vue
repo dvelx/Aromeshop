@@ -27,7 +27,7 @@
   &__banner {
     padding: 100px 80px;
     margin-bottom: 50px;
-    background: url("../assets/images/adv-queen-06.jpg") no-repeat 100%/100%;
+    background: url("../assets/images/adv-queen-06 (1).webp") no-repeat 100%/100%;
   }
   &__badge {
     display: flex;
@@ -58,6 +58,11 @@
     font-size: 20px;
     margin: auto;
     width: 35%;
+    transition: all 0.4s ease-in-out;
+  }
+  &__btn:hover {
+    background-color: $primary;
+    color: $white;
   }
 }
 </style>

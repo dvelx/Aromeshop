@@ -12,6 +12,7 @@ import NotFoundPage from "../pages/NotFoundPage.vue";
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
+  scrollBehavior: () => ({ left: 0, top: 0 }),
   routes: [
     {
       path: ROUTES_PATHS.MAIN,

@@ -117,7 +117,7 @@
     height: 2px;
     background-color: $white;
     content: "";
-    transition: width 0.3s ease-out;;
+    transition: width 0.3s ease-out;
   }
   &__links-list-link:hover:after,
   &__social-link:hover:after {

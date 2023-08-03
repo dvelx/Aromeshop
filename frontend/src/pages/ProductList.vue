@@ -51,18 +51,20 @@
 
 <script setup lang="ts">
 import FilteredProducts from "../components/FilteredProducts.vue";
+import { onMounted, ref } from "vue";
+import apiDataService from "@/services/apiDataService.ts";
+import ResponseData from "@/types/ResponseData.ts";
+import Products from "@/types/Products.ts";
 
-import axios from "axios";
-import { ref } from "vue";
-import { API_URL } from "../constans/api.ts";
-
-const products = ref(null);
+const products = ref({} as Products);
 
 const loadProducts = () => {
-  axios.get(API_URL + "/products").then((res) => (products.value = res.data));
+  apiDataService
+    .getAll()
+    .then((res: ResponseData) => (products.value = res.data));
 };
 
-loadProducts();
+onMounted(loadProducts);
 </script>
 
 <style lang="scss" scoped>
@@ -132,7 +134,7 @@ loadProducts();
     border: 1px solid $primary;
     border-radius: 100px;
     gap: 8px;
-    transition: all .4s ease-in-out;
+    transition: all 0.4s ease-in-out;
   }
   &__btn:hover {
     background-color: $primary;

@@ -6,7 +6,7 @@
   <section class="content">
     <div class="content__container container">
       <div class="content__card card">
-        <img src="../assets/images/VINOVE-PARIS-collage.jpg" alt="" />
+        <img src="../assets/images/VINOVE-PARIS-collage.webp" alt="" />
       </div>
       <div class="content__card card">
         <div class="card__image"></div>

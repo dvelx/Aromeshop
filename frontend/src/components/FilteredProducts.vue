@@ -57,9 +57,7 @@
         </ul>
       </fieldset>
 
-      <button class="filter__submit" type="submit">
-        Применить
-      </button>
+      <button class="filter__submit" type="submit">Применить</button>
     </form>
   </div>
 </template>
@@ -86,7 +84,7 @@
     padding: 10px 30px;
     border: 1px solid $primary;
     border-radius: 50px;
-    transition: all .4s ease-in-out;
+    transition: all 0.4s ease-in-out;
   }
   &__submit:hover {
     background-color: $primary;

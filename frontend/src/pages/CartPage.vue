@@ -18,9 +18,7 @@
             Итого: <span>{{ totalPrice }} ₽</span>
           </p>
 
-          <a class="cart__button" type="submit">
-            Оформить заказ
-          </a>
+          <a class="cart__button" type="submit"> Оформить заказ </a>
         </div>
       </form>
     </div>
@@ -80,7 +78,7 @@ const totalPrice = computed(() => {
     font-size: 20px;
     margin-top: auto;
     border-radius: 50px;
-    transition: all .4s ease-in-out;
+    transition: all 0.4s ease-in-out;
   }
   &__button:hover {
     background-color: $primary;

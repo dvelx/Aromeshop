@@ -113,8 +113,7 @@
 import HeaderPromotion from "./HeaderPromotion.vue";
 
 const isOpenBurgerMenu = () => {
-  const menu = document.querySelector(".right__top-burger-menu");
-  menu.style.display = "block";
+  document.querySelector(".right__top-burger-menu");
 };
 </script>
 
