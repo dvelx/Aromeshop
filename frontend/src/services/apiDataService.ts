@@ -1,4 +1,4 @@
-import { api } from "@/http/http-common.ts";
+import { api } from "@/http/api.ts";
 
 class productDataService {
   getAll(): Promise<any> {
@@ -7,6 +7,10 @@ class productDataService {
 
   getById(id: number): Promise<any> {
     return api.get(`/product/?id=${id}`);
+  }
+  
+  getUserAccessKey(): Promise<any> {
+    return  api.get('/users/accessKey')
   }
 }
 

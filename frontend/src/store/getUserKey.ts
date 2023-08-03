@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import axios from "axios";
-import { API_URL } from "@/constans/api.ts";
+import apiDataService from "@/services/apiDataService.ts";
+import ResponseData from "@/types/ResponseData.ts";
 
 export const getUserKey = defineStore("userAccessKey", () => {
   const state = ref({
@@ -9,12 +9,10 @@ export const getUserKey = defineStore("userAccessKey", () => {
   });
 
   const getKey = () => {
-    axios
-      .get(API_URL + "/users/accessKey")
-      .then((res) => (state.value.userAccessKey = res.data.accessKey));
-  };
+    apiDataService.getUserAccessKey().then((res: ResponseData) => state.value.userAccessKey = res.data)
+  }
   return {
     state,
     getKey,
   };
-});
+})

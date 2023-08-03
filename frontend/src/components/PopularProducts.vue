@@ -65,7 +65,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { ref } from "vue";
 import axios from "axios";
-import { API_URL } from "../constans/api.ts";
+import { API_URL } from "../constans/apiURL.ts";
 
 interface IProducts {
   brand_id?: number;
