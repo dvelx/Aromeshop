@@ -68,12 +68,30 @@ SET
   new.access_key = REPLACE(uuid(), '-', '');
 
 -- создание таблицы с корзинами
-CREATE TABLE baskets (
+CREATE TABLE shoping_carts (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `user_id` INT NOT NULL,
   FOREIGN KEY (`user_id`) REFERENCES users (`id`) ON DELETE CASCADE
 );
 
+-- создание таблицы с товарами в корзине
+CREATE TABLE cart_items (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `cart_id` INT NOT NULL,
+  `product_id` INT NOT NULL,
+  `quantity` INT NOT NULL,
+  FOREIGN KEY (`cart_id`) REFERENCES `shoping_carts` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE
+);
+
+-- DROP TRIGGER IF EXISTS `cart_items_increment`;
+-- CREATE TRIGGER `cart_items_increment` BEFORE
+-- INSERT
+--   ON cart_items FOR EACH ROW BEGIN SIGNAL SQLSTATE '01000'
+-- SET
+--   MESSAGE_TEXT = 'Sorry cannot insert',
+--   MYSQL_ERRNO = 1000;
+-- END;
 -- создание виртуальной таблицы
 CREATE
 OR REPLACE VIEW `products_view` AS
@@ -310,241 +328,6 @@ VALUES
     'img/yas-marina.jpg',
     '1080.00'
   );
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
-
-INSERT INTO
-  users ()
-VALUES
-  ();
 
 INSERT INTO
   users ()

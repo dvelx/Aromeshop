@@ -45,7 +45,10 @@ export default class Database {
     const sql = `SELECT * FROM ${this.db_name}.categories;`;
     return await this.runQuery(sql);
   }
-
+  async getBrands() {
+    const sql = `SELECT * FROM ${this.db_name}.brands;`;
+    return await this.runQuery(sql);
+  }
   async addCategory({ title, slug, image }) {
     try {
       const sql = `INSERT INTO ${this.db_name}.categories (title, slug, image) VALUES(?, ?, ?);`;
@@ -184,4 +187,22 @@ WHERE
     const sql = `SELECT * FROM ${this.db_name}.users WHERE id = LAST_INSERT_ID()`;
     return await this.runQuery(sql);
   }
+
+  async getCart(accessKey = null) {
+    let key;
+    if (!accessKey) {
+      key = (await this.addUser()).accessKey;
+    } else key = accessKey;
+    console.log(key);
+    const sql = `SELECT
+    shoping_carts.id AS id,
+    users.id AS userId,
+    users.access_key AS accessKey
+FROM
+    shop_data.shoping_carts
+    JOIN users ON shoping_carts.user_id = users.id WHERE users.access_key = ${key}"`;
+    return await this.runQuery(sql);
+  }
+
+  async createCart(accessKey) {}
 }

@@ -1,4 +1,4 @@
-import exprepress, { response } from "express";
+import exprepress, { request, response } from "express";
 import Database from "../database.js";
 import slugify from "slugify";
 
@@ -24,6 +24,12 @@ function getRequestHostUrl(request) {
 /* Получение списка категорий */
 router.route("/categories").get((request, response) => {
   const result = database.getCategories();
+  result.then((data) => response.json(data)).catch((err) => console.log(err));
+});
+
+/* Получение списка производителей */
+router.route("/brands").get((request, response) => {
+  const result = database.getBrands();
   result.then((data) => response.json(data)).catch((err) => console.log(err));
 });
 
@@ -100,4 +106,17 @@ router.route("/users/accessKey").get((request, response) => {
     .catch((err) => console.log(err));
 });
 
+router.route("/baskets").get((request, response) => {
+  const { accessKey } = request.query;
+  const result = database.getCart(accessKey);
+
+  result
+    .then((data) => {
+      // если в ответе есть ошибка, меняем статус
+      if (data?.error) response.statusCode = 400;
+
+      response.json(data);
+    })
+    .catch((err) => console.log(err));
+});
 export default router;
