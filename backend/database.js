@@ -137,8 +137,8 @@ export default class Database {
         });
       }).then(
         async () => {
-          const lastUser = await this.getLastInsertedUser();
-          response = { ...response, accessKey: lastUser.pop()?.access_key };
+          const user = (await this.getLastInsertedUser()).pop();
+          response = { ...response, id: user.id, accessKey: user.access_key };
         },
         (error) => {
           response = { ...response, error };
@@ -149,6 +149,10 @@ export default class Database {
     } catch (error) {
       console.log(error);
     }
+  }
+  async getUserByUID(uid) {
+    const sql = `SELECT * FROM ${this.db_name}.users WHERE access_key = '${uid}';`;
+    return (await this.runQuery(sql))[0];
   }
   async getProducts(hostname) {
     const sql = `SELECT *, CONCAT('${hostname}', image) as image_url FROM ${this.db_name}.products_view;`;
@@ -188,21 +192,44 @@ WHERE
     return await this.runQuery(sql);
   }
 
-  async getCart(accessKey = null) {
-    let key;
-    if (!accessKey) {
-      key = (await this.addUser()).accessKey;
-    } else key = accessKey;
-    console.log(key);
-    const sql = `SELECT
-    shoping_carts.id AS id,
-    users.id AS userId,
-    users.access_key AS accessKey
-FROM
-    shop_data.shoping_carts
-    JOIN users ON shoping_carts.user_id = users.id WHERE users.access_key = ${key}"`;
+  async getLastInsertedCart() {
+    const sql = `SELECT * FROM ${this.db_name}.shoping_carts WHERE id = LAST_INSERT_ID()`;
     return await this.runQuery(sql);
   }
 
-  async createCart(accessKey) {}
+  async getCartByUserId(userId = null) {
+    const sql = `SELECT * FROM shoping_carts WHERE user_id = '${userId}';`;
+    return await this.runQuery(sql);
+  }
+  async getCart(accessKey = null) {
+    let user;
+    // accessKey не передан - создать нового пользователя
+    if (!accessKey) {
+      console.log("user added!");
+      user = await this.addUser();
+    }
+    // Если передан
+    else {
+      // получаем пользователя по UID
+      user = await this.getUserByUID(accessKey);
+
+      // если пользователь не найден вернём ошибку
+      if (!user) return { error: "User not found!" };
+    }
+
+    // получаем корзину по UID пользователя
+    const carts = await this.getCartByUserId(user.id);
+
+    if (carts.length === 0) {
+      await this.addCart(user.id);
+    }
+    const [cart] = await this.getCartByUserId(user.id);
+    const res = { id: cart.id, user };
+    return res;
+  }
+
+  async addCart(userId) {
+    const sql = `INSERT INTO shoping_carts (user_id) VALUES ('${userId}')`;
+    return await this.runQuery(sql);
+  }
 }
