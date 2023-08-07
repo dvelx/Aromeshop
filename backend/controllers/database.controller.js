@@ -7,9 +7,6 @@ database.connect();
 
 const router = exprepress.Router();
 router.use(exprepress.json());
-router.get("/", (req, res) => {
-  res.send("api...");
-});
 
 // параметры для slugify
 const slugParams = {
