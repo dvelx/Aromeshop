@@ -2,6 +2,9 @@ import express from "express";
 import router from "./controllers/database.controller.js";
 import Mailer from "./mail.js";
 import cors from "cors";
+import dotenv from "dotenv";
+import { Sequelize, DataTypes } from "sequelize";
+
 const app = express();
 
 // параметры для статических файлов
@@ -50,6 +53,28 @@ app.get("/mail", async (req, res) => {
     });
 });
 
+// app.get("/sequelize", (req, res) => {
+//   dotenv.config();
+//   const sequelize = new Sequelize(
+//     process.env.MYSQL_DATABASE,
+//     process.env.MYSQL_USER,
+//     process.env.MYSQL_PASS,
+//     {
+//       host: process.env.MYSQL_HOST,
+//       dialect: "mysql",
+//     }
+//   );
+//   sequelize
+//     .authenticate()
+//     .then(() => {
+//       console.log("Connection has been established successfully.");
+//       res.send("<p>OK</p>");
+//       res.status(200);
+//     })
+//     .catch((error) => {
+//       console.error("Unable to connect to the database: ", error);
+//     });
+// });
 app.listen("3000", () => {
   console.log("Server started on port 3000 ...");
 });

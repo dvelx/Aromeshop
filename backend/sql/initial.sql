@@ -76,12 +76,12 @@ CREATE TABLE shoping_carts (
 
 -- создание таблицы с товарами в корзине
 CREATE TABLE cart_items (
-  `id` INT AUTO_INCREMENT PRIMARY KEY,
   `cart_id` INT NOT NULL,
   `product_id` INT NOT NULL,
   `quantity` INT NOT NULL,
   FOREIGN KEY (`cart_id`) REFERENCES `shoping_carts` (`id`) ON DELETE CASCADE,
-  FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE
+  FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
+  PRIMARY KEY (`cart_id`, `product_id`)
 );
 
 -- DROP TRIGGER IF EXISTS `cart_items_increment`;
@@ -125,6 +125,15 @@ INSERT INTO
   categories(`id`, `title`, `slug`)
 VALUES
   ('3', 'услуги космологии', 'uslugi_kosmetologii');
+
+INSERT INTO
+  categories(`id`, `title`, `slug`)
+VALUES
+  (
+    '4',
+    'ароматические свечи',
+    'aromaticheskie_svechi'
+  );
 
 -- вставка производителей
 INSERT INTO

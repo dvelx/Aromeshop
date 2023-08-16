@@ -1,4 +1,4 @@
-import exprepress, { request, response } from "express";
+import exprepress, { json, request, response } from "express";
 import Database from "../database.js";
 import slugify from "slugify";
 
@@ -101,6 +101,14 @@ router.route("/baskets").get(async (request, response) => {
   sendResponse(response, () => {
     const { accessKey } = request.query;
     return database.getCart(accessKey);
+  });
+});
+
+/* Добавление в корзину */
+router.route("/baskets").post((request, response) => {
+  sendResponse(response, () => {
+    const { cartId, productId, quantity } = request.body;
+    return database.addProductToCart({ cartId, productId, quantity });
   });
 });
 export default router;

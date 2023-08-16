@@ -201,6 +201,13 @@ WHERE
     const sql = `SELECT * FROM shoping_carts WHERE user_id = '${userId}';`;
     return await this.runQuery(sql);
   }
+  async getCartProducts(cartId) {
+    const sql = `SELECT products_view.*, quantity FROM cart_items 
+    JOIN products_view ON product_id = products_view.id
+    WHERE cart_id = '${cartId}';`;
+    return await this.runQuery(sql);
+  }
+
   async getCart(accessKey = null) {
     let user;
     // accessKey не передан - создать нового пользователя
@@ -224,12 +231,21 @@ WHERE
       await this.addCart(user.id);
     }
     const [cart] = await this.getCartByUserId(user.id);
-    const res = { id: cart.id, user };
+    const items = await this.getCartProducts(cart.id);
+    console.log(items);
+    const res = { id: cart.id, user, items };
     return res;
   }
 
   async addCart(userId) {
     const sql = `INSERT INTO shoping_carts (user_id) VALUES ('${userId}')`;
+    return await this.runQuery(sql);
+  }
+
+  async addProductToCart({ cartId, productId, quantity }) {
+    const sql = `INSERT INTO cart_items (cart_id, product_id, quantity) 
+    VALUES ('${cartId}', '${productId}', '${quantity}') AS new
+    ON DUPLICATE KEY UPDATE cart_items.quantity = cart_items.quantity + new.quantity;`;
     return await this.runQuery(sql);
   }
 }
