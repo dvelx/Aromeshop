@@ -233,7 +233,6 @@ FROM cart_items
     }
     const [cart] = await this.getCartByUserId(user.id);
     const items = await this.getCartProducts(cart.id, hostname);
-    console.log(items);
     const res = { id: cart.id, user, items };
     return res;
   }
@@ -252,6 +251,12 @@ FROM cart_items
 
   async setProductQuantity({ cartId, productId, quantity }) {
     const sql = `UPDATE cart_items SET quantity = '${quantity}'
+    WHERE cart_id = '${cartId}' AND product_id = '${productId}'`;
+    return await this.runQuery(sql);
+  }
+
+  async deleteProductFromCart({ cartId, productId }) {
+    const sql = `DELETE FROM cart_items
     WHERE cart_id = '${cartId}' AND product_id = '${productId}'`;
     return await this.runQuery(sql);
   }

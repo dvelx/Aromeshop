@@ -133,4 +133,22 @@ router.route("/baskets").put((request, response) => {
       return database.setProductQuantity({ cartId, productId, quantity });
     });
 });
+
+/* Удаление товара из корзины */
+router.route("/baskets").delete((request, response) => {
+  const { cartId, productId } = request.body;
+  if (!cartId)
+    sendResponse(response, () => {
+      return { error: "cartId undefined" };
+    });
+  else if (!productId)
+    sendResponse(response, () => {
+      return { error: "productId undefined" };
+    });
+  else
+    sendResponse(response, () => {
+      return database.deleteProductFromCart({ cartId, productId });
+    });
+});
+
 export default router;
