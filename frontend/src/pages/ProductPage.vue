@@ -11,25 +11,29 @@
         :alt="product.title"
         class="product-page__image"
       />
+      <img
+        :src="product.image_url"
+        :alt="product.title"
+        class="product-page__image"
+      />
+      <img
+        :src="product.image_url"
+        :alt="product.title"
+        class="product-page__image"
+      />
     </div>
     <div class="product-page__right">
       <h1 class="product-page__title">{{ product.title }}</h1>
-      <span class="product-page__price">{{ numberFormatter(product.price)}} ₽</span>
+      <span class="product-page__price"
+        >{{ numberFormatter(product.price) }} ₽</span
+      >
 
       <p class="product-page__description">{{ product.description }}</p>
       <div class="product-page__btn-block">
         <BaseCounter v-model:amount="productAmount" />
         <button
           class="product-page__btn-add"
-          @click="
-            addCart(
-              product.id,
-              productAmount,
-              product.title,
-              product.price,
-              product.image_url,
-            )
-          "
+          @click="addCart()"
         >
           Добавить в корзину
         </button>
@@ -57,7 +61,7 @@
 // import { Collapse } from 'vue-collapsed'
 import PopularProducts from "@/components/PopularProducts.vue";
 import { useRoute } from "vue-router";
-import { onMounted, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import BaseCounter from "@/components/BaseCounter.vue";
 import { cartStore } from "@/store/cartStore.ts";
 import apiDataService from "@/services/apiDataService.ts";
@@ -70,22 +74,22 @@ const store = cartStore();
 
 const product = ref({} as Products);
 const productAmount = ref<number>(1);
-const addCart = (
-  id: number,
-  amount: number,
-  title: string,
-  price: number,
-  img: string,
-) => {
-  store.addProductToCart(id, amount, title, price, img);
+const productId = computed(() => {
+  return Number(route.query.id);
+});
+const addCart = () => {
+  store.addProductToCart(productId.value, productAmount.value);
 };
 
-const loadProducts = () => {
+const loadProduct = () => {
   apiDataService
-    .getById(Number(route.query.id))
-    .then((res: ResponseData) => (product.value = res.data));
+    .getById(productId.value)
+    .then((res: ResponseData) => (product.value = res.data[0].product));
 };
-onMounted(loadProducts);
+watch([productId], () => {
+  loadProduct();
+});
+loadProduct();
 
 // const questions = reactive([
 //   {
@@ -132,7 +136,7 @@ onMounted(loadProducts);
   &__image {
     border: 1px solid $primary;
     border-radius: 10px;
-    background-color: $primary;
+    background-color: transparent;
   }
 
   &__right {

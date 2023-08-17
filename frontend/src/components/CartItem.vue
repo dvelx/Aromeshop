@@ -1,13 +1,13 @@
 <template>
   <li class="cart__item product">
     <div class="product__pic">
-      <img :src="item.img" width="120" height="120" alt="title" />
+      <img :src="item.image" width="120" height="120" alt="title" />
     </div>
     <h3 class="product__title">{{ item.title }}</h3>
 
-    <span class="product__code"> Артикул: {{ item.id }} </span>
+    <span class="product__code"> Артикул: {{ item.brand_id }} </span>
 <!--eslint-disable-next-line vue/no-mutating-props-->
-    <BaseCounter v-model:amount="item.amount" />
+    <BaseCounter v-model:amount="item.quantity" />
 
     <b class="product__price"> {{ productTotalPrice }} ₽ </b>
 
@@ -16,7 +16,7 @@
       style="cursor: pointer"
       type="button"
       aria-label="Удалить товар из корзины"
-      @click="deleteProduct(item.id)"
+      @click="deleteProduct(item.brand_id)"
     >
       <svg
         width="18"
@@ -42,18 +42,18 @@ const store = cartStore();
 
 interface Props {
   item: {
-    id: number;
+    brand_id: number;
     title: string;
-    img: string;
+    image: string;
     price: number;
-    amount: number;
+    quantity: number;
   };
 }
 
 const props = defineProps<Props>();
 
 const productTotalPrice = computed(() => {
-  return numberFormatter(props.item.amount * props.item.price);
+  return numberFormatter(props.item.quantity * props.item.price);
 });
 const deleteProduct = (id: number) => {
   return store.deleteProduct(id);

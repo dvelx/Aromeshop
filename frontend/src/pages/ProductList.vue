@@ -90,17 +90,10 @@ onMounted(loadProducts);
   display: flex;
   flex-direction: column;
   width: 300px;
-  margin-top: 30px;
   margin-bottom: 30px;
-  border: 1px solid rgba(242, 242, 242, 0.5);
-  border-radius: 10px;
   padding: 30px;
-  background-color: white;
-  box-shadow:
-    5px 5px 10px rgba(242, 242, 242, 0.5),
-    -5px -5px 10px rgba(242, 242, 242, 0.5),
-    5px -5px 10px rgba(242, 242, 242, 0.5),
-    -5px 5px 10px rgba(242, 242, 242, 0.5);
+  background-color: transparent;
+ 
 
   &__image {
     margin-bottom: 24px;

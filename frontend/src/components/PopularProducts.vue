@@ -63,7 +63,7 @@ import { Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/pagination";
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import apiDataService from "@/services/apiDataService.ts";
 import ResponseData from "@/types/ResponseData.ts";
 import Products from "@/types/Products.ts";
@@ -77,7 +77,7 @@ const loadProducts = () => {
     .then((res: ResponseData) => (products.value = res.data));
 };
 
-onMounted(loadProducts);
+loadProducts();
 </script>
 
 <style lang="scss" scoped>
@@ -117,7 +117,7 @@ onMounted(loadProducts);
   margin-top: 30px;
   margin-bottom: 30px;
   border: 1px solid rgba(242, 242, 242, 0.5);
-  border-radius: 10px;
+  border-radius: 20px;
   padding: 30px;
   background-color: white;
   box-shadow:

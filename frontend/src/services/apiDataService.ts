@@ -1,5 +1,6 @@
 import { api } from "@/http/api.ts";
 
+
 class productDataService {
   getAll(): Promise<any> {
     return api.get("products");
@@ -19,6 +20,17 @@ class productDataService {
   
   getBrands(): Promise<any> {
     return api.get('/brands')
+  }
+
+  getBasket(): Promise<any> {
+    return api.get('/baskets')
+  }
+  addProductToBasket(cartId:number, productId: number, amount: number): Promise<any> {
+    return api.post('/baskets', {
+      cartId: cartId,
+      productId: productId,
+      quantity: amount
+    })
   }
 }
 

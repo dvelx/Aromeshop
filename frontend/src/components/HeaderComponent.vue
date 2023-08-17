@@ -86,22 +86,22 @@
       </div>
     </div>
 
-    <div class="right__top-burger-menu">
+    <div v-if="toggle" class="right__top-burger-menu">
       <nav class="nav burger-nav">
         <ul class="nav__list">
           <li class="nav__item">
-            <router-link to="/catalog" class="nav__link"> МАГАЗИН </router-link>
+            <router-link to="/catalog" class="nav__link" active-class="active"> МАГАЗИН </router-link>
           </li>
           <li class="nav__item">
-            <router-link to="/about-us" class="nav__link">
+            <router-link to="/about-us" class="nav__link" active-class="active">
               О&nbsp;НАС
             </router-link>
           </li>
           <li class="nav__item">
-            <router-link to="/blog" class="nav__link"> БЛОГ </router-link>
+            <router-link to="/blog" class="nav__link" active-class="active"> БЛОГ </router-link>
           </li>
           <li class="nav__item">
-            <router-link to="/reviews" class="nav__link"> ОТЗЫВЫ </router-link>
+            <router-link to="/reviews" class="nav__link" active-class="active"> ОТЗЫВЫ </router-link>
           </li>
         </ul>
       </nav>
@@ -111,14 +111,19 @@
 
 <script setup lang="ts">
 import HeaderPromotion from "./HeaderPromotion.vue";
+import {ref} from "vue";
+const toggle = ref(false)
 
 const isOpenBurgerMenu = () => {
-  document.querySelector(".right__top-burger-menu");
+  toggle.value = !toggle.value 
 };
 </script>
 
 <style lang="scss" scoped>
 @import "src/assets/style/main";
+.nav__link.router-link-active {
+  color: rgba(201, 164, 137, .85);
+}
 .header {
   padding-top: 10px;
   padding-bottom: 10px;

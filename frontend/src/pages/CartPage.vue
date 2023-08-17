@@ -31,6 +31,7 @@ import CartItem from "@/components/CartItem.vue";
 import { cartStore } from "@/store/cartStore.ts";
 import { computed } from "vue";
 import numberFormatter from "@/helpers/numberFormatter.ts";
+import apiDataService from "@/services/apiDataService.ts";
 
 const store = cartStore();
 
@@ -41,6 +42,8 @@ const totalPrice = computed(() => {
   store.cartTotalPrice();
   return numberFormatter(store.state.totalPrice);
 });
+
+
 </script>
 
 <style lang="scss" scoped>

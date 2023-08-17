@@ -29,7 +29,9 @@
         <label class="form__label form__label--select">
           <select class="form__select" name="category">
             <option value="0">Все категории</option>
-            <option v-for="item of categories" :key="item.id" :value="item.id">{{ item.title }}</option>
+            <option v-for="item of categories" :key="item.id" :value="item.id">
+              {{ item.title }}
+            </option>
           </select>
         </label>
       </fieldset>
@@ -37,18 +39,10 @@
       <fieldset class="form__block">
         <legend class="form__legend">Коллекция</legend>
         <ul class="check-list">
-          <li class="check-list__item">
+          <li v-for="item of brands" :key="item.id" class="check-list__item">
             <label class="check-list__label">
               <input class="check-list__check sr-only" type="checkbox" />
-              <span class="check-list__desc"> название коллекции </span>
-            </label>
-            <label class="check-list__label">
-              <input class="check-list__check sr-only" type="checkbox" />
-              <span class="check-list__desc"> название коллекции </span>
-            </label>
-            <label class="check-list__label">
-              <input class="check-list__check sr-only" type="checkbox" />
-              <span class="check-list__desc"> название коллекции </span>
+              <span class="check-list__desc">{{ item.title }}</span>
             </label>
           </li>
         </ul>
@@ -60,19 +54,30 @@
 </template>
 
 <script setup lang="ts">
-
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 import apiDataService from "@/services/apiDataService.ts";
 import ResponseData from "@/types/ResponseData.ts";
 import Categories from "@/types/Categories.ts";
+import Brands from "@/types/Brands.ts";
 
-const categories = ref({} as Categories[])
+const categories = ref({} as Categories[]);
+const brands = ref({} as Brands[]);
 
 const loadCategories = () => {
-  apiDataService.getCategories().then((res: ResponseData) => categories.value = res.data)
-}
+  apiDataService
+    .getCategories()
+    .then((res: ResponseData) => (categories.value = res.data));
+};
+const loadBrands = () => {
+  apiDataService
+    .getBrands()
+    .then((res: ResponseData) => (brands.value = res.data));
+};
 
-onMounted(loadCategories)
+onMounted(() => {
+  loadCategories();
+  loadBrands();
+});
 </script>
 
 <style lang="scss" scoped>
@@ -190,6 +195,7 @@ onMounted(loadCategories)
     font-family: inherit;
     line-height: 1;
     outline: 1px solid $primary;
+    background-color: transparent;
   }
 }
 

@@ -79,7 +79,6 @@ const minus = (value: number) => {
   & button {
     display: flex;
     align-items: center;
-    background-color: #fff;
   }
 
   & button {
