@@ -99,8 +99,9 @@ router.route("/users/accessKey").get(async (request, response) => {
 /* Получение корзины */
 router.route("/baskets").get(async (request, response) => {
   sendResponse(response, () => {
+    const hostname = getRequestHostUrl(request);
     const { accessKey } = request.query;
-    return database.getCart(accessKey);
+    return database.getCart({ accessKey, hostname });
   });
 });
 
