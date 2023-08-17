@@ -243,15 +243,16 @@ FROM cart_items
     return await this.runQuery(sql);
   }
 
-  /**
-   * Добавляет продукт в корзину
-   * @param {*} param0
-   * @returns
-   */
   async addProductToCart({ cartId, productId, quantity }) {
     const sql = `INSERT INTO cart_items (cart_id, product_id, quantity) 
     VALUES ('${cartId}', '${productId}', '${quantity}') AS new
     ON DUPLICATE KEY UPDATE cart_items.quantity = cart_items.quantity + new.quantity;`;
+    return await this.runQuery(sql);
+  }
+
+  async setProductQuantity({ cartId, productId, quantity }) {
+    const sql = `UPDATE cart_items SET quantity = '${quantity}'
+    WHERE cart_id = '${cartId}' AND product_id = '${productId}'`;
     return await this.runQuery(sql);
   }
 }

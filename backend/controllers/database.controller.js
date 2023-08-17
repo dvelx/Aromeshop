@@ -112,4 +112,25 @@ router.route("/baskets").post((request, response) => {
     return database.addProductToCart({ cartId, productId, quantity });
   });
 });
+
+/* Изменение количества товара в корзине */
+router.route("/baskets").put((request, response) => {
+  const { cartId, productId, quantity } = request.body;
+  if (!cartId)
+    sendResponse(response, () => {
+      return { error: "cartId undefined" };
+    });
+  else if (!productId)
+    sendResponse(response, () => {
+      return { error: "productId undefined" };
+    });
+  else if (!quantity)
+    sendResponse(response, () => {
+      return { error: "quantity undefined" };
+    });
+  else
+    sendResponse(response, () => {
+      return database.setProductQuantity({ cartId, productId, quantity });
+    });
+});
 export default router;
