@@ -213,8 +213,8 @@ FROM cart_items
     let user;
     // accessKey не передан - создать нового пользователя
     if (!accessKey) {
-      console.log("user added!");
       user = await this.addUser();
+      console.log("user added!");
     }
     // Если передан
     else {
