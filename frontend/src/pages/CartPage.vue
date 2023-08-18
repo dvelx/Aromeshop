@@ -15,7 +15,7 @@
 
         <div class="cart__block">
           <p class="cart__price">
-            Итого: <span>{{ totalPrice }} ₽</span>
+            Итого: <span>{{ numberFormatter(totalPrice) }} ₽</span>
           </p>
 
           <a class="cart__button" type="submit"> Оформить заказ </a>
@@ -31,7 +31,6 @@ import CartItem from "@/components/CartItem.vue";
 import { cartStore } from "@/store/cartStore.ts";
 import { computed } from "vue";
 import numberFormatter from "@/helpers/numberFormatter.ts";
-import apiDataService from "@/services/apiDataService.ts";
 
 const store = cartStore();
 
@@ -39,11 +38,10 @@ const cartProducts = computed(() => {
   return store.state.cartProduct;
 });
 const totalPrice = computed(() => {
-  store.cartTotalPrice();
-  return numberFormatter(store.state.totalPrice);
+  return store.cartTotalPrice();
 });
 
-
+store.loadBasket();
 </script>
 
 <style lang="scss" scoped>

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import apiDataService from "@/services/apiDataService.ts";
 
 interface IItem {
@@ -7,47 +7,64 @@ interface IItem {
   quantity: number;
   id: number;
   title: string;
-  img: string;
+  image_url: string;
 }
 export const cartStore = defineStore("cartStore", () => {
   const state = ref({
     cartProduct: [] as IItem[],
     totalPrice: 0 as number,
     userAccessKey: null as string | null,
-    cartId: 0 as number
+    cartId: 0 as number,
   });
 
-  const addProductToCart = ( productId: number, amount: number) => {
-    return apiDataService.addProductToBasket(state.value.cartId, productId, amount)
+  const syncCart = computed(() => {
+    return state.value.cartProduct;
+  });
+
+  const updateUserAccessKey = (accessKey: string) => {
+    state.value.userAccessKey = accessKey;
+  };
+  const addProductToCart = (productId: number, amount: number) => {
+    apiDataService
+      .addProductToBasket(state.value.cartId, productId, amount)
+      .then(() => loadBasket());
   };
   const cartTotalPrice = () => {
-    state.value.totalPrice = state.value.cartProduct.reduce(
+    return syncCart.value.reduce(
       (acc, item) => item.price * item.quantity + acc,
       0,
     );
   };
-  const deleteProduct = (productId: number) => {
-    state.value.cartProduct = state.value.cartProduct.filter(
-      (item) => item.id !== productId,
+  const updateCartProductQuantity = (productId: number, amount: number) => {
+    const item = syncCart.value.find((item) => item.id === productId);
+    if (item) {
+      item.quantity = amount;
+    }
+
+    if (amount < 1) {
+      return;
+    }
+    return apiDataService.changeProductQuantity(
+      state.value.cartId,
+      productId,
+      amount,
     );
   };
-  
-  const updateUserAccessKey = (accessKey: string) => {
-    state.value.userAccessKey = accessKey
-  }
-  
-  const loadBasket = () => {
+  const deleteProduct = (productId: number) => {
     apiDataService
-      .getBasket()
-      .then(res => {
-        if (!state.value.userAccessKey) {
-          localStorage.setItem('userAccessKeyAroma', res.data.user.accessKey)
-          updateUserAccessKey(res.data.user.accessKey)
-        }
-        state.value.cartId = res.data.id
-        state.value.cartProduct = res.data.items
-      })
-  }
+      .deleteProduct(state.value.cartId, productId)
+      .then(() => loadBasket());
+  };
+  const loadBasket = () => {
+    apiDataService.getBasket().then((res) => {
+      if (!state.value.userAccessKey) {
+        localStorage.setItem("userAccessKeyAroma", res.data.user.accessKey);
+        updateUserAccessKey(res.data.user.accessKey);
+      }
+      state.value.cartId = res.data.id;
+      state.value.cartProduct = res.data.items;
+    });
+  };
 
   return {
     state,
@@ -55,6 +72,7 @@ export const cartStore = defineStore("cartStore", () => {
     cartTotalPrice,
     deleteProduct,
     updateUserAccessKey,
-    loadBasket
+    loadBasket,
+    updateCartProductQuantity,
   };
 });

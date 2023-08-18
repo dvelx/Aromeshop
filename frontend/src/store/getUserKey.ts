@@ -9,10 +9,12 @@ export const getUserKey = defineStore("userAccessKey", () => {
   });
 
   const getKey = () => {
-    apiDataService.getUserAccessKey().then((res: ResponseData) => state.value.userAccessKey = res.data)
-  }
+    apiDataService
+      .getUserAccessKey()
+      .then((res: ResponseData) => (state.value.userAccessKey = res.data));
+  };
   return {
     state,
     getKey,
   };
-})
+});

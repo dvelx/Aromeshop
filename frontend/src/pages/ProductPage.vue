@@ -31,10 +31,7 @@
       <p class="product-page__description">{{ product.description }}</p>
       <div class="product-page__btn-block">
         <BaseCounter v-model:amount="productAmount" />
-        <button
-          class="product-page__btn-add"
-          @click="addCart()"
-        >
+        <button class="product-page__btn-add" @click="addCart()">
           Добавить в корзину
         </button>
       </div>
