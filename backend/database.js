@@ -46,7 +46,13 @@ export default class Database {
     return await this.runQuery(sql);
   }
   async getBrands() {
-    const sql = `SELECT * FROM ${this.db_name}.brands;`;
+    const sql = `SELECT
+    brands.*,
+    COUNT(products.brand_id) AS productsCount
+FROM
+    shop_data.brands
+LEFT JOIN products ON products.brand_id = brands.id
+GROUP BY brands.id`;
     return await this.runQuery(sql);
   }
   async addCategory({ title, slug, image }) {
