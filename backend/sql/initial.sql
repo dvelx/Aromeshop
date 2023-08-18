@@ -339,21 +339,305 @@ VALUES
   );
 
 INSERT INTO
-  users ()
+  products(
+    `category_id`,
+    `brand_id`,
+    `title`,
+    `description`,
+    `image`,
+    `price`
+  )
 VALUES
-  ();
+  (
+    '1',
+    '2',
+    'Аромадиффузор QUEEN №1 500 мл',
+    'Аромат №1: МАНДАРИН-ЖАСМИН-МУСКУС\nРоскошный парфюмерный артефакт для вашего интерьера. Изысканный дизайн и искрящийся цитрусовой свежестью аромат с солнечным настроением.',
+    'img/imgonline-com-ua-Resize-3ovtWuLDXTo9VFS8.png',
+    '7500.00'
+  );
 
 INSERT INTO
-  users ()
+  products(
+    `category_id`,
+    `brand_id`,
+    `title`,
+    `description`,
+    `image`,
+    `price`
+  )
 VALUES
-  ();
+  (
+    '1',
+    '2',
+    'Аромадиффузор QUEEN №2 500 мл',
+    'Аромат №2: ФЛЕРДОРАНЖ-РОЗА-САНДАЛ\nРоскошный парфюмерный артефакт для вашего интерьера. Изысканный дизайн и чувственный аромат, объединяющий мягкую сладость цветочных аккордов и благородное древесное тепло.',
+    'img/imgonline-com-ua-Resize-o4LcMkDa2PQe.png',
+    '7500.00'
+  );
 
 INSERT INTO
-  users ()
+  products(
+    `category_id`,
+    `brand_id`,
+    `title`,
+    `description`,
+    `image`,
+    `price`
+  )
 VALUES
-  ();
+  (
+    '1',
+    '2',
+    'Аромадиффузор QUEEN №3 500 мл',
+    'Аромат №3: ЧАЙ МАТЧА - БЛАГОВОНИЯ - ПАЧУЛИ\nРоскошный парфюмерный артефакт для вашего интерьера. Изысканный дизайн и утонченный медитативный аромат чая, пачули и благовоний.',
+    'img/imgonline-com-ua-Resize-3ovtWuLDXTo9VFS8.png',
+    '7500.00'
+  );
 
 INSERT INTO
-  users ()
+  products(
+    `category_id`,
+    `brand_id`,
+    `title`,
+    `description`,
+    `image`,
+    `price`
+  )
 VALUES
-  ();
+  (
+    '1',
+    '2',
+    'Аромадиффузор QUEEN №4 500 мл',
+    'Аромат №4: ПАЛО САНТО - ЛАБДАНУМ - КЕДР\nРоскошный парфюмерный артефакт для вашего интерьера. Изысканный дизайн и утонченная парфюмерная композиция с богатой палитрой древесных аккордов от свежих воздушных до пряных, смолистых и дымных',
+    'img/imgonline-com-ua-Resize-LdFFBOtM6NWDMKy.png',
+    '7500.00'
+  );
+
+INSERT INTO
+  products(
+    `category_id`,
+    `brand_id`,
+    `title`,
+    `description`,
+    `image`,
+    `price`
+  )
+VALUES
+  (
+    '1',
+    '2',
+    'Аромадиффузор QUEEN №5 500 мл',
+    'Аромат №5: БЕРГАМОТ - ЛИСТЬЯ ИНЖИРА - БОБЫ ТОНКА\nРоскошный парфюмерный артефакт для вашего интерьера. Изысканный дизайн и невероятно жизнерадостный и позитивный цитрусово-гурманский аромат',
+    'img/imgonline-com-ua-Resize-HzuutgmTzOer8.png',
+    '7500.00'
+  );
+
+INSERT INTO
+  products(
+    `category_id`,
+    `brand_id`,
+    `title`,
+    `description`,
+    `image`,
+    `price`
+  )
+VALUES
+  (
+    '1',
+    '2',
+    'Аромадиффузор QUEEN №6 500 мл',
+    'Аромат №6: ЦИТРУСОВЫЕ ЦУКАТЫ-УД-ЧЕРНАЯ АМБРА\nРоскошный парфюмерный артефакт для вашего интерьера. Изысканный дизайн и роскошный ориентальный аромат, создающий в пространстве атмосферу не праздника, но торжества',
+    'img/imgonline-com-ua-Resize-dvS244LZnVk.png',
+    '7500.00'
+  );
+
+INSERT INTO
+  products(
+    `category_id`,
+    `brand_id`,
+    `title`,
+    `description`,
+    `image`,
+    `price`
+  )
+VALUES
+  (
+    '2',
+    '2',
+    'NIKI PEPPER MINT',
+    'Дизайнерский ароматизатор для автомобиля NIKI PEPPER MINT | ПЕРЕЧНАЯ МЯТА красный металлик',
+    'img/imgonline-com-ua-Resize-aiBVrqAV6fEe.png',
+    '1890.00'
+  );
+
+INSERT INTO
+  products(
+    `category_id`,
+    `brand_id`,
+    `title`,
+    `description`,
+    `image`,
+    `price`
+  )
+VALUES
+  (
+    '2',
+    '2',
+    'NIKI FRESH AIR',
+    'Парфюмированный аксессуар для авто с уникальным дизайном от маэстро итальянского стиля Лука Трацци и роскошным ароматом от парфюмеров легендарного французского концерна MANE.',
+    'img/imgonline-com-ua-Resize-DsnX6fgqmODpie.png',
+    '1890.00'
+  );
+
+INSERT INTO
+  products(
+    `category_id`,
+    `brand_id`,
+    `title`,
+    `description`,
+    `image`,
+    `price`
+  )
+VALUES
+  (
+    '2',
+    '2',
+    'NIKI EQUILIBRIUM',
+    'Парфюмированный аксессуар для авто с уникальным дизайном от маэстро итальянского стиля Лука Трацци и роскошным ароматом от парфюмеров легендарного французского концерна MANE.',
+    'img/imgonline-com-ua-Resize-kJ7PbMQnFiqp.png',
+    '1890.00'
+  );
+
+INSERT INTO
+  products(
+    `category_id`,
+    `brand_id`,
+    `title`,
+    `description`,
+    `image`,
+    `price`
+  )
+VALUES
+  (
+    '2',
+    '2',
+    'NIKI BLACK ORCHID',
+    'Парфюмированный аксессуар для авто с уникальным дизайном от маэстро итальянского стиля Лука Трацци и роскошным ароматом от парфюмеров легендарного французского концерна MANE.',
+    'img/imgonline-com-ua-Resize-W3tb2R0BGG4hTXu.png',
+    '1890.00'
+  );
+
+INSERT INTO
+  products(
+    `category_id`,
+    `brand_id`,
+    `title`,
+    `description`,
+    `image`,
+    `price`
+  )
+VALUES
+  (
+    '2',
+    '2',
+    'NIKI BERRIES',
+    'Парфюмированный аксессуар для авто с уникальным дизайном от маэстро итальянского стиля Лука Трацци и роскошным ароматом от парфюмеров легендарного французского концерна MANE.',
+    'img/imgonline-com-ua-Resize-HoJxR2m5cdK.png',
+    '1890.00'
+  );
+
+INSERT INTO
+  products(
+    `category_id`,
+    `brand_id`,
+    `title`,
+    `description`,
+    `image`,
+    `price`
+  )
+VALUES
+  (
+    '2',
+    '2',
+    'NIKI CITRUS & MUSK',
+    'Парфюмированный аксессуар для авто с уникальным дизайном от маэстро итальянского стиля Лука Трацци и роскошным ароматом от парфюмеров легендарного французского концерна MANE.',
+    'img/imgonline-com-ua-Resize-IzGxiGGNNhUGwm.png',
+    '1890.00'
+  );
+
+INSERT INTO
+  products(
+    `category_id`,
+    `brand_id`,
+    `title`,
+    `description`,
+    `image`,
+    `price`
+  )
+VALUES
+  (
+    '2',
+    '2',
+    'NIKI SPICY CITRUS',
+    'Парфюмированный аксессуар для авто с уникальным дизайном от маэстро итальянского стиля Лука Трацци и роскошным ароматом от парфюмеров легендарного французского концерна MANE.',
+    'img/imgonline-com-ua-Resize-yo5O9i9qgWuV8UH.png',
+    '1890.00'
+  );
+
+INSERT INTO
+  products(
+    `category_id`,
+    `brand_id`,
+    `title`,
+    `description`,
+    `image`,
+    `price`
+  )
+VALUES
+  (
+    '2',
+    '2',
+    'NIKI PEACH & ROSE',
+    'Парфюмированный аксессуар для авто с уникальным дизайном от маэстро итальянского стиля Лука Трацци и роскошным ароматом от парфюмеров легендарного французского концерна MANE.',
+    'img/imgonline-com-ua-Resize-8hyfJTKToz.png',
+    '1890.00'
+  );
+
+INSERT INTO
+  products(
+    `category_id`,
+    `brand_id`,
+    `title`,
+    `description`,
+    `image`,
+    `price`
+  )
+VALUES
+  (
+    '2',
+    '2',
+    'NIKI RED FRUITS',
+    'Парфюмированный аксессуар для авто с уникальным дизайном от маэстро итальянского стиля Лука Трацци и роскошным ароматом от парфюмеров легендарного французского концерна MANE.',
+    'img/imgonline-com-ua-Resize-pRW31vB8cHcL.png',
+    '1890.00'
+  );
+
+INSERT INTO
+  products(
+    `category_id`,
+    `brand_id`,
+    `title`,
+    `description`,
+    `image`,
+    `price`
+  )
+VALUES
+  (
+    '2',
+    '2',
+    'NIKI CHERRY BLOSSOM',
+    'Парфюмированный аксессуар для авто с уникальным дизайном от маэстро итальянского стиля Лука Трацци и роскошным ароматом от парфюмеров легендарного французского концерна MANE.',
+    'img/imgonline-com-ua-Resize-EAAhnM4b7jr5c0lg.png',
+    '1890.00'
+  );
