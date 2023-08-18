@@ -22,7 +22,7 @@
             <p class="card__text">
               {{ item.brand_title }}
             </p>
-            <button class="card__btn btn">
+            <button class="card__btn btn" @click="addCart(item.id, 1)">
               В КОРЗИНУ
 
               <svg
@@ -68,6 +68,9 @@ import apiDataService from "@/services/apiDataService.ts";
 import ResponseData from "@/types/ResponseData.ts";
 import Products from "@/types/Products.ts";
 import numberFormatter from "@/helpers/numberFormatter.ts";
+import {cartStore} from "@/store/cartStore.ts";
+
+const store = cartStore()
 
 const products = ref({} as Products[]);
 
@@ -75,6 +78,10 @@ const loadProducts = () => {
   apiDataService
     .getAll()
     .then((res: ResponseData) => (products.value = res.data));
+};
+
+const addCart = (id: number, quantity: number) => {
+  store.addProductToCart(id, quantity);
 };
 
 loadProducts();
@@ -128,7 +135,8 @@ loadProducts();
 
   &__image {
     margin-bottom: 24px;
-    height: 300px;
+    max-height: 300px;
+    object-fit: contain;
   }
 
   &__desc {

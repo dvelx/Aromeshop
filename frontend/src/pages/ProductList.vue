@@ -102,6 +102,8 @@ onMounted(loadProducts);
   background-color: transparent;
 
   &__image {
+    max-height: 200px;
+    object-fit: contain;
     margin-bottom: 24px;
   }
 
