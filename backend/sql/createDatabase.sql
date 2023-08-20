@@ -30,12 +30,36 @@ CREATE TABLE products (
   `category_id` int NOT NULL,
   `brand_id` int NOT NULL,
   `title` varchar(255) CHARSET utf8 UNIQUE NOT NULL,
+  `slug` varchar(290) CHARSET utf8 UNIQUE NOT NULL,
   `image` varchar(2048) DEFAULT NULL,
   `description` varchar(2048) CHARSET utf8 DEFAULT NULL,
   `price` decimal(10, 2) DEFAULT NULL,
   FOREIGN KEY (`category_id`) REFERENCES categories (`id`) ON DELETE RESTRICT,
   FOREIGN KEY (`brand_id`) REFERENCES brands (`id`) ON DELETE RESTRICT
 );
+
+-- создание функции для генерации SLUG
+SET
+  GLOBAL log_bin_trust_function_creators = 1;
+
+CREATE FUNCTION NAME_SLUG(name VARCHAR(128)) RETURNS VARCHAR(128) RETURN LOWER(REPLACE(name, ' ', '-'));
+
+CREATE TRIGGER tg_products_insert BEFORE
+INSERT
+  ON products FOR EACH ROW BEGIN DECLARE product_id INT DEFAULT 0;
+
+SELECT
+  AUTO_INCREMENT INTO product_id
+FROM
+  information_schema.tables
+WHERE
+  table_name = 'products'
+  AND table_schema = DATABASE();
+
+SET
+  NEW.slug = CONCAT(NAME_SLUG(NEW.title), '-', product_id);
+
+END;
 
 -- создание таблицы обратной связи
 CREATE TABLE feedback (
