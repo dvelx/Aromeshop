@@ -41,20 +41,26 @@ export default class Database {
     });
   }
 
+  /** Получает список категорий с БД
+   * @returns
+   */
   async getCategories() {
     const sql = `SELECT * FROM ${this.db_name}.categories;`;
     return await this.runQuery(sql);
   }
+
+  /** Получает список производителей с БД
+   * @returns
+   */
   async getBrands() {
-    const sql = `SELECT
-    brands.*,
+    const sql = `SELECT brands.*,
     COUNT(products.brand_id) AS productsCount
-FROM
-    shop_data.brands
+FROM shop_data.brands
 LEFT JOIN products ON products.brand_id = brands.id
 GROUP BY brands.id`;
     return await this.runQuery(sql);
   }
+
   async addCategory({ title, slug, image }) {
     try {
       const sql = `INSERT INTO ${this.db_name}.categories (title, slug, image) VALUES(?, ?, ?);`;
@@ -198,8 +204,7 @@ GROUP BY brands.id`;
     ) as product
 FROM
 ${this.db_name}.products_view
-WHERE
-    id = '${id}'`; //`SELECT *, CONCAT('${hostname}', image) as image_url FROM ${this.db_name}.products_view WHERE id='${id}';`;
+WHERE id = '${id}'`; //`SELECT *, CONCAT('${hostname}', image) as image_url FROM ${this.db_name}.products_view WHERE id='${id}';`;
     return await this.runQuery(sql);
   }
 

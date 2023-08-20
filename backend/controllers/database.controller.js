@@ -56,9 +56,9 @@ router.route("/products").get((request, response) => {
 });
 
 /* Получение товара по id */
-router.route("/product").get((request, response) => {
+router.route("/product/:id").get((request, response) => {
   const hostname = getRequestHostUrl(request);
-  const productId = request.query.id;
+  const productId = request.params.id;
 
   sendResponse(response, () => {
     return database.getProductById(productId, hostname);
