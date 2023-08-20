@@ -42,3 +42,5 @@
 #### POST /api/baskets
 #### PUT /api/baskets
 #### DELETE /api/baskets
+
+## Оформление заказа

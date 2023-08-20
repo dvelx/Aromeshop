@@ -160,9 +160,19 @@ GROUP BY brands.id`;
     const sql = `SELECT * FROM ${this.db_name}.users WHERE access_key = '${uid}';`;
     return (await this.runQuery(sql))[0];
   }
-  async getProducts(hostname) {
-    const sql = `SELECT *, CONCAT('${hostname}', image) as image_url FROM ${this.db_name}.products_view;`;
-    return await this.runQuery(sql);
+  async getProducts(hostname, { limit, page }) {
+    let sql = `SELECT *, CONCAT('${hostname}', image) as image_url 
+    FROM ${this.db_name}.products_view 
+    ORDER BY id ASC`;
+
+    if (page && limit) {
+      sql += ` LIMIT ${page * limit}, ${limit}`;
+    } else if (limit) sql += ` LIMIT ${limit}`;
+
+    const products = await this.runQuery(sql);
+    sql = `SELECT COUNT(*) AS count FROM ${this.db_name}.products`;
+    const [{ count }] = await this.runQuery(sql);
+    return { products, pagination: { page: +page, limit: +limit, count } };
   }
 
   async getProductById(id, hostname) {

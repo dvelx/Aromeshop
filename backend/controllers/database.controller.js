@@ -49,9 +49,9 @@ router.route("/brands").get((request, response) => {
 /* Получение списка товаров */
 router.route("/products").get((request, response) => {
   const hostname = getRequestHostUrl(request);
-
+  const { limit, page } = request.query;
   sendResponse(response, () => {
-    return database.getProducts(hostname);
+    return database.getProducts(hostname, { limit, page });
   });
 });
 
