@@ -77,7 +77,7 @@ const products = ref({} as Products[]);
 const loadProducts = () => {
   apiDataService
     .getAll()
-    .then((res: ResponseData) => (products.value = res.data));
+    .then((res: ResponseData) => (products.value = res.data.products));
 };
 
 const addCart = (id: number, quantity: number) => {

@@ -4,11 +4,11 @@
 
     <div class="product-list__list">
       <div v-for="item of products" :key="item.id" class="card">
-        <router-link :to="{ path: '/product', query: { id: item.id } }">
+        <router-link :to="{ name: '/product/:id', params: { id: item.id } }">
           <img :src="item.image_url" alt="" class="card__image" />
         </router-link>
         <div class="card__desc">
-          <h5 class="card__title">
+          <h5 class="card__title" @click="console.log(item.id)">
             {{ item.title }}
           </h5>
           <p class="card__price">{{ numberFormatter(item.price) }} ₽</p>
@@ -51,7 +51,7 @@
 
 <script setup lang="ts">
 import FilteredProducts from "../components/FilteredProducts.vue";
-import { onMounted, ref } from "vue";
+import {computed, onMounted, ref} from "vue";
 import apiDataService from "@/services/apiDataService.ts";
 import ResponseData from "@/types/ResponseData.ts";
 import Products from "@/types/Products.ts";
@@ -60,12 +60,16 @@ import { cartStore } from "@/store/cartStore.ts";
 
 const store = cartStore();
 
-const products = ref({} as Products[]);
+const productsData = ref({} as Products);
+
+const products = computed(() => {
+  return productsData.value.products
+})
 
 const loadProducts = () => {
   apiDataService
     .getAll()
-    .then((res: ResponseData) => (products.value = res.data));
+    .then((res: ResponseData) => (productsData.value = res.data));
 };
 
 const addCart = (id: number, quantity: number) => {
@@ -98,13 +102,18 @@ onMounted(loadProducts);
   flex-direction: column;
   width: 300px;
   margin-bottom: 30px;
-  padding: 30px;
-  background-color: transparent;
+  padding-bottom: 30px;
+  padding-top: 10px;
+  border: 2px solid $white;
+  border-radius: 20px;
+  background-color: $white;
 
   &__image {
     max-height: 200px;
     object-fit: contain;
     margin-bottom: 24px;
+    border-radius: 20px;
+    background-color: $white;
   }
 
   &__desc {
@@ -113,6 +122,7 @@ onMounted(loadProducts);
     justify-content: space-between;
     align-items: center;
     padding-left: 20px;
+    padding-right: 20px;
   }
 
   &__title {
@@ -129,9 +139,12 @@ onMounted(loadProducts);
   &__btn {
     display: flex;
     flex-direction: row;
+    width: 80%;
     justify-content: center;
     padding: 10px 12px;
     margin-top: auto;
+    margin-left: auto;
+    margin-right: auto;
     align-items: center;
     border: 1px solid $primary;
     border-radius: 100px;

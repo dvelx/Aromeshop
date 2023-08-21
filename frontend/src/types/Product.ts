@@ -1,10 +1,4 @@
-export default interface Products {
-  pagination: {
-    page: number | null,
-    limit: number | null,
-    count: number | null
-  },
-  products: {
+export default interface Product {
     brand_id: number;
     brand_title: string;
     category_id: number;
@@ -14,5 +8,4 @@ export default interface Products {
     image_url: string;
     price: number;
     title: string;
-  }
 } 

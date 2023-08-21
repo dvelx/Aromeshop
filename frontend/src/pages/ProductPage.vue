@@ -63,17 +63,18 @@ import BaseCounter from "@/components/BaseCounter.vue";
 import { cartStore } from "@/store/cartStore.ts";
 import apiDataService from "@/services/apiDataService.ts";
 import ResponseData from "@/types/ResponseData.ts";
-import Products from "@/types/Products.ts";
+import Product from "@/types/Product.ts";
 import numberFormatter from "@/helpers/numberFormatter.ts";
 
 const route = useRoute();
 const store = cartStore();
 
-const product = ref({} as Products);
+const product = ref({} as Product);
 const productAmount = ref<number>(1);
 const productId = computed(() => {
-  return Number(route.query.id);
+  return Number(route.params.id);
 });
+console.log(productId.value)
 const addCart = () => {
   store.addProductToCart(productId.value, productAmount.value);
 };

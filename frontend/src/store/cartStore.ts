@@ -63,6 +63,8 @@ export const cartStore = defineStore("cartStore", () => {
       }
       state.value.cartId = res.data.id;
       state.value.cartProduct = res.data.items;
+    }, (err) => {
+      console.log(err.response.data)
     });
   };
 

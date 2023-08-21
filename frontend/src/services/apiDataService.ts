@@ -1,12 +1,14 @@
 import { api } from "@/http/api.ts";
 
+const accessKey = localStorage.getItem("userAccessKeyAroma");
+
 class productDataService {
   getAll(): Promise<any> {
-    return api.get("products");
+    return api.get("/products");
   }
 
   getById(id: number): Promise<any> {
-    return api.get(`/product/?id=${id}`);
+    return api.get(`/product/${id}`);
   }
 
   getUserAccessKey(): Promise<any> {
@@ -22,7 +24,11 @@ class productDataService {
   }
 
   getBasket(): Promise<any> {
-    return api.get("/baskets");
+    return api.get("/baskets", {
+      params: {
+        accessKey: accessKey,
+      }
+    });
   }
   addProductToBasket(
     cartId: number,
