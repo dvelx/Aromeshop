@@ -195,6 +195,8 @@ GROUP BY brands.id`;
         brand_title,
         'title',
         title,
+        'slug',
+        slug,
         'price',
         price,
         'description',
@@ -204,7 +206,7 @@ GROUP BY brands.id`;
     ) as product
 FROM
 ${this.db_name}.products_view
-WHERE id = '${id}'`; //`SELECT *, CONCAT('${hostname}', image) as image_url FROM ${this.db_name}.products_view WHERE id='${id}';`;
+WHERE id = '${id}' OR slug = '${id}'`; //`SELECT *, CONCAT('${hostname}', image) as image_url FROM ${this.db_name}.products_view WHERE id='${id}';`;
     return await this.runQuery(sql);
   }
 

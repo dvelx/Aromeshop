@@ -59,7 +59,7 @@ router.route("/products").get((request, response) => {
 router.route("/product/:id").get((request, response) => {
   const hostname = getRequestHostUrl(request);
   const productId = request.params.id;
-
+  console.log("id: ", productId);
   sendResponse(response, () => {
     return database.getProductById(productId, hostname);
   });
