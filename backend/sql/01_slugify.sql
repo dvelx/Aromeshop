@@ -2,6 +2,8 @@
 
 DELIMITER;
 
+;
+
 CREATE FUNCTION `SLUGIFY`(dirty_string VARCHAR(255)) RETURNS VARCHAR(255) DETERMINISTIC BEGIN DECLARE allowed_chars,
 new_string VARCHAR(255);
 
@@ -127,7 +129,5 @@ END WHILE;
 RETURN new_string;
 
 END;
-
-;
 
 DELIMITER;

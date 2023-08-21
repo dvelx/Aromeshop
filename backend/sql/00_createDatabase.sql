@@ -9,7 +9,7 @@ USE `shop_data`;
 -- создание таблицы категорий
 CREATE TABLE categories (
   `id` INT AUTO_INCREMENT,
-  `title` VARCHAR(255) CHARSET utf8 UNIQUE NOT NULL,
+  `title` VARCHAR(255) CHARSET utf8mb4 UNIQUE NOT NULL,
   `slug` VARCHAR(255) UNIQUE NOT NULL,
   `image` VARCHAR(2048) DEFAULT NULL,
   PRIMARY KEY (id)
@@ -18,7 +18,7 @@ CREATE TABLE categories (
 -- создание таблицы производителей
 CREATE TABLE brands (
   `id` INT AUTO_INCREMENT,
-  `title` VARCHAR(255) CHARSET utf8 UNIQUE NOT NULL,
+  `title` VARCHAR(255) CHARSET utf8mb4 UNIQUE NOT NULL,
   `slug` VARCHAR(255) UNIQUE NOT NULL,
   `image` VARCHAR(2048) DEFAULT NULL,
   PRIMARY KEY (id)
@@ -29,10 +29,10 @@ CREATE TABLE products (
   `id` int AUTO_INCREMENT PRIMARY KEY,
   `category_id` int NOT NULL,
   `brand_id` int NOT NULL,
-  `title` varchar(255) CHARSET utf8 UNIQUE NOT NULL,
-  `slug` varchar(290) CHARSET utf8 UNIQUE NOT NULL,
+  `title` varchar(255) CHARSET utf8mb4 UNIQUE NOT NULL,
+  `slug` varchar(290) CHARSET utf8mb4 UNIQUE NOT NULL,
   `image` varchar(2048) DEFAULT NULL,
-  `description` varchar(2048) CHARSET utf8 DEFAULT NULL,
+  `description` varchar(2048) CHARSET utf8mb4 DEFAULT NULL,
   `price` decimal(10, 2) DEFAULT NULL,
   FOREIGN KEY (`category_id`) REFERENCES categories (`id`) ON DELETE RESTRICT,
   FOREIGN KEY (`brand_id`) REFERENCES brands (`id`) ON DELETE RESTRICT
@@ -42,11 +42,13 @@ CREATE TABLE products (
 SET
   GLOBAL log_bin_trust_function_creators = 1;
 
-CREATE FUNCTION NAME_SLUG(name VARCHAR(128)) RETURNS VARCHAR(128) RETURN LOWER(REPLACE(name, ' ', '-'));
+DELIMITER;
 
-CREATE TRIGGER tg_products_insert BEFORE
+;
+
+CREATE TRIGGER TG_PRODUCTS_INSERT BEFORE
 INSERT
-  ON products FOR EACH ROW BEGIN DECLARE product_id INT DEFAULT 0;
+  ON products FOR EACH ROW BEGIN DECLARE product_id INT DEFAULT '0';
 
 SELECT
   AUTO_INCREMENT INTO product_id
@@ -61,12 +63,16 @@ SET
 
 END;
 
+;
+
+DELIMITER;
+
 -- создание таблицы обратной связи
 CREATE TABLE feedback (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `subject` VARCHAR(500) CHARSET utf8 DEFAULT NULL,
+  `subject` VARCHAR(500) CHARSET utf8mb4 DEFAULT NULL,
   `message` VARCHAR(2000) NOT NULL,
-  `name` VARCHAR(150) CHARSET utf8 NOT NULL,
+  `name` VARCHAR(150) CHARSET utf8mb4 NOT NULL,
   `phone` VARCHAR(20) NOT NULL,
   `email` VARCHAR(150) NOT NULL,
   `received_date` timestamp DEFAULT CURRENT_TIMESTAMP
@@ -86,7 +92,7 @@ CREATE TABLE users (
   `access_key` VARCHAR(36) UNIQUE NOT NULL
 );
 
--- создание триггера для генерации UID пользователя 
+-- создание триггера для генерации UID пользователя
 CREATE TRIGGER before_insert_users BEFORE
 INSERT
   ON users FOR EACH ROW
