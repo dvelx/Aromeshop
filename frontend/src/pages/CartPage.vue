@@ -41,7 +41,7 @@ const totalPrice = computed(() => {
   return store.cartTotalPrice();
 });
 
-store.loadBasket();
+store.loadBasket(store.state.userAccessKey);
 </script>
 
 <style lang="scss" scoped>

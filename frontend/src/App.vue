@@ -19,6 +19,6 @@ if (userAccessKey) {
   store.updateUserAccessKey(userAccessKey);
 }
 
-store.loadBasket();
+store.loadBasket(userAccessKey);
 </script>
 <style lang="scss" scoped></style>
