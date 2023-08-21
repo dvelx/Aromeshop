@@ -57,7 +57,7 @@ WHERE
   AND table_schema = DATABASE();
 
 SET
-  NEW.slug = CONCAT(NAME_SLUG(NEW.title), '-', product_id);
+  NEW.slug = CONCAT(SLUGIFY(NEW.title), '-', product_id);
 
 END;
 
