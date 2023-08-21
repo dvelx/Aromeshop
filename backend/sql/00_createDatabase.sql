@@ -38,7 +38,7 @@ CREATE TABLE
         `category_id` int NOT NULL,
         `brand_id` int NOT NULL,
         `title` varchar(255) CHARSET utf8mb4 UNIQUE NOT NULL,
-        `slug` varchar(290) CHARSET utf8mb4 UNIQUE NOT NULL,
+        `slug` varchar(290) UNIQUE,
         `image` varchar(2048) DEFAULT NULL,
         `description` varchar(2048) CHARSET utf8mb4 DEFAULT NULL,
         `price` decimal(10, 2) DEFAULT NULL,
@@ -52,9 +52,11 @@ SET GLOBAL log_bin_trust_function_creators = 1;
 
 DELIMITER ;;
 
-CREATE TRIGGER TG_PRODUCTS_INSERT BEFORE INSERT ON 
-PRODUCTS FOR EACH ROW BEGIN DECLARE 
-	DECLARE DECLARE product_id INT DEFAULT '0';
+CREATE TRIGGER TG_PRODUCTS_INSERT
+BEFORE INSERT ON products 
+FOR EACH ROW
+BEGIN 
+DECLARE product_id INT DEFAULT '0';
 	SELECT
 	    AUTO_INCREMENT INTO product_id
 	FROM
@@ -63,10 +65,7 @@ PRODUCTS FOR EACH ROW BEGIN DECLARE
 	    table_name = 'products'
 	    AND table_schema = DATABASE ();
 	SET NEW.slug = CONCAT (SLUGIFY (NEW.title), '-', product_id);
-	END;
-
-
-;
+	END;;
 
 DELIMITER ;
 
