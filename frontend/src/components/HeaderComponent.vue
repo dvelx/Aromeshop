@@ -126,7 +126,7 @@ const toggle = ref(false);
 
 
 const cartProductsAmount = computed(() => {
-  return store.state.cartProduct.length || 0
+  return store.state.cartProduct.reduce((acc, item) => item.quantity + acc, 0) || 0
 })
 const isOpenBurgerMenu = () => {
   toggle.value = !toggle.value;
