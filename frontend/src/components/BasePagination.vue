@@ -30,14 +30,14 @@ const pages = computed(() => {
   return Math.ceil(Number(props.count) / Number(props.perPage))
 })
 
-const paginate = (page: number) => {
-  emits('update:page', page)
+const paginate = (value: number) => {
+  emits('update:page', value)
 }
-const prevPage = (page: number) => {
-  emits('update:page', page - 1)
+const prevPage = (value: number) => {
+  emits('update:page', value - 1)
 }
-const nextPage = (page: number) => {
-  emits('update:page', page + 1)
+const nextPage = (value: number) => {
+  emits('update:page', value + 1)
 }
 </script>
 

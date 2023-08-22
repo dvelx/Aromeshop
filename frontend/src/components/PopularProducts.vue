@@ -4,7 +4,6 @@
     <h3 class="title-cta">Купи наши популярные свечи</h3>
     <swiper
       :modules="[Pagination, Autoplay]"
-      :autoplay="{ delay: 6000 }"
       :slides-per-view="4"
       :space-between="50"
       :pagination="{ clickable: true }"
@@ -59,25 +58,31 @@
 </template>
 
 <script setup lang="ts">
+
+// :autoplay="{ delay: 1000 }"
 import { Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/pagination";
-import { ref } from "vue";
+import {computed, ref} from "vue";
 import apiDataService from "@/services/apiDataService.ts";
 import ResponseData from "@/types/ResponseData.ts";
 import Products from "@/types/Products.ts";
 import numberFormatter from "@/helpers/numberFormatter.ts";
 import { cartStore } from "@/store/cartStore.ts";
+import Product from "@/types/Product.ts";
 
 const store = cartStore();
 
-const products = ref({} as Products[]);
+const productsData = ref({} as Products);
 
+const products = computed<Product[]>(() => {
+  return productsData.value.products;
+});
 const loadProducts = () => {
   apiDataService
     .getAll()
-    .then((res: ResponseData) => (products.value = res.data.products));
+    .then((res: ResponseData) => (productsData.value = res.data));
 };
 
 const addCart = (id: number, quantity: number) => {

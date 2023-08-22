@@ -47,7 +47,7 @@
               </button>
           </div>
       </div>
-      <BasePagination :per-page="limit" :count="Number(countProducts.count)" :page="page" />
+      <BasePagination v-model:page="page" :per-page="limit" :count="Number(countProducts.count)" />
         
     </div>
     
@@ -68,7 +68,7 @@ import BasePagination from "@/components/BasePagination.vue";
 const store = cartStore();
 
 const productsData = ref({} as Products);
-const page = ref(1 as number);
+const page = ref(0);
 const limit = ref(8)
 
 const products = computed<Product[]>(() => {
