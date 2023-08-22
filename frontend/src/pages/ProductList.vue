@@ -3,13 +3,17 @@
     <FilteredProducts />
 
     <div class="product-list__content">
+      <div v-if="loader" class="lds-ripple">
+          <div></div>
+          <div></div>
+      </div>
       <div class="product-list__list">
           <div v-for="item in products" :key="item.id" class="card">
               <router-link :to="'/product/' + item.slug">
                   <img :src="item.image_url" alt="" class="card__image" />
               </router-link>
               <div class="card__desc">
-                  <h5 class="card__title" @click="console.log(productsData)">
+                  <h5 class="card__title">
                       {{ item.title }}
                   </h5>
                   <p class="card__price">{{ numberFormatter(item.price) }} ₽</p>
@@ -67,6 +71,7 @@ import BasePagination from "@/components/BasePagination.vue";
 
 const store = cartStore();
 
+const loader = ref(false)
 const productsData = ref({} as Products);
 const page = ref(0);
 const limit = ref(8)
@@ -79,9 +84,11 @@ const countProducts = computed(() => {
 })
 
 const loadProducts = () => {
+  loader.value = true
   apiDataService
     .getAll(limit.value, page.value)
     .then((res: ResponseData) => (productsData.value = res.data))
+    .then(() => loader.value = false)
 };
 
 const addCart = (id: number, quantity: number) => {
@@ -109,7 +116,7 @@ loadProducts();
   }
   &__list {
     display: grid;
-    grid-template: repeat(2, 1fr) / repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 30px;
     width: 100%;
   }
@@ -185,6 +192,57 @@ loadProducts();
       gap: 30px;
       width: 100%;
     }
+  }
+}
+
+
+.lds-ripple {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 30px;
+}
+.lds-ripple div {
+  position: absolute;
+  border: 4px solid $primary;
+  opacity: 1;
+  border-radius: 50%;
+  animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+.lds-ripple div:nth-child(2) {
+  animation-delay: -0.5s;
+}
+@keyframes lds-ripple {
+  0% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  4.9% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  5% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    top: 0px;
+    left: 0px;
+    width: 72px;
+    height: 72px;
+    opacity: 0;
   }
 }
 </style>
