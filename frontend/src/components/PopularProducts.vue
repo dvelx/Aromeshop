@@ -68,9 +68,9 @@ import apiDataService from "@/services/apiDataService.ts";
 import ResponseData from "@/types/ResponseData.ts";
 import Products from "@/types/Products.ts";
 import numberFormatter from "@/helpers/numberFormatter.ts";
-import {cartStore} from "@/store/cartStore.ts";
+import { cartStore } from "@/store/cartStore.ts";
 
-const store = cartStore()
+const store = cartStore();
 
 const products = ref({} as Products[]);
 

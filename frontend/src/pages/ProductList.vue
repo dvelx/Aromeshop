@@ -2,81 +2,96 @@
   <div class="container product-list__container">
     <FilteredProducts />
 
-    <div class="product-list__list">
-      <div v-for="item of products" :key="item.id" class="card">
-        <router-link :to="{ name: '/product/:id', params: { id: item.id } }">
-          <img :src="item.image_url" alt="" class="card__image" />
-        </router-link>
-        <div class="card__desc">
-          <h5 class="card__title" @click="console.log(item.id)">
-            {{ item.title }}
-          </h5>
-          <p class="card__price">{{ numberFormatter(item.price) }} ₽</p>
-        </div>
-        <p class="card__text">
-          {{ item.brand_title }}
-        </p>
-        <button class="card__btn btn" @click="addCart(item.id, 1)">
-          В КОРЗИНУ
+    <div class="product-list__content">
+      <div class="product-list__list">
+          <div v-for="item in products" :key="item.id" class="card">
+              <router-link :to="'/product/' + item.slug">
+                  <img :src="item.image_url" alt="" class="card__image" />
+              </router-link>
+              <div class="card__desc">
+                  <h5 class="card__title" @click="console.log(productsData)">
+                      {{ item.title }}
+                  </h5>
+                  <p class="card__price">{{ numberFormatter(item.price) }} ₽</p>
+              </div>
+              <p class="card__text">
+                  {{ item.brand_title }}
+              </p>
+              <button class="card__btn btn" @click="addCart(item.id, 1)">
+                  В КОРЗИНУ
 
-          <svg
-            width="30"
-            height="30"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
-              fill="#0C0D12"
-            />
-            <path
-              d="M9 12H15"
-              stroke="white"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M12 9V15"
-              stroke="white"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </button>
+                  <svg
+                          width="30"
+                          height="30"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                  >
+                      <path
+                              d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
+                              fill="#0C0D12"
+                      />
+                      <path
+                              d="M9 12H15"
+                              stroke="white"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                      />
+                      <path
+                              d="M12 9V15"
+                              stroke="white"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                      />
+                  </svg>
+              </button>
+          </div>
       </div>
+      <BasePagination :per-page="limit" :count="Number(countProducts.count)" :page="page" />
+        
     </div>
+    
   </div>
 </template>
 
 <script setup lang="ts">
 import FilteredProducts from "../components/FilteredProducts.vue";
-import {computed, onMounted, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import apiDataService from "@/services/apiDataService.ts";
 import ResponseData from "@/types/ResponseData.ts";
 import Products from "@/types/Products.ts";
 import numberFormatter from "@/helpers/numberFormatter.ts";
 import { cartStore } from "@/store/cartStore.ts";
+import Product from "@/types/Product.ts";
+import BasePagination from "@/components/BasePagination.vue";
 
 const store = cartStore();
 
 const productsData = ref({} as Products);
+const page = ref(1 as number);
+const limit = ref(8)
 
-const products = computed(() => {
-  return productsData.value.products
+const products = computed<Product[]>(() => {
+  return productsData.value.products;
+});
+const countProducts = computed(() => {
+    return  productsData.value.pagination || 0
 })
 
 const loadProducts = () => {
   apiDataService
-    .getAll()
-    .then((res: ResponseData) => (productsData.value = res.data));
+    .getAll(limit.value, page.value)
+    .then((res: ResponseData) => (productsData.value = res.data))
 };
 
 const addCart = (id: number, quantity: number) => {
   store.addProductToCart(id, quantity);
 };
 
-onMounted(loadProducts);
+watch([page], () => {
+    loadProducts()
+})
+loadProducts();
 </script>
 
 <style lang="scss" scoped>
@@ -88,7 +103,10 @@ onMounted(loadProducts);
     width: 100vw;
     gap: 50px;
   }
-
+  &__content {
+    display: flex;
+    flex-direction: column;
+  }
   &__list {
     display: grid;
     grid-template: repeat(2, 1fr) / repeat(4, 1fr);

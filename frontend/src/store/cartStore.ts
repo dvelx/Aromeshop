@@ -27,7 +27,7 @@ export const cartStore = defineStore("cartStore", () => {
   const addProductToCart = (productId: number, amount: number) => {
     apiDataService
       .addProductToBasket(state.value.cartId, productId, amount)
-      .then(() => loadBasket(state.value.userAccessKey))
+      .then(() => loadBasket(state.value.userAccessKey));
   };
   const cartTotalPrice = () => {
     return syncCart.value.reduce(
@@ -56,18 +56,20 @@ export const cartStore = defineStore("cartStore", () => {
       .then(() => loadBasket(state.value.userAccessKey));
   };
   const loadBasket = (accessKey: string | null = null) => {
-    return apiDataService.getBasket(accessKey)
-      .then((res) => {
-      if (!state.value.userAccessKey) {
-        localStorage.setItem("userAccessKeyAroma", res.data.user.accessKey);
-        updateUserAccessKey(res.data.user.accessKey);
-      }
-      state.value.cartId = res.data.id;
-      state.value.cartProduct = res.data.items;
-    }, (err) => {
-      console.log(err.response.data)
-        state.value.userAccessKey = null
-    })
+    return apiDataService.getBasket(accessKey).then(
+      (res) => {
+        if (!state.value.userAccessKey) {
+          localStorage.setItem("userAccessKeyAroma", res.data.user.accessKey);
+          updateUserAccessKey(res.data.user.accessKey);
+        }
+        state.value.cartId = res.data.id;
+        state.value.cartProduct = res.data.items;
+      },
+      (err) => {
+        console.log(err.response.data);
+        state.value.userAccessKey = null;
+      },
+    );
   };
 
   return {

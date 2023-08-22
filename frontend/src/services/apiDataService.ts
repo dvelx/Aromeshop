@@ -1,12 +1,17 @@
 import { api } from "@/http/api.ts";
 
 class productDataService {
-  getAll(): Promise<any> {
-    return api.get("/products");
+  getAll(limit: number, page: number): Promise<any> {
+    return api.get("/products", {
+      params: {
+        limit: limit,
+        page: page  
+      }
+    });
   }
 
-  getById(id: number): Promise<any> {
-    return api.get(`/product/${id}`);
+  getById(slug: string): Promise<any> {
+    return api.get(`/product/${slug}`);
   }
 
   getUserAccessKey(): Promise<any> {
@@ -22,13 +27,13 @@ class productDataService {
   }
 
   getBasket(accessKey: string | null = null): Promise<any> {
-    return accessKey 
-    ? api.get("/baskets", {
-        params: {
-          accessKey: accessKey,
-        }
-      })
-    : api.get('/baskets')  
+    return accessKey
+      ? api.get("/baskets", {
+          params: {
+            accessKey: accessKey,
+          },
+        })
+      : api.get("/baskets");
   }
   addProductToBasket(
     cartId: number,

@@ -71,20 +71,19 @@ const store = cartStore();
 
 const product = ref({} as Product);
 const productAmount = ref<number>(1);
-const productId = computed(() => {
-  return Number(route.params.id);
+const productSlug = computed(() => {
+  return String(route.params.slug);
 });
-console.log(productId.value)
 const addCart = () => {
-  store.addProductToCart(productId.value, productAmount.value);
+  store.addProductToCart(product.value.id, productAmount.value);
 };
 
 const loadProduct = () => {
   apiDataService
-    .getById(productId.value)
+    .getById(productSlug.value)
     .then((res: ResponseData) => (product.value = res.data[0].product));
 };
-watch([productId], () => {
+watch([productSlug], () => {
   loadProduct();
 });
 loadProduct();
