@@ -171,8 +171,8 @@ GROUP BY brands.id`;
     FROM ${this.db_name}.products_view 
     ORDER BY id ASC`;
 
-    if (page && limit) {
-      sql += ` LIMIT ${page * limit}, ${limit}`;
+    if (page && limit && page > 0) {
+      sql += ` LIMIT ${(page - 1) * limit}, ${limit}`;
     } else if (limit) sql += ` LIMIT ${limit}`;
 
     const products = await this.runQuery(sql);
