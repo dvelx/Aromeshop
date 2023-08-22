@@ -9,7 +9,7 @@
       :pagination="{ clickable: true }"
     >
       <swiper-slide v-for="item in products" :key="item.id">
-        <router-link :to="{ path: '/product', query: { id: item.id } }">
+        <router-link :to="'/product/' + item.slug">
           <div class="card">
             <img :src="item.image_url" alt="" class="card__image" />
             <div class="card__desc">
@@ -75,13 +75,12 @@ import Product from "@/types/Product.ts";
 const store = cartStore();
 
 const productsData = ref({} as Products);
-
 const products = computed<Product[]>(() => {
   return productsData.value.products;
 });
 const loadProducts = () => {
   apiDataService
-    .getAll()
+    .getAll(8, 0)
     .then((res: ResponseData) => (productsData.value = res.data));
 };
 
