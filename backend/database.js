@@ -182,32 +182,10 @@ GROUP BY brands.id`;
   }
 
   async getProductById(id, hostname) {
-    const sql = `SELECT JSON_OBJECT(
-        'id',
-        id,
-        'category_id',
-        category_id,
-        'category_name',
-        category_name,
-        'brand_id',
-        brand_id,
-        'brand_title',
-        brand_title,
-        'title',
-        title,
-        'slug',
-        slug,
-        'price',
-        price,
-        'description',
-        description,
-        'image_url',
-        CONCAT('${hostname}', image)
-    ) as product
-FROM
-${this.db_name}.products_view
-WHERE id = '${id}' OR slug = '${id}'`; //`SELECT *, CONCAT('${hostname}', image) as image_url FROM ${this.db_name}.products_view WHERE id='${id}';`;
-    return await this.runQuery(sql);
+    const sql = `SELECT *, CONCAT('${hostname}', image) as image_url
+FROM ${this.db_name}.products_view WHERE id = '${id}' OR slug = '${id}'`;
+    const [result] = await this.runQuery(sql);
+    return result;
   }
 
   async getLastInsertedUser() {
