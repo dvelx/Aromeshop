@@ -89,7 +89,6 @@ onMounted(() => {
   border: 1px solid $primary;
   border-radius: 20px;
   min-width: 300px;
-  margin-right: auto;
   padding: 20px;
 
   &__title {
