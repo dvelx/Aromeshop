@@ -49,7 +49,7 @@
               </a>
             </div>
             <div class="right__top-cart">
-              <router-link to="/cart">
+              <router-link to="/cart" class="cart">
                 <svg
                   width="24"
                   height="24"
@@ -74,6 +74,7 @@
                     fill="#0C0D12"
                   />
                 </svg>
+                <span class="cart__counter" aria-label="Количество товаров">{{ cartProductsAmount }}</span>
               </router-link>
             </div>
             <div class="right__burger-btn" @click="isOpenBurgerMenu">
@@ -117,9 +118,16 @@
 
 <script setup lang="ts">
 import HeaderPromotion from "./HeaderPromotion.vue";
-import { ref } from "vue";
+import {computed, ref} from "vue";
+import {cartStore} from "@/store/cartStore.ts";
+
+const store = cartStore()
 const toggle = ref(false);
 
+
+const cartProductsAmount = computed(() => {
+  return store.state.cartProduct.length || 0
+})
 const isOpenBurgerMenu = () => {
   toggle.value = !toggle.value;
 };
@@ -233,6 +241,25 @@ const isOpenBurgerMenu = () => {
     &__burger-btn {
       display: block;
     }
+  }
+}
+
+.cart {
+  position: relative;
+  
+  &__counter {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: $primary;
+    padding: 3px;
+    min-width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    font-size: 7px;
+    color: $white;
+    text-align: center;
+    line-height: 1;
   }
 }
 </style>
