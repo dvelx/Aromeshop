@@ -73,7 +73,7 @@ const store = cartStore();
 
 const loader = ref(false)
 const productsData = ref({} as Products);
-const page = ref(0);
+const page = ref(1);
 const limit = ref(8)
 
 const products = computed<Product[]>(() => {
@@ -238,8 +238,8 @@ loadProducts();
     opacity: 1;
   }
   100% {
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     width: 72px;
     height: 72px;
     opacity: 0;

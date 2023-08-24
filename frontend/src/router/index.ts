@@ -50,6 +50,11 @@ const router = createRouter({
       name: "notFound",
       component: () => import("@/pages/NotFoundPage.vue"),
     },
+    {
+      path: ROUTES_PATHS.ORDERS,
+      name: ROUTES_PATHS.ORDERS,
+      component: () => import("@/pages/OrderPage.vue")
+    }
   ],
 });
 

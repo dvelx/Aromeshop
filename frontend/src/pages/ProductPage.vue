@@ -83,7 +83,7 @@ const loadProduct = () => {
   loader.value = true  
   apiDataService
     .getById(productSlug.value)
-    .then((res: ResponseData) => (product.value = res.data[0].product))
+    .then((res: ResponseData) => (product.value = res.data))
     .then(() => loader.value = false);
 };
 watch([productSlug], () => {
