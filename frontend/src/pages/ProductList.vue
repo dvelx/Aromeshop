@@ -107,7 +107,6 @@ loadProducts();
   &__container {
     display: flex;
     flex-direction: row;
-    width: 100vw;
     gap: 50px;
   }
   &__content {
@@ -132,6 +131,7 @@ loadProducts();
   border: 2px solid $white;
   border-radius: 20px;
   background-color: $white;
+  box-shadow: $card_shadow;
 
   &__image {
     max-height: 200px;
@@ -189,8 +189,43 @@ loadProducts();
     &__list {
       display: grid;
       grid-template: repeat(2, 1fr) / repeat(2, 1fr);
-      gap: 30px;
+      gap: 15px;
       width: 100%;
+    }
+  }
+  .card {
+    padding-bottom: 150px;
+    padding-top: 10px;
+
+    &__image {
+      height: 150px;
+      margin-bottom: 24px;
+    }
+
+    &__desc {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+
+    &__title {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 160%; /* 32px */
+      letter-spacing: 0.6px;
+    }
+
+    &__text {
+      margin-bottom: 24px;
+      padding-left: 15px;
+    }
+
+    &__btn {
+      justify-content: center;
+      padding: 5px 7px;
     }
   }
 }

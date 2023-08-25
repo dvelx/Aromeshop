@@ -131,11 +131,7 @@ loadProducts();
   border-radius: 20px;
   padding: 30px;
   background-color: white;
-  box-shadow:
-    5px 5px 10px rgba(242, 242, 242, 0.5),
-    -5px -5px 10px rgba(242, 242, 242, 0.5),
-    5px -5px 10px rgba(242, 242, 242, 0.5),
-    -5px 5px 10px rgba(242, 242, 242, 0.5);
+  box-shadow: $card_shadow;
 
   &__image {
     margin-bottom: 24px;
@@ -159,12 +155,10 @@ loadProducts();
     line-height: 160%; /* 32px */
     letter-spacing: 0.6px;
     color: $dark-text;
-    padding-left: 20px;
   }
   &__text {
     margin-bottom: 24px;
     color: $dark-text;
-    padding-left: 20px;
   }
 
   &__btn {
@@ -181,6 +175,64 @@ loadProducts();
   &__btn:hover {
     background-color: $primary;
     color: $white;
+  }
+}
+
+@media (max-width: 1199px) {
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(242, 242, 242, 0.5);
+    border-radius: 20px;
+    padding: 15px;
+    background-color: white;
+    box-shadow: $card_shadow;
+
+    &__image {
+      margin-bottom: 24px;
+      height: 120px;
+      object-fit: contain;
+    }
+
+    &__desc {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &__price {
+
+      font-size: 12px;
+      color: $dark-text;
+    }
+
+    &__title {
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 160%; /* 32px */
+      letter-spacing: 0.6px;
+      color: $dark-text;
+    }
+
+    &__text {
+      margin-bottom: 14px;
+      color: $dark-text;
+    }
+
+    &__btn {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      padding: 5px 7px;
+      border-radius: 100px;
+    }
+  }
+  .swiper-slide {
+    margin-right: 20px !important;
   }
 }
 </style>

@@ -101,6 +101,10 @@
     &__hashtag {
       margin-bottom: 20px;
     }
+    &__btn {
+      padding: 10px 20px;
+      font-size: 14px;
+    }
   }
 }
 </style>

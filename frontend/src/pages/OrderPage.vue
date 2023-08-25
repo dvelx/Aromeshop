@@ -55,6 +55,8 @@ const formErrorMessage = ref({})
   display: flex;
   width: 100vw;
   flex-direction: column;
+  padding-left: 18%;
+  padding-right: 18%;
 }
 .form {
   display: grid;
