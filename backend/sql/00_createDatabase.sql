@@ -153,7 +153,7 @@ CREATE TABLE `orders`(
     `comment` varchar(1000) CHARSET utf8mb4 NOT NULL,
     `date_purchased` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `date_finished` DATETIME DEFAULT NULL,
-    `status_id` INT NOT NULL,
+    `status_id` INT NOT NULL DEFAULT '1',
     FOREIGN KEY (`status_id`) REFERENCES `order_statuses` (`id`) ON DELETE RESTRICT
 );
 

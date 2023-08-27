@@ -242,7 +242,10 @@ FROM cart_items
     const sql = `INSERT INTO shoping_carts (user_id) VALUES ('${userId}')`;
     return await this.runQuery(sql);
   }
-
+  async deleteCartById(cartId) {
+    const sql = `DELETE FROM shoping_carts WHERE id = '${cartId}'`;
+    return await this.runQuery(sql);
+  }
   async addProductToCart({ cartId, productId, quantity }) {
     const sql = `INSERT INTO cart_items (cart_id, product_id, quantity) 
     VALUES ('${cartId}', '${productId}', '${quantity}') AS new
@@ -259,6 +262,28 @@ FROM cart_items
   async deleteProductFromCart({ cartId, productId }) {
     const sql = `DELETE FROM cart_items
     WHERE cart_id = '${cartId}' AND product_id = '${productId}'`;
+    return await this.runQuery(sql);
+  }
+
+  async addOrderItem({ orderId, productId, productTitle, quantity, price }) {
+    const sql = `INSERT INTO order_items (order_id, product_id, product_title, quantity, price) 
+    VALUES ('${orderId}', '${productId}', '${productTitle}', '${quantity}', '${price}')`;
+    return await this.runQuery(sql);
+  }
+  async makeOrder({ name, address, phone, email, comment }) {
+    const sql = `INSERT INTO orders (name, address, phone, email, comment) 
+    VALUES ('${name}', '${address}', '${phone}', '${email}', '${comment}')`;
+    return await this.runQuery(sql);
+  }
+
+  /**  */
+  async getLastInsertedOrder() {
+    const sql = `SELECT * FROM ${this.db_name}.orders WHERE id = LAST_INSERT_ID()`;
+    return await this.runQuery(sql);
+  }
+
+  async getOrderItems(orderId) {
+    const sql = `SELECT * FROM ${this.db_name}.order_items WHERE order_id = ${orderId}`;
     return await this.runQuery(sql);
   }
 }

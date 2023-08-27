@@ -2,25 +2,13 @@ import express from "express";
 import router from "./controllers/database.controller.js";
 import Mailer from "./mail.js";
 import cors from "cors";
-import dotenv from "dotenv";
-import { Sequelize, DataTypes } from "sequelize";
+import { options } from "./static-options.js";
 
 const app = express();
 
-// параметры для статических файлов
-const options = {
-  dotfiles: "ignore",
-  etag: false,
-  extensions: ["htm", "html", "css", "js"],
-  index: false,
-  maxAge: "1d",
-  redirect: false,
-  setHeaders: function (res, path, stat) {
-    res.set("x-timestamp", Date.now());
-  },
-};
 app.use(cors());
-// подключение станической папки с админкой
+
+// подключение статической папки с админкой
 app.use(express.static("admin", options));
 
 // подключение станической папки с картинками
@@ -50,6 +38,7 @@ app.get("/mail", async (req, res) => {
     })
     .then(() => {
       res.status(200);
+      res.json({result: 'message sent'})
     });
 });
 

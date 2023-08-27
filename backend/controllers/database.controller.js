@@ -107,9 +107,13 @@ router.route("/baskets").get(async (request, response) => {
 
 /* Добавление в корзину */
 router.route("/baskets").post((request, response) => {
-  sendResponse(response, () => {
+  sendResponse(response, async () => {
     const { cartId, productId, quantity } = request.body;
-    return database.addProductToCart({ cartId, productId, quantity });
+    const { accessKey } = request.query;
+    const hostname = getRequestHostUrl(request);
+
+    await database.addProductToCart({ cartId, productId, quantity });
+    return await database.getCart({ accessKey, hostname });
   });
 });
 
@@ -149,6 +153,74 @@ router.route("/baskets").delete((request, response) => {
     sendResponse(response, () => {
       return database.deleteProductFromCart({ cartId, productId });
     });
+});
+
+router.route("/orders").post(async (request, response) => {
+  const { name, address, phone, email, comment } = request.body;
+  const { accessKey } = request.query;
+
+  if (!accessKey) {
+    sendResponse(response, () => {
+      return { error: "accessKey required" };
+    });
+  } else {
+    // check accessKey...
+  }
+  if (!name) {
+    sendResponse(response, () => {
+      return { error: "name undefined" };
+    });
+  }
+  if (!address) {
+    sendResponse(response, () => {
+      return { error: "address undefined" };
+    });
+  }
+  if (!phone) {
+    sendResponse(response, () => {
+      return { error: "phone undefined" };
+    });
+  }
+  if (!email) {
+    sendResponse(response, () => {
+      return { error: "email undefined" };
+    });
+  }
+  if (!comment) {
+    sendResponse(response, () => {
+      return { error: "comment undefined" };
+    });
+  }
+  const hostname = getRequestHostUrl(request);
+  const cart = await database.getCart({ hostname, accessKey });
+
+  database.db.beginTransaction();
+  let result = {};
+  try {
+    await database.makeOrder({ name, address, phone, email, comment });
+    let [lastOrder] = await database.getLastInsertedOrder();
+
+    cart.items.forEach(async (item) => {
+      const product = await database.getProductById(item.id);
+      await database.addOrderItem({
+        orderId: lastOrder.id,
+        productId: product.id,
+        productTitle: product.title,
+        quantity: item.quantity,
+        price: product.price,
+      });
+    });
+    await database.deleteCartById(cart.id);
+    database.db.commit();
+    result = lastOrder;
+  } catch (error) {
+    console.log(error);
+    database.db.rollback();
+  }
+  result = { ...result, items: await database.getOrderItems(result.id) };
+  sendResponse(response, () => {
+    return result;
+  });
 });
 
 export default router;

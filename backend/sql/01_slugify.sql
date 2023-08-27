@@ -23,7 +23,10 @@ DECLARE allowed_chars, new_string VARCHAR(255);
 	        eng_equiv VARCHAR(5) NOT NULL
 	    );
 	-- Comment out the following block if you don't want to use the character table
-	SELECT COUNT(*) INTO temp_table_rows FROM slug_temp_table;
+	SELECT 
+    COUNT(*)
+INTO temp_table_rows FROM
+    slug_temp_table;
 	IF temp_table_rows = 0 THEN
 	INSERT INTO
 	    slug_temp_table (bul_letter, eng_equiv)
