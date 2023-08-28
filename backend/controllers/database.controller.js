@@ -98,9 +98,16 @@ router.route("/users/accessKey").get(async (request, response) => {
 
 /* Получение корзины */
 router.route("/baskets").get(async (request, response) => {
+  const hostname = getRequestHostUrl(request);
+  const { accessKey } = request.query;
+  if (!accessKey) {
+    sendResponse(response, () => {
+      return { error: "accessKey required" };
+    });
+  } else {
+    // check accessKey...
+  }
   sendResponse(response, () => {
-    const hostname = getRequestHostUrl(request);
-    const { accessKey } = request.query;
     return database.getCart({ accessKey, hostname });
   });
 });
@@ -223,4 +230,20 @@ router.route("/orders").post(async (request, response) => {
   });
 });
 
+router.route("/order/:id").get(async (request, response) => {
+  const orderId = request.params.id;
+  const [order] = await database.getOrderById(orderId);
+  if (!order) {
+    sendResponse(response, () => {
+      return { error: "Order not found!" };
+    });
+    return;
+  }
+
+  const items = await database.getOrderItems(orderId);
+  const result = { ...order, items };
+  sendResponse(response, () => {
+    return result;
+  });
+});
 export default router;

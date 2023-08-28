@@ -276,7 +276,11 @@ FROM cart_items
     return await this.runQuery(sql);
   }
 
-  /**  */
+  async getOrderById(orderId) {
+    const sql = `SELECT * FROM ${this.db_name}.orders WHERE id = '${orderId}'`;
+    return await this.runQuery(sql);
+  }
+
   async getLastInsertedOrder() {
     const sql = `SELECT * FROM ${this.db_name}.orders WHERE id = LAST_INSERT_ID()`;
     return await this.runQuery(sql);
