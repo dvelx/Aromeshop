@@ -175,27 +175,27 @@ router.route("/orders").post(async (request, response) => {
   }
   if (!name) {
     sendResponse(response, () => {
-      return { error: "name undefined" };
+      return { error: "name required" };
     });
   }
   if (!address) {
     sendResponse(response, () => {
-      return { error: "address undefined" };
+      return { error: "address required" };
     });
   }
   if (!phone) {
     sendResponse(response, () => {
-      return { error: "phone undefined" };
+      return { error: "phone required" };
     });
   }
   if (!email) {
     sendResponse(response, () => {
-      return { error: "email undefined" };
+      return { error: "email required" };
     });
   }
   if (!comment) {
     sendResponse(response, () => {
-      return { error: "comment undefined" };
+      return { error: "comment required" };
     });
   }
   const hostname = getRequestHostUrl(request);
@@ -224,7 +224,12 @@ router.route("/orders").post(async (request, response) => {
     console.log(error);
     database.db.rollback();
   }
-  result = { ...result, items: await database.getOrderItems(result.id) };
+  const items = await database.getOrderItems(orderId);
+  for (let i = 0; i < items.length; i++) {
+    const product = await database.getProductById(items[i]["product_id"]);
+    items[i] = { ...items[i], product };
+  }
+  result = { ...result, items };
   sendResponse(response, () => {
     return result;
   });
@@ -241,6 +246,11 @@ router.route("/order/:id").get(async (request, response) => {
   }
 
   const items = await database.getOrderItems(orderId);
+  for (let i = 0; i < items.length; i++) {
+    const product = await database.getProductById(items[i]["product_id"]);
+    items[i] = { ...items[i], product };
+  }
+
   const result = { ...order, items };
   sendResponse(response, () => {
     return result;
