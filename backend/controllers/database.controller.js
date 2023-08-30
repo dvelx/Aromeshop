@@ -59,7 +59,7 @@ router.route("/products").get((request, response) => {
 router.route("/product/:id").get((request, response) => {
   const hostname = getRequestHostUrl(request);
   const productId = request.params.id;
-  console.log("id: ", productId);
+
   sendResponse(response, () => {
     return database.getProductById(productId, hostname);
   });
@@ -100,15 +100,12 @@ router.route("/users/accessKey").get(async (request, response) => {
 router.route("/baskets").get(async (request, response) => {
   const hostname = getRequestHostUrl(request);
   const { accessKey } = request.query;
-  if (!accessKey) {
-    sendResponse(response, () => {
-      return { error: "accessKey required" };
-    });
-  } else {
-    // check accessKey...
-  }
+
+  let result = await database.getCart({ accessKey, hostname });
+  if (!result) result = { error: "Wrong accessKey" };
+
   sendResponse(response, () => {
-    return database.getCart({ accessKey, hostname });
+    return result;
   });
 });
 
@@ -166,41 +163,36 @@ router.route("/orders").post(async (request, response) => {
   const { name, address, phone, email, comment } = request.body;
   const { accessKey } = request.query;
 
+  let error = {};
   if (!accessKey) {
-    sendResponse(response, () => {
-      return { error: "accessKey required" };
-    });
+    error = { error: "accessKey required" };
   } else {
     // check accessKey...
+    if (!name) {
+      error = { ...error, name: "Name required" };
+    }
+    if (!address) {
+      error = { ...error, address: "address required" };
+    }
+    if (!phone) {
+      error = { ...error, phone: "phone required" };
+    }
+    if (!email) {
+      error = { ...error, email: "email required" };
+    }
+    if (!comment) {
+      error = { ...error, comment: "comment required" };
+    }
   }
-  if (!name) {
+  if (Object.keys(error).length > 0) {
     sendResponse(response, () => {
-      return { error: "name required" };
+      return { error };
     });
-  }
-  if (!address) {
-    sendResponse(response, () => {
-      return { error: "address required" };
-    });
-  }
-  if (!phone) {
-    sendResponse(response, () => {
-      return { error: "phone required" };
-    });
-  }
-  if (!email) {
-    sendResponse(response, () => {
-      return { error: "email required" };
-    });
-  }
-  if (!comment) {
-    sendResponse(response, () => {
-      return { error: "comment required" };
-    });
+    return;
   }
   const hostname = getRequestHostUrl(request);
   const cart = await database.getCart({ hostname, accessKey });
-
+  console.log(cart);
   database.db.beginTransaction();
   let result = {};
   try {
