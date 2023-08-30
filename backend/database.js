@@ -215,7 +215,6 @@ FROM cart_items
     // accessKey не передан - создать нового пользователя
     if (!accessKey) {
       user = await this.addUser();
-      console.log("user added!");
     }
     // Если передан
     else {
@@ -223,7 +222,7 @@ FROM cart_items
       user = await this.getUserByUID(accessKey);
 
       // если пользователь не найден вернём ошибку
-      if (!user) return { error: "User not found!" };
+      if (!user) return null;
     }
 
     // получаем корзину по UID пользователя
