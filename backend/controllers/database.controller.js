@@ -116,8 +116,14 @@ router.route("/baskets").post((request, response) => {
     const { accessKey } = request.query;
     const hostname = getRequestHostUrl(request);
 
-    await database.addProductToCart({ cartId, productId, quantity });
-    return await database.getCart({ accessKey, hostname });
+    let result = await database.getCart({ accessKey, hostname });
+    if (!result) result = { error: "Wrong accessKey" };
+    else {
+      await database.addProductToCart({ cartId, productId, quantity });
+      result = await database.getCart({ accessKey, hostname });
+    }
+
+    return result;
   });
 });
 
@@ -192,12 +198,13 @@ router.route("/orders").post(async (request, response) => {
   }
   const hostname = getRequestHostUrl(request);
   const cart = await database.getCart({ hostname, accessKey });
-  console.log(cart);
+
   database.db.beginTransaction();
   let result = {};
+  let lastOrder;
   try {
     await database.makeOrder({ name, address, phone, email, comment });
-    let [lastOrder] = await database.getLastInsertedOrder();
+    [lastOrder] = await database.getLastInsertedOrder();
 
     cart.items.forEach(async (item) => {
       const product = await database.getProductById(item.id);
@@ -216,7 +223,7 @@ router.route("/orders").post(async (request, response) => {
     console.log(error);
     database.db.rollback();
   }
-  const items = await database.getOrderItems(orderId);
+  const items = await database.getOrderItems(lastOrder.id);
   for (let i = 0; i < items.length; i++) {
     const product = await database.getProductById(items[i]["product_id"]);
     items[i] = { ...items[i], product };
