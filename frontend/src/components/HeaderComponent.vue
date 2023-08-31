@@ -74,7 +74,9 @@
                     fill="#0C0D12"
                   />
                 </svg>
-                <span class="cart__counter" aria-label="Количество товаров">{{ cartProductsAmount }}</span>
+                <span class="cart__counter" aria-label="Количество товаров">{{
+                  cartProductsAmount
+                }}</span>
               </router-link>
             </div>
             <div class="right__burger-btn" @click="isOpenBurgerMenu">
@@ -118,16 +120,17 @@
 
 <script setup lang="ts">
 import HeaderPromotion from "./HeaderPromotion.vue";
-import {computed, ref} from "vue";
-import {cartStore} from "@/store/cartStore.ts";
+import { computed, ref } from "vue";
+import { cartStore } from "@/store/cartStore.ts";
 
-const store = cartStore()
+const store = cartStore();
 const toggle = ref(false);
 
-
 const cartProductsAmount = computed(() => {
-  return store.state.cartProduct.reduce((acc, item) => +item.quantity + acc, 0) || 0
-})
+  return (
+    store.state.cartProduct.reduce((acc, item) => +item.quantity + acc, 0) || 0
+  );
+});
 const isOpenBurgerMenu = () => {
   toggle.value = !toggle.value;
 };
@@ -246,7 +249,7 @@ const isOpenBurgerMenu = () => {
 
 .cart {
   position: relative;
-  
+
   &__counter {
     position: absolute;
     bottom: 0;

@@ -1,13 +1,14 @@
 interface ROUTES_PATHS {
-  MAIN: string,
-  PRODUCTPAGE: string,
-  PRODUCTLIST: string,
-  ABOUTUS: string,
-  BLOG: string,
-  REVIEWS: string,
-  CART: string,
-  CONTACTS: string,
-  ORDERS: string
+  MAIN: string;
+  PRODUCTPAGE: string;
+  PRODUCTLIST: string;
+  ABOUTUS: string;
+  BLOG: string;
+  REVIEWS: string;
+  CART: string;
+  CONTACTS: string;
+  ORDERS: string;
+  ORDERINFO: string;
 }
 
 export const ROUTES_PATHS: ROUTES_PATHS = {
@@ -19,5 +20,6 @@ export const ROUTES_PATHS: ROUTES_PATHS = {
   REVIEWS: "/reviews",
   CART: "/cart",
   CONTACTS: "/contacts",
-  ORDERS: '/order'
+  ORDERS: "/order",
+  ORDERINFO: "/order/:id",
 };

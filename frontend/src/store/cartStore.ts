@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import apiDataService from "@/services/apiDataService.ts";
+import ResponseData from "@/types/ResponseData.ts";
 
 interface IItem {
   price: number;
@@ -15,20 +16,25 @@ export const cartStore = defineStore("cartStore", () => {
     totalPrice: 0 as number,
     userAccessKey: null as string | null,
     cartId: 0 as number,
+    orderInfo: [],
   });
 
+  // mutations
   const syncCart = computed(() => {
     return state.value.cartProduct;
   });
-
+  const updateOrderInfo = (orderData: any) => {
+    state.value.orderInfo = orderData;
+  };
   const updateUserAccessKey = (accessKey: string) => {
     state.value.userAccessKey = accessKey;
   };
-  const addProductToCart = (productId: number, amount: number) => {
-    apiDataService
-      .addProductToBasket(state.value.cartId, productId, amount)
-      .then(() => loadBasket(state.value.userAccessKey));
+  const resetCart = () => {
+    state.value.cartProduct = [];
+    state.value.cartId = 0;
   };
+
+  // getters
   const cartTotalPrice = () => {
     return syncCart.value.reduce(
       (acc, item) => item.price * item.quantity + acc,
@@ -49,6 +55,14 @@ export const cartStore = defineStore("cartStore", () => {
       productId,
       amount,
     );
+  };
+
+  // actions
+
+  const addProductToCart = (productId: number, amount: number) => {
+    apiDataService
+      .addProductToBasket(state.value.cartId, productId, amount)
+      .then(() => loadBasket(state.value.userAccessKey));
   };
   const deleteProduct = (productId: number) => {
     apiDataService
@@ -71,6 +85,11 @@ export const cartStore = defineStore("cartStore", () => {
       },
     );
   };
+  const loadOrderInfo = (orderId: number) => {
+    apiDataService.getOrderById(orderId).then((res: ResponseData) => {
+      updateOrderInfo(res.data);
+    });
+  };
 
   return {
     state,
@@ -80,5 +99,8 @@ export const cartStore = defineStore("cartStore", () => {
     updateUserAccessKey,
     loadBasket,
     updateCartProductQuantity,
+    updateOrderInfo,
+    resetCart,
+    loadOrderInfo,
   };
 });

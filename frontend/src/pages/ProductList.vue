@@ -4,63 +4,65 @@
 
     <div class="product-list__content">
       <div v-if="loader" class="lds-ripple">
-          <div></div>
-          <div></div>
+        <div></div>
+        <div></div>
       </div>
       <div class="product-list__list">
-          <div v-for="item in products" :key="item.id" class="card">
-              <router-link :to="'/product/' + item.slug">
-                  <img :src="item.image_url" alt="" class="card__image" />
-              </router-link>
-              <div class="card__desc">
-                  <h5 class="card__title">
-                      {{ item.title }}
-                  </h5>
-                  <p class="card__price">{{ numberFormatter(item.price) }} ₽</p>
-              </div>
-              <p class="card__text">
-                  {{ item.brand_title }}
-              </p>
-              <button class="card__btn btn" @click="addCart(item.id, 1)">
-                  В КОРЗИНУ
-
-                  <svg
-                          width="30"
-                          height="30"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                  >
-                      <path
-                              d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
-                              fill="#0C0D12"
-                      />
-                      <path
-                              d="M9 12H15"
-                              stroke="white"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                      />
-                      <path
-                              d="M12 9V15"
-                              stroke="white"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                      />
-                  </svg>
-              </button>
+        <div v-for="item in products" :key="item.id" class="card">
+          <router-link :to="'/product/' + item.slug">
+            <img :src="item.image_url" alt="" class="card__image" />
+          </router-link>
+          <div class="card__desc">
+            <h5 class="card__title">
+              {{ item.title }}
+            </h5>
+            <p class="card__price">{{ numberFormatter(item.price) }} ₽</p>
           </div>
+          <p class="card__text">
+            {{ item.brand_title }}
+          </p>
+          <button class="card__btn btn" @click="addCart(item.id, 1)">
+            В КОРЗИНУ
+
+            <svg
+              width="30"
+              height="30"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
+                fill="#0C0D12"
+              />
+              <path
+                d="M9 12H15"
+                stroke="white"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M12 9V15"
+                stroke="white"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
-      <BasePagination v-model:page="page" :per-page="limit" :count="Number(countProducts.count)" />
-        
+      <BasePagination
+        v-model:page="page"
+        :per-page="limit"
+        :count="Number(countProducts.count)"
+      />
     </div>
-    
   </div>
 </template>
 
 <script setup lang="ts">
 import FilteredProducts from "../components/FilteredProducts.vue";
-import {computed, ref, watch} from "vue";
+import { computed, ref, watch } from "vue";
 import apiDataService from "@/services/apiDataService.ts";
 import ResponseData from "@/types/ResponseData.ts";
 import Products from "@/types/Products.ts";
@@ -71,24 +73,24 @@ import BasePagination from "@/components/BasePagination.vue";
 
 const store = cartStore();
 
-const loader = ref(false)
+const loader = ref(false);
 const productsData = ref({} as Products);
 const page = ref(1);
-const limit = ref(8)
+const limit = ref(8);
 
 const products = computed<Product[]>(() => {
   return productsData.value.products;
 });
 const countProducts = computed(() => {
-    return  productsData.value.pagination || 0
-})
+  return productsData.value.pagination || 0;
+});
 
 const loadProducts = () => {
-  loader.value = true
+  loader.value = true;
   apiDataService
     .getAll(limit.value, page.value)
     .then((res: ResponseData) => (productsData.value = res.data))
-    .then(() => loader.value = false)
+    .then(() => (loader.value = false));
 };
 
 const addCart = (id: number, quantity: number) => {
@@ -96,8 +98,8 @@ const addCart = (id: number, quantity: number) => {
 };
 
 watch([page], () => {
-    loadProducts()
-})
+  loadProducts();
+});
 loadProducts();
 </script>
 
@@ -229,7 +231,6 @@ loadProducts();
     }
   }
 }
-
 
 .lds-ripple {
   display: inline-block;

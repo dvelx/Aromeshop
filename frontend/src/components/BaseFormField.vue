@@ -1,23 +1,19 @@
 <template>
-
   <label class="form__label">
-
-    <slot/>
+    <slot />
     <span class="form__value">{{ title }}</span>
     <span v-if="error" class="form__error">{{ error }}</span>
   </label>
-
 </template>
 
 <script setup lang="ts">
 defineProps<{
-  title: String,
-  error: String
-}>()
+  title: String;
+  error: String;
+}>();
 </script>
 
 <style lang="scss" scoped>
-
 .form__label {
   position: relative;
   display: block;

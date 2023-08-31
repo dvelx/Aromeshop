@@ -46,15 +46,20 @@ const router = createRouter({
       component: () => import("@/pages/ContactsPage.vue"),
     },
     {
+      path: ROUTES_PATHS.ORDERS,
+      name: ROUTES_PATHS.ORDERS,
+      component: () => import("@/pages/OrderPage.vue"),
+    },
+    {
+      path: ROUTES_PATHS.ORDERINFO,
+      name: ROUTES_PATHS.ORDERINFO,
+      component: () => import("@/pages/OrderInfoPage.vue"),
+    },
+    {
       path: "/:pathMatch(.*)*",
       name: "notFound",
       component: () => import("@/pages/NotFoundPage.vue"),
     },
-    {
-      path: ROUTES_PATHS.ORDERS,
-      name: ROUTES_PATHS.ORDERS,
-      component: () => import("@/pages/OrderPage.vue")
-    }
   ],
 });
 

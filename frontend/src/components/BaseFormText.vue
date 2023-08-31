@@ -1,35 +1,37 @@
 <template>
-
   <BaseFormField :title="title" :error="error">
-    <input v-model="value" class="form__input" type="text" name="name" :placeholder="String(placeholder)">
+    <input
+      v-model="value"
+      class="form__input"
+      type="text"
+      name="name"
+      :placeholder="String(placeholder)"
+    />
   </BaseFormField>
-
 </template>
 
 <script setup lang="ts">
-import {computed} from "vue";
+import { computed } from "vue";
 import BaseFormField from "@/components/BaseFormField.vue";
 
-
 const props = defineProps<{
-  title: String,
-  error: String,
-  placeholder: String,
-  modelValue: String
-}>()
+  title: String;
+  error: String;
+  placeholder: String;
+  modelValue: String;
+}>();
 const emits = defineEmits<{
-(e: 'update:modelValue', modelValue: string): void
-}>()
+  (e: "update:modelValue", modelValue: string): void;
+}>();
 
 const value = computed({
   get() {
-    return props.modelValue
+    return props.modelValue;
   },
   set(value: string) {
-    emits('update:modelValue', value)
-  }
-})
-
+    emits("update:modelValue", value);
+  },
+});
 </script>
 
 <style lang="scss" scoped>
@@ -43,17 +45,16 @@ const value = computed({
   background-color: #fafafa;
   -webkit-box-shadow: none;
   box-shadow: none;
-  -webkit-transition: all .2s ease;
-  transition: all .2s ease;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
   color: #222;
   font-size: 16px;
   font-family: inherit;
   line-height: 1;
 }
-.form__input:focus, 
+.form__input:focus,
 .form__input:hover {
   outline: none;
   border-color: $dark-text;
 }
-
 </style>

@@ -5,8 +5,8 @@ class productDataService {
     return api.get("/products", {
       params: {
         limit: limit,
-        page: page  
-      }
+        page: page,
+      },
     });
   }
 
@@ -65,19 +65,33 @@ class productDataService {
       },
     });
   }
-  
-  makeOrder(name: string, address: string, phone: string, email: string, comment: string, accessKey:string | null = null): Promise<any> {
-    return api.post('/orders', {
-      name: name,
-      address: address,
-      phone: phone,
-      email: email,
-      comment: comment
-    }, {
-      params: {
-        accessKey: accessKey
-      }
-    })
+
+  makeOrder(
+    name: string,
+    address: string,
+    phone: string,
+    email: string,
+    comment: string,
+    accessKey: string | null = null,
+  ): Promise<any> {
+    return api.post(
+      "/orders",
+      {
+        name: name,
+        address: address,
+        phone: phone,
+        email: email,
+        comment: comment,
+      },
+      {
+        params: {
+          accessKey: accessKey,
+        },
+      },
+    );
+  }
+  getOrderById(orderId: number): Promise<any> {
+    return api.get("/order/" + orderId);
   }
 }
 

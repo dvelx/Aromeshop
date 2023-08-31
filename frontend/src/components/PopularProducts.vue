@@ -58,13 +58,12 @@
 </template>
 
 <script setup lang="ts">
-
 // :autoplay="{ delay: 1000 }"
 import { Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/pagination";
-import {computed, ref} from "vue";
+import { computed, ref } from "vue";
 import apiDataService from "@/services/apiDataService.ts";
 import ResponseData from "@/types/ResponseData.ts";
 import Products from "@/types/Products.ts";
@@ -205,7 +204,6 @@ loadProducts();
     }
 
     &__price {
-
       font-size: 12px;
       color: $dark-text;
     }

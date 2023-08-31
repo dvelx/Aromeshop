@@ -18,7 +18,9 @@
             Итого: <span>{{ numberFormatter(totalPrice) }} ₽</span>
           </p>
 
-          <router-link to="/order" class="cart__button" type="submit"> Оформить заказ </router-link>
+          <router-link to="/order" class="cart__button" type="submit">
+            Оформить заказ
+          </router-link>
         </div>
       </form>
     </div>
@@ -41,7 +43,7 @@ const totalPrice = computed(() => {
   return store.cartTotalPrice();
 });
 
-store.loadBasket(store.state.userAccessKey)
+store.loadBasket(store.state.userAccessKey);
 </script>
 
 <style lang="scss" scoped>

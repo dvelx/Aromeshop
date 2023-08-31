@@ -69,7 +69,7 @@ import numberFormatter from "@/helpers/numberFormatter.ts";
 const route = useRoute();
 const store = cartStore();
 
-const loader = ref(false)
+const loader = ref(false);
 const product = ref({} as Product);
 const productAmount = ref<number>(1);
 const productSlug = computed(() => {
@@ -80,11 +80,11 @@ const addCart = () => {
 };
 
 const loadProduct = () => {
-  loader.value = true  
+  loader.value = true;
   apiDataService
     .getById(productSlug.value)
     .then((res: ResponseData) => (product.value = res.data))
-    .then(() => loader.value = false);
+    .then(() => (loader.value = false));
 };
 watch([productSlug], () => {
   loadProduct();
