@@ -65,6 +65,20 @@ class productDataService {
       },
     });
   }
+  
+  makeOrder(name: string, address: string, phone: string, email: string, comment: string, accessKey:string | null = null): Promise<any> {
+    return api.post('/orders', {
+      name: name,
+      address: address,
+      phone: phone,
+      email: email,
+      comment: comment
+    }, {
+      params: {
+        accessKey: accessKey
+      }
+    })
+  }
 }
 
 export default new productDataService();

@@ -1,7 +1,7 @@
 <template>
 
   <BaseFormField :title="title" :error="error">
-    <textarea v-model="dataValue" class="form__input form__input--area" name="comments" :placeholder="String(placeholder)"></textarea>
+    <textarea v-model="value" class="form__input form__input--area" name="comments" :placeholder="String(placeholder)"></textarea>
   </BaseFormField>
 
 </template>
@@ -18,15 +18,15 @@ const props = defineProps<{
 }>()
 
 const emits = defineEmits<{
-  (e: 'input', value: string | number): void
+  (e: 'update:modelValue', modelValue: string): void
 }>()
 
-const dataValue = computed({
+const value = computed({
   get() {
     return props.modelValue
   },
-  set(value: string | number) {
-    emits('input', value)
+  set(value: string) {
+    emits('update:modelValue', value)
   }
 })
 

@@ -2,7 +2,7 @@
   <div class="container order__container">
     <div class="order__content-top"></div>
     <section class="order__content-form">
-      <form action="#" method="post" class="form">
+      <form action="#" method="post" class="form" @submit.prevent="order()">
         <div class="form__field">
           <div class="form__data">
             <BaseFormText v-model="formData.name" title="ФИО" placeholder="Введите ваше полное имя" :error="formError.name"/>
@@ -14,11 +14,11 @@
         </div>
         <div class="form__cart">
           <ul class="form__cart-orders">
-            <OrderPageCart />
+            <OrderPageCart v-for="item in products" :key="item.id" :item="item" />
           </ul>
           
           <div class="form__cart-total">
-            <p>Итого:</p>
+            <p>Итого: <b>{{ totalAmount }}</b> товаров на сумму <b>{{ totalPrice }} ₽</b> </p>
           </div>
           
           <button class="form__cart-btn btn" type="submit">
@@ -33,10 +33,13 @@
 <script setup lang="ts">
 import BaseFormText from "@/components/BaseFormText.vue";
 import BaseFormTextarea from "@/components/BaseFormTextarea.vue";
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import OrderPageCart from "@/components/OrderPageCart.vue";
+import {cartStore} from "@/store/cartStore.ts";
+import numberFormatter from "@/helpers/numberFormatter.ts";
+import apiDataService from "@/services/apiDataService.ts";
 
-interface FromData {
+interface FormData {
   name: string,
   address: string,
   phone: string,
@@ -44,9 +47,34 @@ interface FromData {
   comment: string
 }
 
-const formData = ref({} as FromData)
-const formError = ref({} as FromData)
+const store = cartStore();
+
+const formData = ref({} as FormData)
+const formError = ref({} as FormData)
 const formErrorMessage = ref({})
+
+const products = computed(() => {
+  return store.state.cartProduct;
+});
+
+const totalPrice = computed(() => {
+  return numberFormatter(store.cartTotalPrice())
+})
+
+const totalAmount = computed(() => {
+  return products.value.length
+})
+
+const order = () => {
+  apiDataService.makeOrder(
+    formData.value.name,
+    formData.value.address,
+    formData.value.phone,
+    formData.value.email,
+    formData.value.comment,
+    store.state.userAccessKey
+  )
+}
 </script>
 
 <style lang="scss" scoped>

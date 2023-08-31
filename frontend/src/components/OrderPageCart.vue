@@ -1,5 +1,5 @@
 <template>
-  <li v-for="item in items" :key="item.id" class="form__cart-order">
+  <li class="form__cart-order">
     <h3>{{ item.title }}</h3>
     <b>{{ numberFormatter(item.price) }} ₽</b>
     <span>Артикул: {{ item.id }}</span>
@@ -7,15 +7,11 @@
 </template>
 
 <script setup lang="ts">
-import { cartStore } from "@/store/cartStore.ts";
-import { computed } from "vue";
 import numberFormatter from "../helpers/numberFormatter.ts";
 
-const store = cartStore();
-
-const items = computed(() => {
-  return store.state.cartProduct;
-});
+defineProps<{
+  item: object
+}>()
 </script>
 
 <style scoped>
