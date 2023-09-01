@@ -35,33 +35,22 @@
   padding: 0 50px 0 50px;
   display: flex;
   flex-direction: column;
-
-  &__top {
-    margin-bottom: 130px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    &-action {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      gap: 30px;
-    }
-  }
+  justify-content: end;
 
   &__hashtag {
     font-size: 18px;
     line-height: 29px;
     letter-spacing: 4.32px;
-    margin-bottom: 50px;
+    margin-bottom: 110px;
+    text-align: end;
   }
 
   &__main-text {
-    font-size: 60px;
+    font-size: 43px;
     font-weight: 600;
     letter-spacing: 1.8px;
-    margin-bottom: 150px;
+    margin-bottom: 136px;
+    text-align: end;
 
     & span {
       color: $primary;
@@ -69,7 +58,7 @@
   }
 
   &__btn {
-    width: 45%;
+    width: 60%;
     text-align: center;
     background-color: $dark_text;
     color: $white;
@@ -79,7 +68,7 @@
     font-size: 20px;
     letter-spacing: 0.6px;
     text-transform: uppercase;
-    margin-right: auto;
+    margin-left: auto;
     transition: all 0.4s ease-in-out;
   }
   &__btn:hover {

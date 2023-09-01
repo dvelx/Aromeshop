@@ -76,7 +76,7 @@ const store = cartStore();
 const loader = ref(false);
 const productsData = ref({} as Products);
 const page = ref(1);
-const limit = ref(8);
+const limit = ref(9);
 
 const products = computed<Product[]>(() => {
   return productsData.value.products;
@@ -109,7 +109,8 @@ loadProducts();
   &__container {
     display: flex;
     flex-direction: row;
-    gap: 50px;
+    width: 100vw;
+    justify-content: space-between;
   }
   &__content {
     display: flex;
@@ -117,7 +118,7 @@ loadProducts();
   }
   &__list {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 30px;
     width: 100%;
   }

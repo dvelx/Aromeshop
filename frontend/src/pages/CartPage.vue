@@ -4,8 +4,9 @@
       <form class="cart__form form" action="#" method="POST">
         <div class="cart__field">
           <ul class="cart__list">
-            <!--          <CartItem v-for="item in products" :key="item.productId" :item="item"/>-->
+            <li v-if="cartProducts.length === 0">Ваша корзина пуста</li>
             <CartItem
+              v-else
               v-for="item of cartProducts"
               :key="item.id"
               :item="item"
@@ -18,8 +19,8 @@
             Итого: <span>{{ numberFormatter(totalPrice) }} ₽</span>
           </p>
 
-          <router-link to="/order" class="cart__button" type="submit">
-            Оформить заказ
+          <router-link to="/order" v-slot="{ navigate }">
+            <button class="cart__button" type="submit" @click="navigate" :disabled="cartProducts.length === 0">Оформить заказ</button>
           </router-link>
         </div>
       </form>
@@ -77,13 +78,17 @@ store.loadBasket(store.state.userAccessKey);
   }
   &__button {
     background-color: $dark-text;
+    color: $white;
     padding: 10px 30px;
     font-size: 20px;
     margin-top: auto;
     border-radius: 50px;
     transition: all 0.4s ease-in-out;
   }
-  &__button:hover {
+  &__button:disabled {
+    opacity: .6;
+  }
+  &__button:not([disabled]):hover {
     background-color: $primary;
     color: $dark-text;
   }

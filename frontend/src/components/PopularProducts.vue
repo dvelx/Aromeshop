@@ -124,6 +124,8 @@ loadProducts();
   position: relative;
   display: flex;
   flex-direction: column;
+  height: 430px;
+  max-height: 430px;
   margin-top: 30px;
   margin-bottom: 30px;
   border: 1px solid rgba(242, 242, 242, 0.5);
@@ -134,7 +136,8 @@ loadProducts();
 
   &__image {
     margin-bottom: 24px;
-    max-height: 300px;
+    height: 220px;
+    max-height: 220px;
     object-fit: contain;
   }
 
@@ -143,13 +146,14 @@ loadProducts();
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    max-height: 35px;
   }
   &__price {
     color: $dark-text;
   }
 
   &__title {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 600;
     line-height: 160%; /* 32px */
     letter-spacing: 0.6px;

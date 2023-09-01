@@ -114,6 +114,9 @@ const order = () => {
       store.updateOrderInfo(res.data);
       store.resetCart();
       router.push({ name: "/order/:id", params: { id: res.data.id } });
+    })
+    .catch(error => {
+      formError.value = error.response.data.error
     });
 };
 </script>
@@ -170,7 +173,8 @@ const order = () => {
       width: 100%;
       border-radius: 20px;
       border: 1px solid $primary;
-      padding: 25px 15px;
+      padding: 15px 15px;
+      font-size: 20px;
     }
   }
 }

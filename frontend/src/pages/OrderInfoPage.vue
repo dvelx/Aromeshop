@@ -1,12 +1,74 @@
 <template>
-  <div>
-    инфо заказа
+  <div class="container">
+    <section class="cart">
+      <form class="cart__form form" action="#" method="POST">
+        <div class="cart__field">
+          <p class="cart__message">
+            Благодарим за&nbsp;выбор нашего магазина. На&nbsp;Вашу почту придет письмо с&nbsp;деталями заказа.
+            Наши менеджеры свяжутся с&nbsp;Вами в&nbsp;течение часа для уточнения деталей доставки.
+          </p>
 
-    {{ orderInfo }}
+          <ul class="dictionary">
+            <li class="dictionary__item">
+              <span class="dictionary__key">
+                Получатель
+              </span>
+              <span class="dictionary__value">
+                {{ orderInfo.name }}
+              </span>
+            </li>
+            <li class="dictionary__item">
+              <span class="dictionary__key">
+                Адрес доставки
+              </span>
+              <span class="dictionary__value">
+                {{ orderInfo.address }}
+              </span>
+            </li>
+            <li class="dictionary__item">
+              <span class="dictionary__key">
+                Телефон
+              </span>
+              <span class="dictionary__value">
+                 {{ orderInfo.phone }}
+              </span>
+            </li>
+            <li class="dictionary__item">
+              <span class="dictionary__key">
+                Email
+              </span>
+              <span class="dictionary__value">
+                l{{ orderInfo.email }}
+              </span>
+            </li>
+            <li class="dictionary__item">
+              <span class="dictionary__key">
+                Комментарий:
+              </span>
+              <span class="dictionary__value">
+                {{ orderInfo.comment }}
+              </span>
+            </li>
+            
+          </ul>
+        </div>
 
-    продукты
+        <div class="cart__block">
+          <ul class="cart__orders">
+            <li class="cart__order" v-for="item of orderProduct">
+              <h3>{{ item.product.title }}</h3>
+              <b>{{ item.product.price }} ₽</b>
+              <span>Артикул: {{ item.product.id }}</span>
+            </li>
+          </ul>
 
-    {{ orderProduct }}
+          <div class="cart__total">
+            <p @click="console.log(orderProduct)">Доставка: <b></b></p>
+            <p>Итого: <b></b> товара на сумму <b> ₽</b></p>
+          </div>
+        </div>
+      </form>
+    </section>
   </div>
 </template>
 
@@ -35,4 +97,49 @@ const loadOrder = () => {
 loadOrder()
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import "src/assets/style/main";
+.cart {
+  
+  &__form {
+    display: grid;
+    grid-template-columns: 1fr 370px;
+    grid-template-rows: auto 1fr;
+    gap: 20px 50px;
+    align-items: flex-start;
+  }
+  
+  &__message {
+    margin: 0 0 50px;
+  }
+  
+  &__block {
+    border: 1px solid $primary;
+    padding: 35px 30px;
+    border-radius: 20px;
+  }
+  &__orders {
+    padding: 0 30px 25px;
+    margin: 0 -30px 25px;
+    border-bottom: 1px solid $primary;
+  }
+  &__order {
+    display: grid;
+    grid-template-columns: 1fr 90px;
+    gap: 5px 20px;
+  }
+  &__order:not(:last-child) {
+    margin-bottom: 20px;
+  }
+}
+.dictionary__item {
+  display: grid;
+  grid-template-columns: 170px 1fr;
+  gap: 20px;
+}
+.dictionary__item:not(:last-child) {
+  margin-bottom: 30px;
+}
+
+
+</style>
