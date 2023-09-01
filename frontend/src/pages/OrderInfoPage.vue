@@ -63,7 +63,7 @@
           </ul>
 
           <div class="cart__total">
-            <p @click="console.log(orderProduct)">Доставка: <b></b></p>
+            <p @click="console.log(orderInfo)">Доставка: <b></b></p>
             <p>Итого: <b></b> товара на сумму <b> ₽</b></p>
           </div>
         </div>
@@ -77,11 +77,12 @@ import { cartStore } from "@/store/cartStore.ts";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 import numberFormatter from "../helpers/numberFormatter.ts";
+import OrderInfo from "@/types/OrderInfo.ts";
 
 const store = cartStore();
 const route = useRoute();
 
-const orderInfo = computed(() => {
+const orderInfo = computed<OrderInfo[]>(() => {
   return store.state.orderInfo;
 });
 

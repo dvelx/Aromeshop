@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import apiDataService from "@/services/apiDataService.ts";
 import ResponseData from "@/types/ResponseData.ts";
+import OrderInfo from "@/types/OrderInfo.ts";
 
 interface IItem {
   price: number;
@@ -16,7 +17,7 @@ export const cartStore = defineStore("cartStore", () => {
     totalPrice: 0 as number,
     userAccessKey: null as string | null,
     cartId: 0 as number,
-    orderInfo: [],
+    orderInfo: [] as OrderInfo[],
   });
 
   // mutations
