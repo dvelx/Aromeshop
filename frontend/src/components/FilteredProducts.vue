@@ -142,7 +142,8 @@ onMounted(() => {
     height: 65px;
     border-radius: 1px;
     border: 1px solid transparent;
-    background-color: transparent;
+    background-color: $background;
+    filter: brightness(97%);
     -webkit-box-shadow: none;
     box-shadow: none;
     -webkit-transition: all 0.2s ease;

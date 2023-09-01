@@ -3,10 +3,10 @@
     <FilteredProducts />
 
     <div class="product-list__content">
-      <div v-if="loader" class="lds-ripple">
-        <div></div>
-        <div></div>
-      </div>
+<!--      <div v-if="loader" class="lds-ripple">-->
+<!--        <div></div>-->
+<!--        <div></div>-->
+<!--      </div>-->
       <div class="product-list__list">
         <div v-for="item in products" :key="item.id" class="card">
           <router-link :to="'/product/' + item.slug">
@@ -152,9 +152,10 @@ loadProducts();
     padding-left: 20px;
     padding-right: 20px;
   }
+ 
 
   &__title {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 600;
     line-height: 160%; /* 32px */
     letter-spacing: 0.6px;

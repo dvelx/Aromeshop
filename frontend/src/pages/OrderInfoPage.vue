@@ -56,9 +56,9 @@
         <div class="cart__block">
           <ul class="cart__orders">
             <li class="cart__order" v-for="item of orderProduct">
-              <h3>{{ item.product.title }}</h3>
-              <b>{{ item.product.price }} ₽</b>
-              <span>Артикул: {{ item.product.id }}</span>
+              <h3 class="cart__order-title">{{ item.product.title }}</h3>
+              <b class="cart__order-price">{{ numberFormatter(item.product.price) }} ₽</b>
+              <span class="cart__order-span">Артикул: {{ item.product.id }}</span>
             </li>
           </ul>
 
@@ -76,6 +76,7 @@
 import { cartStore } from "@/store/cartStore.ts";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
+import numberFormatter from "../helpers/numberFormatter.ts";
 
 const store = cartStore();
 const route = useRoute();
@@ -100,6 +101,7 @@ loadOrder()
 <style lang="scss" scoped>
 @import "src/assets/style/main";
 .cart {
+  margin-bottom: 40px;
   
   &__form {
     display: grid;
@@ -111,6 +113,9 @@ loadOrder()
   
   &__message {
     margin: 0 0 50px;
+    line-height: 24px;
+    width: 75%;
+    font-size: 18px;
   }
   
   &__block {
@@ -127,6 +132,18 @@ loadOrder()
     display: grid;
     grid-template-columns: 1fr 90px;
     gap: 5px 20px;
+    
+    &-title {
+      font-size: 16px;
+    }
+    &-price {
+      font-size: 16px;
+      text-align: right;
+    }
+    &-span {
+      font-size: 12px;
+      opacity: .6;
+    }
   }
   &__order:not(:last-child) {
     margin-bottom: 20px;
@@ -139,6 +156,9 @@ loadOrder()
 }
 .dictionary__item:not(:last-child) {
   margin-bottom: 30px;
+}
+.dictionary__key {
+  opacity: .6;
 }
 
 

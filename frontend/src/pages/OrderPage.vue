@@ -157,7 +157,7 @@ const order = () => {
   }
 
   &__cart {
-    border: 1px solid #dedede;
+    border: 1px solid $primary;
     border-radius: 10px;
     padding: 35px 30px;
 
@@ -165,7 +165,7 @@ const order = () => {
       list-style: none;
       padding: 0 30px 25px;
       margin: 0 -30px 25px;
-      border-bottom: 1px solid #dedede;
+      border-bottom: 1px solid $primary;
     }
 
     &-btn {
