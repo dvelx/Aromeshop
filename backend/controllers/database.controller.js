@@ -46,11 +46,38 @@ router.route("/brands").get(async (request, response) => {
 /* Получение списка товаров */
 router.route("/products").get(async (request, response) => {
   const hostname = getRequestHostUrl(request);
-  const { limit, page, sortBy, order } = request.query;
+  let { limit, page, sortBy, order, priceFrom, priceTo } = request.query;
+
+  let error = {};
+
+  if (priceFrom && isNaN(priceFrom)) {
+    error = { ...error, priceFrom: "priceFrom is not a number" };
+  }
+  if (priceTo && isNaN(priceTo)) {
+    error = { ...error, priceTo: "priceTo is not a number" };
+  }
+  if (order && order != "asc" && order != "desc") {
+    error = { ...error, order: "order can be only 'asc' or 'desc'" };
+  }
+  if (sortBy && sortBy != "price" && sortBy != "name" && sortBy != "id") {
+    error = { ...error, sortBy: "order can be only 'asc' or 'desc'" };
+  }
+
+  if (Object.keys(error).length > 0) {
+    sendResponse(response, { error });
+    return;
+  }
 
   sendResponse(
     response,
-    await database.getProducts(hostname, { limit, page, sortBy, order })
+    await database.getProducts(hostname, {
+      limit,
+      page,
+      sortBy,
+      order,
+      priceFrom,
+      priceTo,
+    })
   );
 });
 

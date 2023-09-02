@@ -166,23 +166,31 @@ GROUP BY brands.id`;
     const sql = `SELECT * FROM ${this.db_name}.users WHERE access_key = '${uid}';`;
     return (await this.runQuery(sql))[0];
   }
-  async getProducts(hostname, { limit, page, sortBy, order }) {
+  async getProducts(
+    hostname,
+    { limit, page, sortBy, order, priceFrom, priceTo }
+  ) {
     const sortValue = { id: "id", price: "price", name: "title" };
     const orderValue = { asc: "ASC", desc: "DESC" };
 
     let sorting = sortValue[sortBy] ? sortValue[sortBy] : sortValue.id;
     let ordering = orderValue[order] ? orderValue[order] : orderValue.asc;
     let sql = `SELECT *, CONCAT('${hostname}', image) as image_url 
-    FROM ${this.db_name}.products_view 
-    ORDER BY ${sorting} ${ordering}`;
-    //console.log("sort: ", sorting);
+    FROM ${this.db_name}.products_view`;
 
+    const where = ` WHERE ${priceFrom ? "price > " + priceFrom : ""} ${
+      priceFrom && priceTo ? " AND" : ""
+    } ${priceTo ? "price < " + priceTo : ""}`;
+
+    if (priceFrom || priceTo) sql += where;
+    sql += ` ORDER BY ${sorting} ${ordering}`;
+    //console.log("SQL: ", sql);
     if (page && limit && page > 0) {
       sql += ` LIMIT ${(page - 1) * limit}, ${limit}`;
     } else if (limit) sql += ` LIMIT ${limit}`;
 
     const products = await this.runQuery(sql);
-    sql = `SELECT COUNT(*) AS count FROM ${this.db_name}.products`;
+    sql = `SELECT FOUND_ROWS() AS count`;
     const [{ count }] = await this.runQuery(sql);
     return { products, pagination: { page: +page, limit: +limit, count } };
   }
