@@ -233,7 +233,18 @@ FROM cart_items
     }
     const [cart] = await this.getCartByUserId(user.id);
     const items = await this.getCartProducts(cart.id, hostname);
-    const res = { id: cart.id, user, items };
+    let res = { id: cart.id, user, items };
+    if (items.length > 0) {
+      res = {
+        ...res,
+        total: items
+          .reduce(
+            (acc, item) => acc + parseFloat(item.price * item.quantity),
+            0
+          )
+          .toFixed(2),
+      };
+    }
     return res;
   }
 
