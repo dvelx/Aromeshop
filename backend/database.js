@@ -166,10 +166,16 @@ GROUP BY brands.id`;
     const sql = `SELECT * FROM ${this.db_name}.users WHERE access_key = '${uid}';`;
     return (await this.runQuery(sql))[0];
   }
-  async getProducts(hostname, { limit, page }) {
+  async getProducts(hostname, { limit, page, sortBy, order }) {
+    const sortValue = { id: "id", price: "price", name: "title" };
+    const orderValue = { asc: "ASC", desc: "DESC" };
+
+    let sorting = sortValue[sortBy] ? sortValue[sortBy] : sortValue.id;
+    let ordering = orderValue[order] ? orderValue[order] : orderValue.asc;
     let sql = `SELECT *, CONCAT('${hostname}', image) as image_url 
     FROM ${this.db_name}.products_view 
-    ORDER BY id ASC`;
+    ORDER BY ${sorting} ${ordering}`;
+    //console.log("sort: ", sorting);
 
     if (page && limit && page > 0) {
       sql += ` LIMIT ${(page - 1) * limit}, ${limit}`;

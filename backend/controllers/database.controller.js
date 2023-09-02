@@ -46,8 +46,12 @@ router.route("/brands").get(async (request, response) => {
 /* Получение списка товаров */
 router.route("/products").get(async (request, response) => {
   const hostname = getRequestHostUrl(request);
-  const { limit, page } = request.query;
-  sendResponse(response, await database.getProducts(hostname, { limit, page }));
+  const { limit, page, sortBy, order } = request.query;
+
+  sendResponse(
+    response,
+    await database.getProducts(hostname, { limit, page, sortBy, order })
+  );
 });
 
 /* Получение товара по id */
