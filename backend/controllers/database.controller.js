@@ -1,6 +1,7 @@
 import exprepress, { json, request, response } from "express";
 import Database from "../database.js";
 import slugify from "slugify";
+import { hostname } from "os";
 
 const database = new Database();
 database.connect();
@@ -181,7 +182,7 @@ router.route("/baskets").delete(async (request, response) => {
 });
 
 router.route("/orders").post(async (request, response) => {
-  const { name, address, phone, email, comment } = request.body;
+  let { name, address, phone, email, comment } = request.body;
   const { accessKey } = request.query;
 
   let error = {};
@@ -201,9 +202,9 @@ router.route("/orders").post(async (request, response) => {
     if (!email) {
       error = { ...error, email: "email required" };
     }
-    // if (!comment) {
-    //   error = { ...error, comment: "comment required" };
-    // }
+    if (!comment) {
+      comment = "";
+    }
   }
   if (Object.keys(error).length > 0) {
     sendResponse(response, { error });
@@ -218,7 +219,13 @@ router.route("/orders").post(async (request, response) => {
     database.db.beginTransaction();
 
     try {
-      await database.makeOrder({ name, address, phone, email, comment });
+      await database.makeOrder({
+        name,
+        address,
+        phone,
+        email,
+        comment,
+      });
       [lastOrder] = await database.getLastInsertedOrder();
 
       cart.items.forEach(async (item) => {
@@ -243,7 +250,11 @@ router.route("/orders").post(async (request, response) => {
       const product = await database.getProductById(items[i]["product_id"]);
       items[i] = { ...items[i], product };
     }
-    result = { ...result, items };
+
+    const total = items
+      .reduce((acc, item) => acc + parseFloat(item.price * item.quantity), 0)
+      .toFixed(2);
+    result = { ...result, items, total };
   } else {
     result = { error: "Wrong accessKey" };
   }
@@ -253,6 +264,7 @@ router.route("/orders").post(async (request, response) => {
 router.route("/order/:id").get(async (request, response) => {
   const orderId = request.params.id;
   const [order] = await database.getOrderById(orderId);
+  const hostname = getRequestHostUrl(request);
   if (!order) {
     sendResponse(response, { error: "Order not found!" });
     return;
@@ -260,11 +272,17 @@ router.route("/order/:id").get(async (request, response) => {
 
   const items = await database.getOrderItems(orderId);
   for (let i = 0; i < items.length; i++) {
-    const product = await database.getProductById(items[i]["product_id"]);
+    const product = await database.getProductById(
+      items[i]["product_id"],
+      hostname
+    );
     items[i] = { ...items[i], product };
   }
+  const total = items
+    .reduce((acc, item) => acc + parseFloat(item.price * item.quantity), 0)
+    .toFixed(2);
 
-  const result = { ...order, items };
+  const result = { ...order, items, total };
   sendResponse(response, result);
 });
 export default router;
