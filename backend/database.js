@@ -185,12 +185,11 @@ GROUP BY brands.id`;
     sql += ` ORDER BY ${
       sortBy === "name" ? " brand_title " + ordering + ", " : ""
     }${sorting} ${ordering} `;
-    //console.log("SQL: ", sql);
+
     if (page && limit && page > 0) {
       sql += ` LIMIT ${(page - 1) * limit}, ${limit}`;
     } else if (limit) sql += ` LIMIT ${limit}`;
 
-    console.log(sql);
     const products = await this.runQuery(sql);
     sql = `SELECT FOUND_ROWS() AS count`;
     const [{ count }] = await this.runQuery(sql);

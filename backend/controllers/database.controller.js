@@ -215,7 +215,11 @@ router.route("/baskets").delete(async (request, response) => {
 router.route("/orders").post(async (request, response) => {
   let { name, address, phone, email, comment } = request.body;
   const { accessKey } = request.query;
+  const phoneRegex =
+    /^(?:\+?\d{1,3})(?:\(?\d{3}\)[-\s]{0,}\d{3}[-\s]{0,}\d{2}[-\s]{0,}\d{2})$/;
 
+  const emailRegex =
+    /^([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22))*\x40([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d))*$/;
   let error = {};
   if (!accessKey) {
     error = { error: "accessKey required" };
@@ -224,14 +228,19 @@ router.route("/orders").post(async (request, response) => {
     if (!name) {
       error = { ...error, name: "Name required" };
     }
+
     if (!address) {
       error = { ...error, address: "address required" };
     }
     if (!phone) {
       error = { ...error, phone: "phone required" };
+    } else if (!phoneRegex.test(phone)) {
+      error = { ...error, phone: "invalid phone format" };
     }
     if (!email) {
       error = { ...error, email: "email required" };
+    } else if (!emailRegex.test(email) || email.length > 50) {
+      error = { ...error, email: "invalid email format" };
     }
     if (!comment) {
       comment = "";
