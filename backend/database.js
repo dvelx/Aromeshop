@@ -175,20 +175,22 @@ GROUP BY brands.id`;
 
     let sorting = sortValue[sortBy] ? sortValue[sortBy] : sortValue.id;
     let ordering = orderValue[order] ? orderValue[order] : orderValue.asc;
-    let sql = `SELECT *, CONCAT('${hostname}', image) as image_url 
-    FROM ${this.db_name}.products_view`;
+    let sql = `SELECT *, CONCAT('${hostname}', image) as image_url FROM ${this.db_name}.products_view`;
 
     const where = ` WHERE ${priceFrom ? "price > " + priceFrom : ""} ${
       priceFrom && priceTo ? " AND" : ""
     } ${priceTo ? "price < " + priceTo : ""}`;
 
     if (priceFrom || priceTo) sql += where;
-    sql += ` ORDER BY ${sorting} ${ordering}`;
+    sql += ` ORDER BY ${
+      sortBy === "name" ? " brand_title " + ordering + ", " : ""
+    }${sorting} ${ordering} `;
     //console.log("SQL: ", sql);
     if (page && limit && page > 0) {
       sql += ` LIMIT ${(page - 1) * limit}, ${limit}`;
     } else if (limit) sql += ` LIMIT ${limit}`;
 
+    console.log(sql);
     const products = await this.runQuery(sql);
     sql = `SELECT FOUND_ROWS() AS count`;
     const [{ count }] = await this.runQuery(sql);
