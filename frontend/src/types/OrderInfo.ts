@@ -8,6 +8,7 @@ export default interface OrderInfo {
   name: string,
   phone: string,
   status_id: number,
+  total: string,
   items: {
     id: number,
     order_id: number,
@@ -26,6 +27,6 @@ export default interface OrderInfo {
       price: number;
       slug: string;
       title: string;
-    }
+    }[]
   }
 }

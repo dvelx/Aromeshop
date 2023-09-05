@@ -7,6 +7,8 @@
             Благодарим за&nbsp;выбор нашего магазина. На&nbsp;Вашу почту придет письмо с&nbsp;деталями заказа.
             Наши менеджеры свяжутся с&nbsp;Вами в&nbsp;течение часа для уточнения деталей доставки.
           </p>
+          
+          {{ datePurchased }} ----  {{ timePurchased }}
 
           <ul class="dictionary">
             <li class="dictionary__item">
@@ -63,8 +65,8 @@
           </ul>
 
           <div class="cart__total">
-            <p @click="console.log(orderInfo)">Доставка: <b></b></p>
-            <p>Итого: <b></b> товара на сумму <b> ₽</b></p>
+            <p @click="console.log(orderInfo)">Доставка: <b>бесплатно</b></p>
+            <p>Итого: <b>{{  }}</b> товара на сумму <b>{{ numberFormatter(+orderInfo.total) }} ₽</b></p>
           </div>
         </div>
       </form>
@@ -82,16 +84,22 @@ import OrderInfo from "@/types/OrderInfo.ts";
 const store = cartStore();
 const route = useRoute();
 
-const orderInfo = computed<OrderInfo[]>(() => {
+const orderInfo = computed<OrderInfo>(() => {
   return store.state.orderInfo;
 });
 
 const orderProduct = computed(() => {
   return store.state.orderInfo.items;
 });
+const datePurchased = computed(() => {
+  return new Date(store.state.orderInfo.date_purchased).toLocaleDateString('ru-RU')
+})
+const timePurchased = computed(() => {
+  return new Date(store.state.orderInfo.date_purchased).toLocaleTimeString('ru-RU')
+})
 
 const loadOrder = () => {
-  if (store.state.orderInfo && store.state.orderInfo.id === route.params.id) {
+  if (store.state.orderInfo && +store.state.orderInfo.id === +route.params.id) {
     return;
   }
   store.loadOrderInfo(+route.params.id);

@@ -36,33 +36,41 @@ class productDataService {
       : api.get("/baskets");
   }
   addProductToBasket(
-    cartId: number,
     productId: number,
     amount: number,
+    accessKey: string | null
   ): Promise<any> {
     return api.post("/baskets", {
-      cartId: cartId,
       productId: productId,
       quantity: amount,
+    }, {
+      params: {
+        accessKey
+      }
     });
   }
   changeProductQuantity(
-    cartId: number,
     productId: number,
     quantity: number,
+    accessKey: string | null
   ): Promise<any> {
     return api.put("/baskets", {
-      cartId: cartId,
       productId: productId,
       quantity: quantity,
+    }, {
+      params: {
+        accessKey
+      }
     });
   }
-  deleteProduct(cartId: number, productId: number): Promise<any> {
+  deleteProduct(productId: number, accessKey: string | null): Promise<any> {
     return api.delete("/baskets", {
       data: {
-        cartId: cartId,
         productId: productId,
       },
+      params: {
+        accessKey
+      }
     });
   }
 

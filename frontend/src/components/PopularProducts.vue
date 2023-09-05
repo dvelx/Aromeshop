@@ -4,8 +4,7 @@
     <h3 class="title-cta">Купи наши популярные свечи</h3>
     <swiper
       :modules="[Pagination, Autoplay]"
-      :slides-per-view="4"
-      :space-between="50"
+      :breakpoints="swiperOptions.breakpoints"
       :pagination="{ clickable: true }"
     >
       <swiper-slide v-for="item in products" :key="item.id">
@@ -77,6 +76,26 @@ const productsData = ref({} as Products);
 const products = computed<Product[]>(() => {
   return productsData.value.products;
 });
+const swiperOptions = {
+  breakpoints: {
+    320: {
+      slidesPerView: 1,
+      spaceBetween: 10
+    },
+    640: {
+      slidesPerView: 2,
+      spaceBetween: 20,
+    },
+    768: {
+      slidesPerView: 4,
+      spaceBetween: 40,
+    },
+    1199: {
+      slidesPerView: 4,
+      spaceBetween: 50,
+    },
+  }
+}
 const loadProducts = () => {
   apiDataService
     .getAll(8, 0)
@@ -94,6 +113,9 @@ loadProducts();
 @import "src/assets/style/main";
 .popular-container {
   margin-bottom: 30px;
+}
+.swiper-wrapper {
+  width: 1200px;
 }
 .title {
   font-family:
@@ -115,11 +137,6 @@ loadProducts();
   letter-spacing: 0.96px;
 }
 
-.popular_products {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-}
 .card {
   position: relative;
   display: flex;
@@ -188,6 +205,8 @@ loadProducts();
     flex-direction: column;
     margin-top: 30px;
     margin-bottom: 30px;
+    height: 270px;
+    max-height: 270px;
     border: 1px solid rgba(242, 242, 242, 0.5);
     border-radius: 20px;
     padding: 15px;
@@ -232,9 +251,6 @@ loadProducts();
       padding: 5px 7px;
       border-radius: 100px;
     }
-  }
-  .swiper-slide {
-    margin-right: 20px !important;
   }
 }
 </style>

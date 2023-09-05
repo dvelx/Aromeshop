@@ -17,7 +17,7 @@ export const cartStore = defineStore("cartStore", () => {
     totalPrice: 0 as number,
     userAccessKey: null as string | null,
     cartId: 0 as number,
-    orderInfo: [] as OrderInfo[],
+    orderInfo: {} as OrderInfo,
   });
 
   // mutations
@@ -52,9 +52,9 @@ export const cartStore = defineStore("cartStore", () => {
       return;
     }
     return apiDataService.changeProductQuantity(
-      state.value.cartId,
       productId,
       amount,
+      state.value.userAccessKey
     );
   };
 
@@ -62,12 +62,12 @@ export const cartStore = defineStore("cartStore", () => {
 
   const addProductToCart = (productId: number, amount: number) => {
     apiDataService
-      .addProductToBasket(state.value.cartId, productId, amount)
+      .addProductToBasket(productId, amount, state.value.userAccessKey)
       .then(() => loadBasket(state.value.userAccessKey));
   };
   const deleteProduct = (productId: number) => {
     apiDataService
-      .deleteProduct(state.value.cartId, productId)
+      .deleteProduct(productId, state.value.userAccessKey)
       .then(() => loadBasket(state.value.userAccessKey));
   };
   const loadBasket = (accessKey: string | null = null) => {
