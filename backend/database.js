@@ -219,9 +219,7 @@ FROM ${this.db_name}.products_view WHERE id = '${id}' OR slug = '${id}'`;
   }
   async getCartProducts(cartId, hostname) {
     const sql = `SELECT products_view.*, CONCAT('${hostname}', image) AS image_url, quantity
-FROM cart_items 
-    JOIN products_view ON product_id = products_view.id
-    WHERE cart_id = '${cartId}';`;
+FROM cart_items JOIN products_view ON product_id = products_view.id WHERE cart_id = '${cartId}';`;
     return await this.runQuery(sql);
   }
 

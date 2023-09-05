@@ -17,22 +17,17 @@
       <tr>
         <td style="padding: 0;">
           <div style="background-color: #ffe4c4; width: 100%;"">
-            <img data-v-727bebfc="" src=" http://localhost:5173/src/assets/images/svg/aroma-logo.svg" alt="logo">
+            <img data-v-727bebfc="" src=" {%hostname%}img/svg/aroma-logo.svg" alt="logo">
           </div>
           <div style="width: 100%; padding-left: 16px;">
-            <p>Здравствуйте, Name!</p>
-            <h1 style="font-size: medium;">Ваш заказ номер 0008 оформлен.</h1>
+            <p>Здравствуйте, {%name%}!</p>
+            <h1 style="font-size: medium;">Ваш заказ номер {%orderId%} оформлен.</h1>
             <p>В ближайшее время мы свяжемся с вами по телефону для подтверждения заказа.</p>
           </div>
 
         </td>
       </tr>
 
-      <tr>
-        <td style="padding-left: 16px;">
-          <span>2 товара</span>
-        </td>
-      </tr>
       <td>
 
         <table width="100%" cellpadding="6" cellspacing="0" style="padding: 16px;">
@@ -45,29 +40,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>
-                <div style="background-color: #bbbbbb; width: 100px; height: 100px;"></div>
-              </td>
-              <td>Ароматизатор 123</td>
-              <td style="text-align: right;">100.00 ₽</td>
-              <td style="text-align: right;">10 шт.</td>
-              <td style="text-align: right;"><b>1000.00 ₽</b></td>
-            </tr>
-            <tr>
-              <td>
-                <div style="background-color: #bbbbbb; width: 100px; height: 100px;"></div>
-              </td>
-              <td>yfbvtyjdfybt</td>
-              <td style="text-align: right;">80.00 ₽</td>
-              <td style="text-align: right;">5 шт.</td>
-              <td style="text-align: right;"><b>400.00 ₽</b></td>
-            </tr>
+            {%orderItems%}
           </tbody>
           <tfoot style="background-color: #ffe4c4;">
             <tr>
               <td colspan="4">Итого к оплате:</td>
-              <td style="text-align: right;"><b>1400.00 ₽</b></td>
+              <td style="text-align: right;"><b>{%total%} ₽</b></td>
             </tr>
           </tfoot>
 

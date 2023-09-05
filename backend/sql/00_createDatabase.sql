@@ -148,7 +148,7 @@ CREATE TABLE `orders`(
 	`id` INT AUTO_INCREMENT PRIMARY KEY,
     `name` varchar(255) CHARSET utf8mb4 NOT NULL,
     `address` varchar(255) CHARSET utf8mb4 NOT NULL,
-    `phone` varchar(15) NOT NULL,
+    `phone` varchar(20) NOT NULL,
     `email` varchar(50) NOT NULL,
     `comment` varchar(1000) CHARSET utf8mb4 NOT NULL,
     `date_purchased` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
