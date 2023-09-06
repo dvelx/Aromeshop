@@ -77,7 +77,19 @@ const loader = ref(false);
 const productsData = ref({} as Products);
 const page = ref(1);
 const limit = ref(9);
+const width = ref(0)
 
+
+const changeLimit = () => {
+  width.value = window.innerWidth
+  if (width.value > 1024) {
+    limit.value = 9
+  }
+  if (width.value < 1024 && width.value > 768) {
+    limit.value = 6
+  }
+}
+changeLimit()
 const products = computed<Product[]>(() => {
   return productsData.value.products;
 });
@@ -118,7 +130,7 @@ loadProducts();
   }
   &__list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 30px;
     width: 100%;
   }
@@ -184,7 +196,24 @@ loadProducts();
     background-color: $primary;
   }
 }
-@media (max-width: 1199px) {
+
+
+@media (max-width: 1780px) {
+  .product-list {
+    &__list {
+      grid-template: repeat(2, 1fr) / repeat(3, 1fr);
+    }
+  }
+}
+@media (max-width: 1366px) {
+  .product-list {
+    &__list {
+      grid-template: repeat(2, 1fr) / repeat(2, 1fr);
+    }
+  }
+}
+
+@media (max-width: 1024px) {
   .product-list {
     &__container {
       gap: 25px;
@@ -234,53 +263,62 @@ loadProducts();
   }
 }
 
-.lds-ripple {
-  display: inline-block;
-  position: relative;
-  width: 80px;
-  height: 80px;
-  margin-right: auto;
-  margin-left: auto;
-  margin-top: 30px;
+@media (max-width: 768px) {
 }
-.lds-ripple div {
-  position: absolute;
-  border: 4px solid $primary;
-  opacity: 1;
-  border-radius: 50%;
-  animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+
+@media (max-width: 576px) {
 }
-.lds-ripple div:nth-child(2) {
-  animation-delay: -0.5s;
+
+@media (max-width: 320px) {
 }
-@keyframes lds-ripple {
-  0% {
-    top: 36px;
-    left: 36px;
-    width: 0;
-    height: 0;
-    opacity: 0;
-  }
-  4.9% {
-    top: 36px;
-    left: 36px;
-    width: 0;
-    height: 0;
-    opacity: 0;
-  }
-  5% {
-    top: 36px;
-    left: 36px;
-    width: 0;
-    height: 0;
-    opacity: 1;
-  }
-  100% {
-    top: 0;
-    left: 0;
-    width: 72px;
-    height: 72px;
-    opacity: 0;
-  }
-}
+
+//.lds-ripple {
+//  display: inline-block;
+//  position: relative;
+//  width: 80px;
+//  height: 80px;
+//  margin-right: auto;
+//  margin-left: auto;
+//  margin-top: 30px;
+//}
+//.lds-ripple div {
+//  position: absolute;
+//  border: 4px solid $primary;
+//  opacity: 1;
+//  border-radius: 50%;
+//  animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+//}
+//.lds-ripple div:nth-child(2) {
+//  animation-delay: -0.5s;
+//}
+//@keyframes lds-ripple {
+//  0% {
+//    top: 36px;
+//    left: 36px;
+//    width: 0;
+//    height: 0;
+//    opacity: 0;
+//  }
+//  4.9% {
+//    top: 36px;
+//    left: 36px;
+//    width: 0;
+//    height: 0;
+//    opacity: 0;
+//  }
+//  5% {
+//    top: 36px;
+//    left: 36px;
+//    width: 0;
+//    height: 0;
+//    opacity: 1;
+//  }
+//  100% {
+//    top: 0;
+//    left: 0;
+//    width: 72px;
+//    height: 72px;
+//    opacity: 0;
+//  }
+//}
 </style>

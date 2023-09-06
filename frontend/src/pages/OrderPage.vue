@@ -65,7 +65,7 @@
 <script setup lang="ts">
 import BaseFormText from "@/components/BaseFormText.vue";
 import BaseFormTextarea from "@/components/BaseFormTextarea.vue";
-import { computed, ref } from "vue";
+import {computed, ref} from "vue";
 import OrderPageCart from "@/components/OrderPageCart.vue";
 import { cartStore } from "@/store/cartStore.ts";
 import numberFormatter from "@/helpers/numberFormatter.ts";
@@ -86,7 +86,8 @@ const router = useRouter();
 
 const formData = ref({} as FormData);
 const formError = ref({} as FormData);
-const formErrorMessage = ref({});
+// const formErrorMessage = ref({});
+
 
 const products = computed(() => {
   return store.state.cartProduct;

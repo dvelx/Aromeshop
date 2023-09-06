@@ -42,6 +42,7 @@ import MainContent from "../components/MainContent.vue";
 <style lang="scss" scoped>
 @import "src/assets/style/main";
 .content {
+  width: calc(100vw - 9px);
   background-color: #ecdfdb;
   padding-top: 50px;
   padding-bottom: 50px;

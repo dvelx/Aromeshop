@@ -89,26 +89,26 @@
       </div>
     </div>
 
-    <div v-if="toggle" class="right__top-burger-menu">
-      <nav class="nav burger-nav">
-        <ul class="nav__list">
+    <div v-if="toggle" class="right__top-burger-menu" @click="outsideClick">
+      <nav class="burger-nav">
+        <ul class="burger-nav__list">
           <li class="nav__item">
-            <router-link to="/catalog" class="nav__link" active-class="active">
+            <router-link to="/catalog" class="nav__link" active-class="active" @click="isOpenBurgerMenu">
               МАГАЗИН
             </router-link>
           </li>
           <li class="nav__item">
-            <router-link to="/about-us" class="nav__link" active-class="active">
+            <router-link to="/about-us" class="nav__link" active-class="active" @click="isOpenBurgerMenu">
               О&nbsp;НАС
             </router-link>
           </li>
           <li class="nav__item">
-            <router-link to="/blog" class="nav__link" active-class="active">
+            <router-link to="/blog" class="nav__link" active-class="active" @click="isOpenBurgerMenu">
               БЛОГ
             </router-link>
           </li>
           <li class="nav__item">
-            <router-link to="/reviews" class="nav__link" active-class="active">
+            <router-link to="/reviews" class="nav__link" active-class="active" @click="isOpenBurgerMenu">
               ОТЗЫВЫ
             </router-link>
           </li>
@@ -134,6 +134,13 @@ const cartProductsAmount = computed(() => {
 const isOpenBurgerMenu = () => {
   toggle.value = !toggle.value;
 };
+const content = ref(null)
+const outsideClick = (e) => {
+  if (e.target !== content.value && e.target.contains(content.value)) {
+    console.log(e)
+    isOpenBurgerMenu()
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -196,10 +203,10 @@ const isOpenBurgerMenu = () => {
       gap: 30px;
     }
   }
-  &__burger-btn,
-  &__top-burger-menu {
+  &__burger-btn{
     display: none;
   }
+  
 }
 .logo {
   align-self: center;
@@ -210,8 +217,30 @@ const isOpenBurgerMenu = () => {
     }
   }
 }
+.cart {
+  position: relative;
 
-@media (max-width: 1199px) {
+  &__counter {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: $primary;
+    padding: 3px;
+    min-width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    font-size: 7px;
+    color: $white;
+    text-align: center;
+    line-height: 1;
+  }
+}
+@media (max-width: 1780px) {
+}
+@media (max-width: 1366px) {
+}
+
+@media (max-width: 1024px) {
   .nav {
     display: none;
     &__list {
@@ -245,24 +274,30 @@ const isOpenBurgerMenu = () => {
       display: block;
     }
   }
+  .burger-nav {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #737373;
+    border-radius: 0 0 0 20px;
+    z-index: 1000;
+    
+    &__list {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      padding: 40px;
+      width: 300px;
+    }
+  }
 }
 
-.cart {
-  position: relative;
+@media (max-width: 768px) {
+}
 
-  &__counter {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    background-color: $primary;
-    padding: 3px;
-    min-width: 13px;
-    height: 13px;
-    border-radius: 50%;
-    font-size: 7px;
-    color: $white;
-    text-align: center;
-    line-height: 1;
-  }
+@media (max-width: 576px) {
+}
+
+@media (max-width: 320px) {
 }
 </style>

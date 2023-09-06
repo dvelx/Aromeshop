@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import {computed, reactive} from "vue";
 import BaseFormField from "@/components/BaseFormField.vue";
 
 const props = defineProps<{

@@ -33,10 +33,6 @@ body {
   fill: currentColor;
 }
 #app {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 header {
   flex: 0 0 auto;
@@ -86,19 +82,44 @@ button {
 }
 
 .container {
-  max-width: 1480px;
-  min-width: 1200px;
-  padding-left: 40px;
-  padding-right: 40px;
+  max-width: 1770px;
   margin-left: auto;
   margin-right: auto;
 }
 
-@media (max-width: 1199px) {
+@media (max-width: 1780px) {
   .container {
-    max-width: 1150px;
-    min-width: 950px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+@media (max-width: 1366px) {
+  
+}
+
+@media (max-width: 1024px) {
+  .container {
+    max-width: 924px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: 668px;
+    padding: 0 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+@media (max-width: 320px) {
+  .container {
+    max-width: 290px;
+    padding: 0;
   }
 }

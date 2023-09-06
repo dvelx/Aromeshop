@@ -79,7 +79,7 @@ const products = computed<Product[]>(() => {
 const swiperOptions = {
   breakpoints: {
     320: {
-      slidesPerView: 1,
+      slidesPerView: 2,
       spaceBetween: 10
     },
     640: {
@@ -87,13 +87,18 @@ const swiperOptions = {
       spaceBetween: 20,
     },
     768: {
+      slidesPerView: 3,
+      spaceBetween: 30,
+    },
+    1024: {
       slidesPerView: 4,
       spaceBetween: 40,
     },
-    1199: {
-      slidesPerView: 4,
+    1366: {
+
+      slidesPerView: 5,
       spaceBetween: 50,
-    },
+    }
   }
 }
 const loadProducts = () => {
@@ -252,5 +257,22 @@ loadProducts();
       border-radius: 100px;
     }
   }
+}
+@media (max-width: 1780px) {
+}
+@media (max-width: 1366px) {
+}
+
+@media (max-width: 1024px) {
+  
+}
+
+@media (max-width: 768px) {
+}
+
+@media (max-width: 576px) {
+}
+
+@media (max-width: 320px) {
 }
 </style>
