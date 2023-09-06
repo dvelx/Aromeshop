@@ -125,10 +125,7 @@ router.route("/users/accessKey").get(async (request, response) => {
 router.route("/baskets").get(async (request, response) => {
   const hostname = getRequestHostUrl(request);
   const { accessKey } = request.query;
-  if (!accessKey) {
-    sendResponse(response, { error: "accessKey required" });
-    return;
-  }
+
   let result = await database.getCart({ accessKey, hostname });
   if (!result) result = { error: "Wrong accessKey" };
 
