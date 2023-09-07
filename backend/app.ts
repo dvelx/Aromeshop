@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 
 // подключение статической папки с админкой
-app.use(express.static("admin", options));
+app.use("/admin", express.static("admin", options));
 
 // подключение станической папки с картинками
 app.use("/img", express.static("img"));
