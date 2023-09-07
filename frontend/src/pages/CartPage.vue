@@ -53,14 +53,14 @@ store.loadBasket(store.state.userAccessKey);
   &__container {
     display: flex;
     flex-direction: row;
-    width: 100vw;
   }
   &__form {
     display: grid;
     grid-template-columns: 1fr auto;
     grid-template-rows: auto 1fr;
-    gap: 20px 40px;
-    width: 100%;
+    gap: 20px 80px;
+    margin-right: auto;
+    margin-left: auto;
   }
   &__block {
     border: 1px solid $primary;

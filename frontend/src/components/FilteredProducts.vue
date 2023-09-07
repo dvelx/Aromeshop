@@ -1,7 +1,7 @@
 <template>
   <div class="filter">
     <h2 class="filter__title">Фильтровать</h2>
-    <form action="#" class="filter__form form" method="get">
+    <form action="#" class="filter__form form" method="get" @submit.prevent="submit()">
       <fieldset class="form__block">
         <legend class="form__legend">Цена</legend>
         <label class="form__label form__label--price">
@@ -10,6 +10,7 @@
             type="text"
             name="min-price"
             autocomplete="off"
+            v-model.number="currentPriceFrom"
           />
           <span class="form__value">От</span>
         </label>
@@ -19,6 +20,7 @@
             type="text"
             name="max-price"
             autocomplete="off"
+            v-model.number="currentPriceTo"
           />
           <span class="form__value">До</span>
         </label>
@@ -60,6 +62,18 @@ import ResponseData from "@/types/ResponseData.ts";
 import Categories from "@/types/Categories.ts";
 import Brands from "@/types/Brands.ts";
 
+const props = defineProps<{
+  priceFrom: number,
+  priceTo: number
+}>()
+
+const emits = defineEmits<{
+  (e: "update:priceFrom", priceFrom: number): void;
+  (e: "update:priceTo", priceTo: number): void;
+}>()
+
+const currentPriceFrom = ref(0)
+const currentPriceTo = ref(0)
 const categories = ref({} as Categories[]);
 const brands = ref({} as Brands[]);
 
@@ -73,6 +87,11 @@ const loadBrands = () => {
     .getBrands()
     .then((res: ResponseData) => (brands.value = res.data));
 };
+
+const submit = () => {
+  emits("update:priceFrom", currentPriceFrom.value)
+  emits("update:priceTo", currentPriceTo.value)
+}
 
 onMounted(() => {
   loadCategories();

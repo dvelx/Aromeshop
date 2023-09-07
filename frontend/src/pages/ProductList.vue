@@ -1,6 +1,9 @@
 <template>
   <div class="container product-list__container">
-    <FilteredProducts />
+    <FilteredProducts 
+      v-model:priceFrom="priceFrom"
+      v-model:priceTo="priceTo"
+    />
 
     <div class="product-list__content">
 <!--      <div v-if="loader" class="lds-ripple">-->
@@ -77,19 +80,12 @@ const loader = ref(false);
 const productsData = ref({} as Products);
 const page = ref(1);
 const limit = ref(9);
-const width = ref(0)
+const sortBy = ref('');
+const order = ref('');
+const priceFrom = ref(0);
+const priceTo = ref(100000)
 
 
-const changeLimit = () => {
-  width.value = window.innerWidth
-  if (width.value > 1024) {
-    limit.value = 9
-  }
-  if (width.value < 1024 && width.value > 768) {
-    limit.value = 6
-  }
-}
-changeLimit()
 const products = computed<Product[]>(() => {
   return productsData.value.products;
 });
@@ -100,7 +96,7 @@ const countProducts = computed(() => {
 const loadProducts = () => {
   loader.value = true;
   apiDataService
-    .getAll(limit.value, page.value)
+    .getAll(limit.value, page.value, sortBy.value, order.value, priceFrom.value, priceTo.value)
     .then((res: ResponseData) => (productsData.value = res.data))
     .then(() => (loader.value = false));
 };
@@ -109,7 +105,7 @@ const addCart = (id: number, quantity: number) => {
   store.addProductToCart(id, quantity);
 };
 
-watch([page], () => {
+watch([page, priceFrom, priceTo], () => {
   loadProducts();
 });
 loadProducts();
@@ -121,8 +117,7 @@ loadProducts();
   &__container {
     display: flex;
     flex-direction: row;
-    width: 100vw;
-    justify-content: space-between;
+    justify-content: space-evenly;
   }
   &__content {
     display: flex;
@@ -132,7 +127,6 @@ loadProducts();
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 30px;
-    width: 100%;
   }
 }
 .card {
@@ -223,7 +217,6 @@ loadProducts();
       display: grid;
       grid-template: repeat(2, 1fr) / repeat(2, 1fr);
       gap: 15px;
-      width: 100%;
     }
   }
   .card {

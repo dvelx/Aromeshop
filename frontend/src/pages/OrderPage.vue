@@ -126,14 +126,12 @@ const order = () => {
 @import "src/assets/style/main";
 .order__container {
   display: flex;
-  width: 100vw;
   flex-direction: column;
   padding-left: 18%;
   padding-right: 18%;
 }
 .form {
   display: grid;
-  width: 100%;
   grid-template-columns: auto 370px;
   grid-template-rows: auto 1fr;
   grid-gap: 20px 50px;

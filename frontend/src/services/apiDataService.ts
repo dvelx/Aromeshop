@@ -1,11 +1,15 @@
 import { api } from "@/http/api.ts";
 
 class productDataService {
-  getAll(limit: number, page: number): Promise<any> {
+  getAll(limit: number, page: number, sortBy: string, order: string, priceFrom: number, priceTo: number): Promise<any> {
     return api.get("/products", {
       params: {
         limit: limit,
         page: page,
+        sortBy: sortBy,
+        order: order,
+        priceFrom: priceFrom,
+        priceTo: priceTo
       },
     });
   }
