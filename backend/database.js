@@ -191,10 +191,14 @@ GROUP BY brands.id`;
     } else if (limit) sql += ` LIMIT ${limit}`;
 
     const products = await this.runQuery(sql);
-    sql = `SELECT COUNT(*) AS count FROM ${this.db_name}.products_view`;
+    sql = `SELECT COUNT(*) AS count, MIN(price) AS minPrice, MAX(price) AS maxPrice FROM ${this.db_name}.products_view`;
     if (priceFrom || priceTo) sql += where;
-    const [{ count }] = await this.runQuery(sql);
-    return { products, pagination: { page: +page, limit: +limit, count } };
+    const [{ count, minPrice, maxPrice }] = await this.runQuery(sql);
+    return {
+      products,
+      pagination: { page: +page, limit: +limit, count },
+      filter: { minPrice, maxPrice },
+    };
   }
 
   async getProductById(id, hostname) {
