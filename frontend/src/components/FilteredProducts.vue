@@ -1,7 +1,7 @@
 <template>
   <div class="filter">
     <h2 class="filter__title">Фильтровать</h2>
-    <form action="#" class="filter__form form" method="get">
+    <form action="#" class="filter__form form" method="get" @submit.prevent="submit()">
       <fieldset class="form__block">
         <legend class="form__legend">Цена</legend>
         <label class="form__label form__label--price">
@@ -10,6 +10,7 @@
             type="text"
             name="min-price"
             autocomplete="off"
+            v-model.number="currentPriceFrom"
           />
           <span class="form__value">От</span>
         </label>
@@ -19,6 +20,7 @@
             type="text"
             name="max-price"
             autocomplete="off"
+            v-model.number="currentPriceTo"
           />
           <span class="form__value">До</span>
         </label>
@@ -29,10 +31,9 @@
         <label class="form__label form__label--select">
           <select class="form__select" name="category">
             <option value="0">Все категории</option>
-            <option>Категории тут всякие</option>
-            <option>Категории тут всякие2</option>
-            <option>Категории тут всякие3</option>
-            <option>Категории тут всякие4</option>
+            <option v-for="item of categories" :key="item.id" :value="item.id">
+              {{ item.title }}
+            </option>
           </select>
         </label>
       </fieldset>
@@ -40,31 +41,63 @@
       <fieldset class="form__block">
         <legend class="form__legend">Коллекция</legend>
         <ul class="check-list">
-          <li class="check-list__item">
+          <li v-for="item of brands" :key="item.id" class="check-list__item">
             <label class="check-list__label">
               <input class="check-list__check sr-only" type="checkbox" />
-              <span class="check-list__desc"> название коллекции </span>
-            </label>
-            <label class="check-list__label">
-              <input class="check-list__check sr-only" type="checkbox" />
-              <span class="check-list__desc"> название коллекции </span>
-            </label>
-            <label class="check-list__label">
-              <input class="check-list__check sr-only" type="checkbox" />
-              <span class="check-list__desc"> название коллекции </span>
+              <span class="check-list__desc">{{ item.title }}</span>
             </label>
           </li>
         </ul>
       </fieldset>
 
-      <button class="filter__submit button button--primary" type="submit">
-        Применить
-      </button>
+      <button class="filter__submit" type="submit">Применить</button>
     </form>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onMounted, ref } from "vue";
+import apiDataService from "@/services/apiDataService.ts";
+import ResponseData from "@/types/ResponseData.ts";
+import Categories from "@/types/Categories.ts";
+import Brands from "@/types/Brands.ts";
+
+const props = defineProps<{
+  priceFrom: number,
+  priceTo: number
+}>()
+
+const emits = defineEmits<{
+  (e: "update:priceFrom", priceFrom: number): void;
+  (e: "update:priceTo", priceTo: number): void;
+}>()
+
+const currentPriceFrom = ref(0)
+const currentPriceTo = ref(0)
+const categories = ref({} as Categories[]);
+const brands = ref({} as Brands[]);
+
+const loadCategories = () => {
+  apiDataService
+    .getCategories()
+    .then((res: ResponseData) => (categories.value = res.data));
+};
+const loadBrands = () => {
+  apiDataService
+    .getBrands()
+    .then((res: ResponseData) => (brands.value = res.data));
+};
+
+const submit = () => {
+  emits("update:priceFrom", currentPriceFrom.value)
+  emits("update:priceTo", currentPriceTo.value)
+}
+
+onMounted(() => {
+  loadCategories();
+  loadBrands();
+});
+</script>
 
 <style lang="scss" scoped>
 @import "src/assets/style/main";
@@ -75,7 +108,6 @@
   border: 1px solid $primary;
   border-radius: 20px;
   min-width: 300px;
-  margin-right: auto;
   padding: 20px;
 
   &__title {
@@ -86,6 +118,11 @@
     padding: 10px 30px;
     border: 1px solid $primary;
     border-radius: 50px;
+    transition: all 0.4s ease-in-out;
+  }
+  &__submit:hover {
+    background-color: $primary;
+    color: $dark-text;
   }
 }
 .form {
@@ -124,7 +161,8 @@
     height: 65px;
     border-radius: 1px;
     border: 1px solid transparent;
-    background-color: transparent;
+    background-color: $background;
+    filter: brightness(97%);
     -webkit-box-shadow: none;
     box-shadow: none;
     -webkit-transition: all 0.2s ease;
@@ -176,6 +214,7 @@
     font-family: inherit;
     line-height: 1;
     outline: 1px solid $primary;
+    background-color: transparent;
   }
 }
 

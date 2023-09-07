@@ -4,25 +4,23 @@
     <h3 class="title-cta">Купи наши популярные свечи</h3>
     <swiper
       :modules="[Pagination, Autoplay]"
-      :autoplay="{ delay: 6000 }"
-      :slides-per-view="4"
-      :space-between="50"
+      :breakpoints="swiperOptions.breakpoints"
       :pagination="{ clickable: true }"
     >
       <swiper-slide v-for="item in products" :key="item.id">
-        <router-link :to="{ path: '/product', query: { id: item.id } }">
+        <router-link :to="'/product/' + item.slug">
           <div class="card">
             <img :src="item.image_url" alt="" class="card__image" />
             <div class="card__desc">
               <h5 class="card__title">
                 {{ item.title }}
               </h5>
-              <p class="card__price">{{ item.price }} p</p>
+              <p class="card__price">{{ numberFormatter(item.price) }} ₽</p>
             </div>
             <p class="card__text">
               {{ item.brand_title }}
             </p>
-            <button class="card__btn btn">
+            <button class="card__btn btn" @click="addCart(item.id, 1)">
               В КОРЗИНУ
 
               <svg
@@ -59,45 +57,58 @@
 </template>
 
 <script setup lang="ts">
+// :autoplay="{ delay: 1000 }"
 import { Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/pagination";
-import { ref } from "vue";
-import axios from "axios";
-import { API_URL } from "../constans/api.ts";
+import { computed, ref } from "vue";
+import apiDataService from "@/services/apiDataService.ts";
+import ResponseData from "@/types/ResponseData.ts";
+import Products from "@/types/Products.ts";
+import numberFormatter from "@/helpers/numberFormatter.ts";
+import { cartStore } from "@/store/cartStore.ts";
+import Product from "@/types/Product.ts";
 
-interface IProducts {
-  brand_id?: number;
-  brand_title?: string;
-  category_id?: number;
-  category_name?: string;
-  description?: string;
-  id?: number;
-  image_url?: string;
-  price?: number;
-  title?: string;
+const store = cartStore();
+
+const productsData = ref({} as Products);
+const products = computed<Product[]>(() => {
+  return productsData.value.products;
+});
+const swiperOptions = {
+  breakpoints: {
+    320: {
+      slidesPerView: 2,
+      spaceBetween: 10
+    },
+    640: {
+      slidesPerView: 2,
+      spaceBetween: 20,
+    },
+    768: {
+      slidesPerView: 3,
+      spaceBetween: 30,
+    },
+    1024: {
+      slidesPerView: 4,
+      spaceBetween: 40,
+    },
+    1366: {
+
+      slidesPerView: 5,
+      spaceBetween: 50,
+    }
+  }
 }
-
-const products = ref({});
-
 const loadProducts = () => {
-  axios.get(API_URL + "/products").then((res) => {
-    const data = res.data;
-    products.value = Object.assign(data, (item: IProducts) => {
-      return {
-        brand_id: item?.brand_id,
-        brand_title: item?.brand_title,
-        category_id: item?.category_id,
-        category_name: item?.category_name,
-        description: item?.description,
-        id: item?.id,
-        image: item?.image_url,
-        price: item?.price,
-        title: item?.title,
-      };
-    });
-  });
+  apiDataService
+    .getAll(8, 0)
+    .then((res: ResponseData) => (productsData.value = res.data));
+};
+
+const addCart = (id: number, quantity: number) => {
+  store.addProductToCart(id, quantity);
 };
 
 loadProducts();
@@ -107,6 +118,9 @@ loadProducts();
 @import "src/assets/style/main";
 .popular-container {
   margin-bottom: 30px;
+}
+.swiper-wrapper {
+  width: 1200px;
 }
 .title {
   font-family:
@@ -128,30 +142,25 @@ loadProducts();
   letter-spacing: 0.96px;
 }
 
-.popular_products {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-}
 .card {
   position: relative;
   display: flex;
   flex-direction: column;
+  height: 430px;
+  max-height: 430px;
   margin-top: 30px;
   margin-bottom: 30px;
   border: 1px solid rgba(242, 242, 242, 0.5);
-  border-radius: 10px;
+  border-radius: 20px;
   padding: 30px;
   background-color: white;
-  box-shadow:
-    5px 5px 10px rgba(242, 242, 242, 0.5),
-    -5px -5px 10px rgba(242, 242, 242, 0.5),
-    5px -5px 10px rgba(242, 242, 242, 0.5),
-    -5px 5px 10px rgba(242, 242, 242, 0.5);
+  box-shadow: $card_shadow;
 
   &__image {
     margin-bottom: 24px;
-    height: 300px;
+    height: 220px;
+    max-height: 220px;
+    object-fit: contain;
   }
 
   &__desc {
@@ -159,20 +168,22 @@ loadProducts();
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    max-height: 35px;
+  }
+  &__price {
+    color: $dark-text;
   }
 
   &__title {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 600;
     line-height: 160%; /* 32px */
     letter-spacing: 0.6px;
     color: $dark-text;
-    padding-left: 20px;
   }
   &__text {
     margin-bottom: 24px;
     color: $dark-text;
-    padding-left: 20px;
   }
 
   &__btn {
@@ -184,6 +195,84 @@ loadProducts();
     border: 1px solid $primary;
     border-radius: 100px;
     gap: 8px;
+    transition: all 0.4s ease-in-out;
   }
+  &__btn:hover {
+    background-color: $primary;
+    color: $white;
+  }
+}
+
+@media (max-width: 1199px) {
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    height: 270px;
+    max-height: 270px;
+    border: 1px solid rgba(242, 242, 242, 0.5);
+    border-radius: 20px;
+    padding: 15px;
+    background-color: white;
+    box-shadow: $card_shadow;
+
+    &__image {
+      margin-bottom: 24px;
+      height: 120px;
+      object-fit: contain;
+    }
+
+    &__desc {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &__price {
+      font-size: 12px;
+      color: $dark-text;
+    }
+
+    &__title {
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 160%; /* 32px */
+      letter-spacing: 0.6px;
+      color: $dark-text;
+    }
+
+    &__text {
+      margin-bottom: 14px;
+      color: $dark-text;
+    }
+
+    &__btn {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      padding: 5px 7px;
+      border-radius: 100px;
+    }
+  }
+}
+@media (max-width: 1780px) {
+}
+@media (max-width: 1366px) {
+}
+
+@media (max-width: 1024px) {
+  
+}
+
+@media (max-width: 768px) {
+}
+
+@media (max-width: 576px) {
+}
+
+@media (max-width: 320px) {
 }
 </style>

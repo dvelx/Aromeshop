@@ -1,13 +1,13 @@
 <template>
   <li class="cart__item product">
     <div class="product__pic">
-      <img :src="item.img" width="120" height="120" alt="title" />
+      <img :src="item.image_url" width="120" height="120" alt="title" />
     </div>
     <h3 class="product__title">{{ item.title }}</h3>
 
     <span class="product__code"> Артикул: {{ item.id }} </span>
-
-    <BaseCounter v-model:amount="item.amount" />
+    <!--eslint-disable-next-line vue/no-mutating-props-->
+    <BaseCounter v-model:amount="productQuantity" />
 
     <b class="product__price"> {{ productTotalPrice }} ₽ </b>
 
@@ -36,6 +36,7 @@
 import BaseCounter from "@/components/BaseCounter.vue";
 import { computed } from "vue";
 import { cartStore } from "@/store/cartStore.ts";
+import numberFormatter from "@/helpers/numberFormatter.ts";
 
 const store = cartStore();
 
@@ -43,16 +44,25 @@ interface Props {
   item: {
     id: number;
     title: string;
-    img: string;
+    image_url: string;
     price: number;
-    amount: number;
+    quantity: number;
   };
 }
 
 const props = defineProps<Props>();
 
 const productTotalPrice = computed(() => {
-  return props.item.amount * props.item.price;
+  return numberFormatter(props.item.quantity * props.item.price);
+});
+
+const productQuantity = computed({
+  get() {
+    return props.item.quantity;
+  },
+  set(value) {
+    store.updateCartProductQuantity(props.item.id, value);
+  },
 });
 const deleteProduct = (id: number) => {
   return store.deleteProduct(id);
@@ -105,6 +115,9 @@ const deleteProduct = (id: number) => {
   &__del {
     grid-column: 5/6;
     grid-row: 1/2;
+  }
+  &__del:hover svg path {
+    stroke: black;
   }
 }
 </style>

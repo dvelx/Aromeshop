@@ -104,6 +104,25 @@
   &__social-item {
     margin-bottom: 10px;
   }
+  &__links-list-link,
+  &__social-link {
+    position: relative;
+  }
+  &__links-list-link:after,
+  &__social-link:after {
+    display: block;
+    position: absolute;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: $white;
+    content: "";
+    transition: width 0.3s ease-out;
+  }
+  &__links-list-link:hover:after,
+  &__social-link:hover:after {
+    width: 100%;
+  }
 
   &__bottom {
     border-top: 1px solid $white;

@@ -79,7 +79,6 @@ const minus = (value: number) => {
   & button {
     display: flex;
     align-items: center;
-    background-color: #fff;
   }
 
   & button {
@@ -96,14 +95,13 @@ const minus = (value: number) => {
     flex-shrink: 0;
     cursor: pointer;
     -webkit-transition: all 0.2s ease;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
   }
   & button:focus,
   & button:hover {
-    background-color: $primary;
+    border: 1px solid $primary;
     color: $dark_text;
   }
-
   & input {
     padding: 10px 5px;
     width: 70px;

@@ -49,7 +49,7 @@
               </a>
             </div>
             <div class="right__top-cart">
-              <router-link to="/cart">
+              <router-link to="/cart" class="cart">
                 <svg
                   width="24"
                   height="24"
@@ -74,6 +74,9 @@
                     fill="#0C0D12"
                   />
                 </svg>
+                <span class="cart__counter" aria-label="Количество товаров">{{
+                  cartProductsAmount
+                }}</span>
               </router-link>
             </div>
             <div class="right__burger-btn" @click="isOpenBurgerMenu">
@@ -86,22 +89,28 @@
       </div>
     </div>
 
-    <div class="right__top-burger-menu">
-      <nav class="nav burger-nav">
-        <ul class="nav__list">
+    <div v-if="toggle" class="right__top-burger-menu" @click="outsideClick">
+      <nav class="burger-nav">
+        <ul class="burger-nav__list">
           <li class="nav__item">
-            <router-link to="/catalog" class="nav__link"> МАГАЗИН </router-link>
+            <router-link to="/catalog" class="nav__link" active-class="active" @click="isOpenBurgerMenu">
+              МАГАЗИН
+            </router-link>
           </li>
           <li class="nav__item">
-            <router-link to="/about-us" class="nav__link">
+            <router-link to="/about-us" class="nav__link" active-class="active" @click="isOpenBurgerMenu">
               О&nbsp;НАС
             </router-link>
           </li>
           <li class="nav__item">
-            <router-link to="/blog" class="nav__link"> БЛОГ </router-link>
+            <router-link to="/blog" class="nav__link" active-class="active" @click="isOpenBurgerMenu">
+              БЛОГ
+            </router-link>
           </li>
           <li class="nav__item">
-            <router-link to="/reviews" class="nav__link"> ОТЗЫВЫ </router-link>
+            <router-link to="/reviews" class="nav__link" active-class="active" @click="isOpenBurgerMenu">
+              ОТЗЫВЫ
+            </router-link>
           </li>
         </ul>
       </nav>
@@ -111,15 +120,34 @@
 
 <script setup lang="ts">
 import HeaderPromotion from "./HeaderPromotion.vue";
+import { computed, ref } from "vue";
+import { cartStore } from "@/store/cartStore.ts";
 
+const store = cartStore();
+const toggle = ref(false);
+
+const cartProductsAmount = computed(() => {
+  return (
+    store.state.cartProduct.reduce((acc, item) => +item.quantity + acc, 0) || 0
+  );
+});
 const isOpenBurgerMenu = () => {
-  const menu = document.querySelector(".right__top-burger-menu");
-  menu.style.display = "block";
+  toggle.value = !toggle.value;
 };
+const content = ref(null)
+const outsideClick = (e) => {
+  if (e.target !== content.value && e.target.contains(content.value)) {
+    console.log(e)
+    isOpenBurgerMenu()
+  }
+}
 </script>
 
 <style lang="scss" scoped>
 @import "src/assets/style/main";
+.nav__link.router-link-active {
+  color: rgba(201, 164, 137, 0.85);
+}
 .header {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -143,6 +171,21 @@ const isOpenBurgerMenu = () => {
     line-height: 32px;
     letter-spacing: 0.6px;
     color: $dark_text;
+    position: relative;
+  }
+  &__link:after {
+    display: block;
+    position: absolute;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: $primary;
+    content: "";
+    transition: width 0.3s ease-out;
+  }
+  &__link:hover:after,
+  &__link:focus:after {
+    width: 100%;
   }
 }
 .right {
@@ -160,10 +203,10 @@ const isOpenBurgerMenu = () => {
       gap: 30px;
     }
   }
-  &__burger-btn,
-  &__top-burger-menu {
+  &__burger-btn{
     display: none;
   }
+  
 }
 .logo {
   align-self: center;
@@ -174,8 +217,30 @@ const isOpenBurgerMenu = () => {
     }
   }
 }
+.cart {
+  position: relative;
 
-@media (max-width: 1199px) {
+  &__counter {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: $primary;
+    padding: 3px;
+    min-width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    font-size: 7px;
+    color: $white;
+    text-align: center;
+    line-height: 1;
+  }
+}
+@media (max-width: 1780px) {
+}
+@media (max-width: 1366px) {
+}
+
+@media (max-width: 1024px) {
   .nav {
     display: none;
     &__list {
@@ -209,5 +274,30 @@ const isOpenBurgerMenu = () => {
       display: block;
     }
   }
+  .burger-nav {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #737373;
+    border-radius: 0 0 0 20px;
+    z-index: 1000;
+    
+    &__list {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      padding: 40px;
+      width: 300px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+}
+
+@media (max-width: 576px) {
+}
+
+@media (max-width: 320px) {
 }
 </style>

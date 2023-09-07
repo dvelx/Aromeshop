@@ -7,15 +7,19 @@ interface ROUTES_PATHS {
   REVIEWS: string;
   CART: string;
   CONTACTS: string;
+  ORDERS: string;
+  ORDERINFO: string;
 }
 
 export const ROUTES_PATHS: ROUTES_PATHS = {
   MAIN: "",
-  PRODUCTPAGE: "/product",
+  PRODUCTPAGE: "/product/:slug",
   PRODUCTLIST: "/catalog",
   ABOUTUS: "/about-us",
   BLOG: "/blog",
   REVIEWS: "/reviews",
   CART: "/cart",
   CONTACTS: "/contacts",
+  ORDERS: "/order",
+  ORDERINFO: "/order/:id",
 };

@@ -4,8 +4,9 @@
       <form class="cart__form form" action="#" method="POST">
         <div class="cart__field">
           <ul class="cart__list">
-            <!--          <CartItem v-for="item in products" :key="item.productId" :item="item"/>-->
+            <li v-if="cartProducts.length === 0">Ваша корзина пуста</li>
             <CartItem
+              v-else
               v-for="item of cartProducts"
               :key="item.id"
               :item="item"
@@ -15,12 +16,12 @@
 
         <div class="cart__block">
           <p class="cart__price">
-            Итого: <span>{{ totalPrice }} ₽</span>
+            Итого: <span>{{ numberFormatter(totalPrice) }} ₽</span>
           </p>
 
-          <a class="cart__button button button--primary" type="submit">
-            Оформить заказ
-          </a>
+          <router-link to="/order" v-slot="{ navigate }">
+            <button class="cart__button" type="submit" @click="navigate" :disabled="cartProducts.length === 0">Оформить заказ</button>
+          </router-link>
         </div>
       </form>
     </div>
@@ -32,14 +33,18 @@ import CartItem from "@/components/CartItem.vue";
 
 import { cartStore } from "@/store/cartStore.ts";
 import { computed } from "vue";
+import numberFormatter from "@/helpers/numberFormatter.ts";
 
 const store = cartStore();
 
-const cartProducts = store.state.cartProduct;
-const totalPrice = computed(() => {
-  store.cartTotalPrice();
-  return store.state.totalPrice;
+const cartProducts = computed(() => {
+  return store.state.cartProduct;
 });
+const totalPrice = computed(() => {
+  return store.cartTotalPrice();
+});
+
+store.loadBasket(store.state.userAccessKey);
 </script>
 
 <style lang="scss" scoped>
@@ -48,14 +53,14 @@ const totalPrice = computed(() => {
   &__container {
     display: flex;
     flex-direction: row;
-    width: 100vw;
   }
   &__form {
     display: grid;
     grid-template-columns: 1fr auto;
     grid-template-rows: auto 1fr;
-    gap: 20px 40px;
-    width: 100%;
+    gap: 20px 80px;
+    margin-right: auto;
+    margin-left: auto;
   }
   &__block {
     border: 1px solid $primary;
@@ -73,10 +78,19 @@ const totalPrice = computed(() => {
   }
   &__button {
     background-color: $dark-text;
+    color: $white;
     padding: 10px 30px;
     font-size: 20px;
     margin-top: auto;
     border-radius: 50px;
+    transition: all 0.4s ease-in-out;
+  }
+  &__button:disabled {
+    opacity: .6;
+  }
+  &__button:not([disabled]):hover {
+    background-color: $primary;
+    color: $dark-text;
   }
 }
 </style>

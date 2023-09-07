@@ -1,6 +1,16 @@
 <template>
-  <div v-if="!loading" class="product-page__container container">
+  <div class="product-page__container container">
     <div class="product-page__left">
+      <img
+        :src="product.image_url"
+        :alt="product.title"
+        class="product-page__image"
+      />
+      <img
+        :src="product.image_url"
+        :alt="product.title"
+        class="product-page__image"
+      />
       <img
         :src="product.image_url"
         :alt="product.title"
@@ -14,23 +24,14 @@
     </div>
     <div class="product-page__right">
       <h1 class="product-page__title">{{ product.title }}</h1>
-      <span class="product-page__price">{{ product.price }}</span>
+      <span class="product-page__price"
+        >{{ numberFormatter(product.price) }} ₽</span
+      >
 
       <p class="product-page__description">{{ product.description }}</p>
       <div class="product-page__btn-block">
         <BaseCounter v-model:amount="productAmount" />
-        <button
-          class="product-page__btn-add"
-          @click="
-            addCart(
-              product.id,
-              productAmount,
-              product.title,
-              product.price,
-              product.image_url,
-            )
-          "
-        >
+        <button class="product-page__btn-add" @click="addCart()">
           Добавить в корзину
         </button>
       </div>
@@ -57,63 +58,38 @@
 // import { Collapse } from 'vue-collapsed'
 import PopularProducts from "@/components/PopularProducts.vue";
 import { useRoute } from "vue-router";
-import { ref } from "vue";
-import axios from "axios";
-import { API_URL } from "../constans/api.ts";
+import { computed, ref, watch } from "vue";
 import BaseCounter from "@/components/BaseCounter.vue";
 import { cartStore } from "@/store/cartStore.ts";
+import apiDataService from "@/services/apiDataService.ts";
+import ResponseData from "@/types/ResponseData.ts";
+import Product from "@/types/Product.ts";
+import numberFormatter from "@/helpers/numberFormatter.ts";
 
 const route = useRoute();
 const store = cartStore();
 
-const product = ref<IProduct>({});
-const loading = ref<boolean>(false);
+const loader = ref(false);
+const product = ref({} as Product);
 const productAmount = ref<number>(1);
-const addCart = (
-  id: number,
-  amount: number,
-  title: string,
-  price: number,
-  img: string,
-) => {
-  store.addProductToCart(id, amount, title, price, img);
+const productSlug = computed(() => {
+  return String(route.params.slug);
+});
+const addCart = () => {
+  store.addProductToCart(product.value.id, productAmount.value);
 };
 
-interface IProduct {
-  brand_id?: number;
-  brand_title?: string;
-  category_id?: number;
-  category_name?: string;
-  description?: string;
-  id?: number;
-  image_url?: string;
-  price?: number;
-  title?: string;
-}
-const loadProductById = (): object => {
-  loading.value = true;
-  return axios
-    .get(API_URL + "/product/?id=" + route.query.id)
-    .then((res) => {
-      const data = res.data;
-      product.value = Object.assign(data, (item: IProduct) => {
-        return {
-          brand_id: item?.brand_id,
-          brand_title: item?.brand_title,
-          category_id: item?.category_id,
-          category_name: item?.category_name,
-          description: item?.description,
-          id: item?.id,
-          image: item?.image_url,
-          price: item?.price,
-          title: item?.title,
-        };
-      });
-    })
-    .then(() => (loading.value = false))
-    .catch(console.log);
+const loadProduct = () => {
+  loader.value = true;
+  apiDataService
+    .getById(productSlug.value)
+    .then((res: ResponseData) => (product.value = res.data))
+    .then(() => (loader.value = false));
 };
-loadProductById();
+watch([productSlug], () => {
+  loadProduct();
+});
+loadProduct();
 
 // const questions = reactive([
 //   {
@@ -160,7 +136,7 @@ loadProductById();
   &__image {
     border: 1px solid $primary;
     border-radius: 10px;
-    background-color: $primary;
+    background-color: transparent;
   }
 
   &__right {
@@ -196,6 +172,11 @@ loadProductById();
     font-weight: 700;
     letter-spacing: 1.34px;
     margin-left: auto;
+    transition: all 0.4s ease-in-out;
+  }
+  &__btn-add:hover {
+    background-color: $primary;
+    color: $dark-text;
   }
 }
 

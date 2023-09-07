@@ -15,15 +15,27 @@ html {
   color: black;
   height: 100%;
 }
+html::-webkit-scrollbar {
+  width: 9px;
+  background-color: #f9f9fd;
+}
+html::-webkit-scrollbar-thumb {
+  background-color: $primary;
+  border-left: 2px solid #f9f9fd;
+  border-right: 1px solid #f9f9fd;
+}
+html::-webkit-scrollbar-track {
+  -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
+  background-color: #f9f9fd;
+}
 body {
   background-color: $background;
   fill: currentColor;
 }
 #app {
-  height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  height: 100vh;
 }
 header {
   flex: 0 0 auto;
@@ -73,16 +85,44 @@ button {
 }
 
 .container {
-  max-width: 100vw;
-  padding-left: 100px;
-  padding-right: 100px;
+  max-width: 1770px;
   margin-left: auto;
   margin-right: auto;
 }
 
-@media (max-width: 1199px) {
+@media (max-width: 1780px) {
   .container {
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+@media (max-width: 1366px) {
+  
+}
+
+@media (max-width: 1024px) {
+  .container {
+    max-width: 924px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: 668px;
+    padding: 0 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+@media (max-width: 320px) {
+  .container {
+    max-width: 290px;
+    padding: 0;
   }
 }

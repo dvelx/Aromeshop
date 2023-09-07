@@ -6,7 +6,7 @@
   <section class="content">
     <div class="content__container container">
       <div class="content__card card">
-        <img src="../assets/images/VINOVE-PARIS-collage.jpg" alt="" />
+        <img src="../assets/images/VINOVE-PARIS-collage.webp" alt="" />
       </div>
       <div class="content__card card">
         <div class="card__image"></div>
@@ -25,7 +25,7 @@
       </div>
       <div class="content__card card">
         <img
-          src="../assets/images/2022-06-22%20Mr%20&%20Mrs%20Fragrances0756.webp"
+          src="../assets/images/2022-06-22Mr&MrsFragrances0756.webp"
           alt=""
         />
       </div>
@@ -42,6 +42,7 @@ import MainContent from "../components/MainContent.vue";
 <style lang="scss" scoped>
 @import "src/assets/style/main";
 .content {
+  width: calc(100vw - 9px);
   background-color: #ecdfdb;
   padding-top: 50px;
   padding-bottom: 50px;
