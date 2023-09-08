@@ -197,4 +197,35 @@ loadProduct();
 .collapse {
   transition: height 600ms cubic-bezier(0.3, 0, 0.6, 1);
 }
+
+@media (max-width: 1780px) {
+}
+@media (max-width: 1366px) {
+}
+
+@media (max-width: 1024px) {
+  .product-page {
+    &__container {
+      flex-direction: column-reverse;
+    }
+    &__right {
+      width: 100%;
+    }
+    &__left {
+      width: 100%;
+    }
+    &__image {
+      max-height: 200px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+}
+
+@media (max-width: 576px) {
+}
+
+@media (max-width: 320px) {
+}
 </style>

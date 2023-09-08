@@ -6,7 +6,6 @@
     <h3 class="product__title">{{ item.title }}</h3>
 
     <span class="product__code"> Артикул: {{ item.id }} </span>
-    <!--eslint-disable-next-line vue/no-mutating-props-->
     <BaseCounter v-model:amount="productQuantity" />
 
     <b class="product__price"> {{ productTotalPrice }} ₽ </b>
@@ -119,5 +118,38 @@ const deleteProduct = (id: number) => {
   &__del:hover svg path {
     stroke: black;
   }
+}
+
+@media (max-width: 1780px) {
+}
+@media (max-width: 1366px) {
+}
+
+@media (max-width: 1024px) {
+
+}
+
+@media (max-width: 768px) {
+  .product {
+    display: flex;
+    justify-content: space-between;
+    grid-gap: 10px;
+    
+    &__pic {
+      width: 70px;
+    }
+    
+    &__title {
+      font-size: 14px;
+      line-height: 1;
+    }
+  }
+  
+}
+
+@media (max-width: 576px) {
+}
+
+@media (max-width: 320px) {
 }
 </style>

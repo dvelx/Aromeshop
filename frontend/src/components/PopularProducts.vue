@@ -6,6 +6,7 @@
       :modules="[Pagination, Autoplay]"
       :breakpoints="swiperOptions.breakpoints"
       :pagination="{ clickable: true }"
+      :autoplay="{ delay: 3000 }"
     >
       <swiper-slide v-for="item in products" :key="item.id">
         <router-link :to="'/product/' + item.slug">
@@ -20,34 +21,6 @@
             <p class="card__text">
               {{ item.brand_title }}
             </p>
-            <button class="card__btn btn" @click="addCart(item.id, 1)">
-              В КОРЗИНУ
-
-              <svg
-                width="30"
-                height="30"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
-                  fill="#0C0D12"
-                />
-                <path
-                  d="M9 12H15"
-                  stroke="white"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M12 9V15"
-                  stroke="white"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </button>
           </div>
         </router-link>
       </swiper-slide>
@@ -57,7 +30,6 @@
 </template>
 
 <script setup lang="ts">
-// :autoplay="{ delay: 1000 }"
 import { Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
@@ -67,10 +39,8 @@ import apiDataService from "@/services/apiDataService.ts";
 import ResponseData from "@/types/ResponseData.ts";
 import Products from "@/types/Products.ts";
 import numberFormatter from "@/helpers/numberFormatter.ts";
-import { cartStore } from "@/store/cartStore.ts";
 import Product from "@/types/Product.ts";
 
-const store = cartStore();
 
 const productsData = ref({} as Products);
 const products = computed<Product[]>(() => {
@@ -106,11 +76,6 @@ const loadProducts = () => {
     .getAll(8, 0)
     .then((res: ResponseData) => (productsData.value = res.data));
 };
-
-const addCart = (id: number, quantity: number) => {
-  store.addProductToCart(id, quantity);
-};
-
 loadProducts();
 </script>
 
@@ -210,7 +175,7 @@ loadProducts();
     flex-direction: column;
     margin-top: 30px;
     margin-bottom: 30px;
-    height: 270px;
+    height: 220px;
     max-height: 270px;
     border: 1px solid rgba(242, 242, 242, 0.5);
     border-radius: 20px;
@@ -242,6 +207,7 @@ loadProducts();
       line-height: 160%; /* 32px */
       letter-spacing: 0.6px;
       color: $dark-text;
+      max-width: 150px;
     }
 
     &__text {

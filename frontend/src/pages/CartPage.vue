@@ -93,4 +93,38 @@ store.loadBasket(store.state.userAccessKey);
     color: $dark-text;
   }
 }
+
+@media (max-width: 1780px) {
+}
+@media (max-width: 1366px) {
+}
+
+@media (max-width: 1024px) {
+
+}
+
+@media (max-width: 768px) {
+  .cart {
+    &__container {
+    }
+
+    &__form {
+      display: flex;
+      flex-direction: column;
+      margin-right: auto;
+      margin-left: auto;
+    }
+    
+    &__block {
+      margin-bottom: 40px;
+      align-items: center;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+}
+
+@media (max-width: 320px) {
+}
 </style>

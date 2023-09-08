@@ -33,6 +33,7 @@ body {
   fill: currentColor;
 }
 #app {
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -110,6 +111,9 @@ button {
   .container {
     max-width: 668px;
     padding: 0 0;
+  }
+  .swiper-pagination {
+    display: none;
   }
 }
 

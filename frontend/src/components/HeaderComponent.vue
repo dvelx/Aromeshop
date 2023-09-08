@@ -86,8 +86,11 @@
             </div>
           </div>
         </div>
+        
       </div>
     </div>
+
+
 
     <transition name="slide-menu">
       <div v-if="toggle" class="right__top-burger-menu">
@@ -149,16 +152,16 @@ const close = () => {
   color: rgba(201, 164, 137, 0.85);
 }
 .header {
+  position: relative;
   padding-top: 10px;
   padding-bottom: 10px;
   margin-bottom: 50px;
-  z-index: 100;
 }
 .header__container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100vw;
+  position: relative;
 }
 .nav {
   &__list {

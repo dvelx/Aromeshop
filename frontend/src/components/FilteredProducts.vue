@@ -60,7 +60,6 @@
     <div v-if="openFilter" class="filter-mobile">
       <h2 class="filter__title">Фильтровать</h2>
       <button class="filter-mobile__btn-close" @click="closeFilter">
-        закрыть
       </button>
       <form action="#" class="filter__form form" method="get" @submit.prevent="submit()">
         <fieldset class="form__block">
@@ -111,7 +110,7 @@
           </ul>
         </fieldset>
 
-        <button class="filter__submit" type="submit">Применить</button>
+        <button class="filter__submit" type="submit"  @click="closeFilter">Применить</button>
       </form>
     </div>
   </transition>
@@ -124,7 +123,7 @@ import ResponseData from "@/types/ResponseData.ts";
 import Categories from "@/types/Categories.ts";
 import Brands from "@/types/Brands.ts";
 
-const props = defineProps<{
+defineProps<{
   priceFrom: number,
   priceTo: number
 }>()
@@ -152,9 +151,15 @@ const loadBrands = () => {
 };
 
 const openMobileFilter = () => {
-  return  openFilter.value = !openFilter.value
+  document.body.style.position = 'fixed'
+  document.body.style.top = `-${window.screenY}px`
+  openFilter.value = true
 }
 const closeFilter = () => {
+  const scrollY = document.body.style.top
+  document.body.style.position = '';
+  document.body.style.top = '';
+  window.scrollTo(0, parseInt(scrollY || '0') * -1)
   openFilter.value = false
 }
 
@@ -377,6 +382,11 @@ onMounted(() => {
   .filter-mobile__btn-open {
     display: block;
     margin-bottom: 40px;
+    padding: 10px;
+    background-color: $background;
+    filter: brightness(95%);
+    font-size: 16px;
+    letter-spacing: 3px;
   }
   
   .filter-mobile {
@@ -388,11 +398,28 @@ onMounted(() => {
     background-color: $background;
     z-index: 1000;
     padding: 50px;
+    overflow: hidden;
   }
   .filter-mobile__btn-close {
+    width: 54px;
+    height: 54px;
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 15px;
+    right: 15px;
+    
+    &:before, &:after {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 2px;
+      background-color: $dark_text;
+    }
+    &:before {
+      transform: rotate(45deg);
+    }
+    &:after {
+      transform: rotate(-45deg);
+    }
   }
   .slide-enter-active,
   .slide-leave-active {
