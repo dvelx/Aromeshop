@@ -210,18 +210,19 @@ loadProducts();
 @media (max-width: 1024px) {
   .product-list {
     &__container {
-      gap: 25px;
+      flex-direction: column;
     }
 
     &__list {
       display: grid;
-      grid-template: repeat(2, 1fr) / repeat(2, 1fr);
-      gap: 15px;
+      grid-template: repeat(2, 1fr) / repeat(3, 1fr);
+      gap: 20px;
     }
   }
   .card {
-    padding-bottom: 150px;
+    padding-bottom: 30px;
     padding-top: 10px;
+    width: 250px;
 
     &__image {
       height: 150px;

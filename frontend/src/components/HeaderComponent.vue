@@ -89,32 +89,35 @@
       </div>
     </div>
 
-    <div v-if="toggle" class="right__top-burger-menu" @click="outsideClick">
-      <nav class="burger-nav">
-        <ul class="burger-nav__list">
-          <li class="nav__item">
-            <router-link to="/catalog" class="nav__link" active-class="active" @click="isOpenBurgerMenu">
-              МАГАЗИН
-            </router-link>
-          </li>
-          <li class="nav__item">
-            <router-link to="/about-us" class="nav__link" active-class="active" @click="isOpenBurgerMenu">
-              О&nbsp;НАС
-            </router-link>
-          </li>
-          <li class="nav__item">
-            <router-link to="/blog" class="nav__link" active-class="active" @click="isOpenBurgerMenu">
-              БЛОГ
-            </router-link>
-          </li>
-          <li class="nav__item">
-            <router-link to="/reviews" class="nav__link" active-class="active" @click="isOpenBurgerMenu">
-              ОТЗЫВЫ
-            </router-link>
-          </li>
-        </ul>
-      </nav>
-    </div>
+    <transition name="slide-menu">
+      <div v-if="toggle" class="right__top-burger-menu">
+        <nav class="burger-nav">
+          <button class="menu-close" @click="close">Закрыть</button>
+          <ul class="burger-nav__list">
+            <li class="nav__item">
+              <router-link to="/catalog" class="nav__link" active-class="active" @click="isOpenBurgerMenu">
+                МАГАЗИН
+              </router-link>
+            </li>
+            <li class="nav__item">
+              <router-link to="/about-us" class="nav__link" active-class="active" @click="isOpenBurgerMenu">
+                О&nbsp;НАС
+              </router-link>
+            </li>
+            <li class="nav__item">
+              <router-link to="/blog" class="nav__link" active-class="active" @click="isOpenBurgerMenu">
+                БЛОГ
+              </router-link>
+            </li>
+            <li class="nav__item">
+              <router-link to="/reviews" class="nav__link" active-class="active" @click="isOpenBurgerMenu">
+                ОТЗЫВЫ
+              </router-link>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </transition>
   </header>
 </template>
 
@@ -134,13 +137,10 @@ const cartProductsAmount = computed(() => {
 const isOpenBurgerMenu = () => {
   toggle.value = !toggle.value;
 };
-const content = ref(null)
-const outsideClick = (e) => {
-  if (e.target !== content.value && e.target.contains(content.value)) {
-    console.log(e)
-    isOpenBurgerMenu()
-  }
+const close = () => {
+  toggle.value = false
 }
+
 </script>
 
 <style lang="scss" scoped>
@@ -152,6 +152,7 @@ const outsideClick = (e) => {
   padding-top: 10px;
   padding-bottom: 10px;
   margin-bottom: 50px;
+  z-index: 100;
 }
 .header__container {
   display: flex;
@@ -243,9 +244,6 @@ const outsideClick = (e) => {
 @media (max-width: 1024px) {
   .nav {
     display: none;
-    &__list {
-      gap: 30px;
-    }
   }
   .right {
     &__burger-btn {
@@ -253,6 +251,7 @@ const outsideClick = (e) => {
       height: 20px;
       position: relative;
       cursor: pointer;
+      display: block;
     }
     &__burger-btn span {
       position: absolute;
@@ -270,17 +269,22 @@ const outsideClick = (e) => {
     &__burger-btn span:nth-child(3) {
       top: 80%;
     }
-    &__burger-btn {
-      display: block;
-    }
+  }
+  .menu-close {
+    color: $dark-text;
+    position: absolute;
+    top: 20px;
+    right: 20px;
   }
   .burger-nav {
-    position: absolute;
+    position: fixed;
     top: 0;
-    right: 0;
-    background-color: #737373;
-    border-radius: 0 0 0 20px;
-    z-index: 1000;
+    left: 0;
+    width: 100vw;
+    height: 100%;
+    background-color: $background;
+    z-index: 1001;
+    padding: 50px;
     
     &__list {
       display: flex;
@@ -289,6 +293,18 @@ const outsideClick = (e) => {
       padding: 40px;
       width: 300px;
     }
+  }
+  .slide-menu-enter-active,
+  .slide-menu-leave-active {
+    transition: all 0.6s ease-out;
+  }
+
+  .slide-menu-enter-from,
+  .slide-menu-leave-to {
+    transform: translateX(100%);
+  }
+  .logo a img {
+    width: 100px;
   }
 }
 

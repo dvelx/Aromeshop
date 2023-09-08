@@ -25,7 +25,6 @@
     justify-content: center;
   }
   &__banner {
-    padding: 100px 80px;
     margin-bottom: 50px;
     background: url("../assets/images/adv-queen-06 (1).webp") no-repeat 100%/100%;
   }
@@ -57,7 +56,7 @@
     padding: 16px 64px;
     font-size: 20px;
     margin: auto;
-    width: 35%;
+    width: 96%;
     transition: all 0.4s ease-in-out;
   }
   &__btn:hover {

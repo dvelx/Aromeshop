@@ -71,7 +71,7 @@ export const cartStore = defineStore("cartStore", () => {
       .then(() => loadBasket(state.value.userAccessKey));
   };
   const loadBasket = (accessKey: string | null = null) => {
-    return apiDataService.getBasket(accessKey).then(
+    apiDataService.getBasket(accessKey).then(
       (res) => {
         if (!state.value.userAccessKey) {
           localStorage.setItem("userAccessKeyAroma", res.data.user.accessKey);
@@ -83,6 +83,7 @@ export const cartStore = defineStore("cartStore", () => {
       (err) => {
         console.log(err.response.data);
         state.value.userAccessKey = null;
+        loadBasket()
       },
     );
   };

@@ -135,4 +135,32 @@
     }
   }
 }
+
+@media (max-width: 1780px) {
+}
+@media (max-width: 1366px) {
+}
+
+@media (max-width: 1024px) {
+
+}
+
+@media (max-width: 768px) {
+  .footer__container {
+    flex-direction: column;
+    padding-left: 50px;
+  }
+  .footer__left {
+    flex-direction: column;
+  }
+  .footer__logo {
+    width: 200px;
+  }
+}
+
+@media (max-width: 576px) {
+}
+
+@media (max-width: 320px) {
+}
 </style>

@@ -53,6 +53,68 @@
       <button class="filter__submit" type="submit">Применить</button>
     </form>
   </div>
+  <button class="filter-mobile__btn-open" @click="openMobileFilter()">
+    Фильтры
+  </button>
+  <transition name="slide">
+    <div v-if="openFilter" class="filter-mobile">
+      <h2 class="filter__title">Фильтровать</h2>
+      <button class="filter-mobile__btn-close" @click="closeFilter">
+        закрыть
+      </button>
+      <form action="#" class="filter__form form" method="get" @submit.prevent="submit()">
+        <fieldset class="form__block">
+          <legend class="form__legend">Цена</legend>
+          <label class="form__label form__label--price">
+            <input
+              class="form__input"
+              type="text"
+              name="min-price"
+              autocomplete="off"
+              v-model.number="currentPriceFrom"
+            />
+            <span class="form__value">От</span>
+          </label>
+          <label class="form__label form__label--price">
+            <input
+              class="form__input"
+              type="text"
+              name="max-price"
+              autocomplete="off"
+              v-model.number="currentPriceTo"
+            />
+            <span class="form__value">До</span>
+          </label>
+        </fieldset>
+
+        <fieldset class="form__block">
+          <legend class="form__legend">Категория</legend>
+          <label class="form__label form__label--select">
+            <select class="form__select" name="category">
+              <option value="0">Все категории</option>
+              <option v-for="item of categories" :key="item.id" :value="item.id">
+                {{ item.title }}
+              </option>
+            </select>
+          </label>
+        </fieldset>
+
+        <fieldset class="form__block">
+          <legend class="form__legend">Коллекция</legend>
+          <ul class="check-list">
+            <li v-for="item of brands" :key="item.id" class="check-list__item">
+              <label class="check-list__label">
+                <input class="check-list__check sr-only" type="checkbox" />
+                <span class="check-list__desc">{{ item.title }}</span>
+              </label>
+            </li>
+          </ul>
+        </fieldset>
+
+        <button class="filter__submit" type="submit">Применить</button>
+      </form>
+    </div>
+  </transition>
 </template>
 
 <script setup lang="ts">
@@ -72,6 +134,7 @@ const emits = defineEmits<{
   (e: "update:priceTo", priceTo: number): void;
 }>()
 
+const openFilter = ref(false)
 const currentPriceFrom = ref(0)
 const currentPriceTo = ref(0)
 const categories = ref({} as Categories[]);
@@ -88,9 +151,17 @@ const loadBrands = () => {
     .then((res: ResponseData) => (brands.value = res.data));
 };
 
+const openMobileFilter = () => {
+  return  openFilter.value = !openFilter.value
+}
+const closeFilter = () => {
+  openFilter.value = false
+}
+
 const submit = () => {
   emits("update:priceFrom", currentPriceFrom.value)
   emits("update:priceTo", currentPriceTo.value)
+  openFilter.value = false
 }
 
 onMounted(() => {
@@ -101,6 +172,10 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 @import "src/assets/style/main";
+
+.filter-mobile__btn-open {
+  display: none;
+}
 .filter {
   display: flex;
   flex-direction: column;
@@ -119,6 +194,7 @@ onMounted(() => {
     border: 1px solid $primary;
     border-radius: 50px;
     transition: all 0.4s ease-in-out;
+    color: $dark-text;
   }
   &__submit:hover {
     background-color: $primary;
@@ -192,7 +268,6 @@ onMounted(() => {
     position: absolute;
     top: 50%;
     right: 20px;
-    -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
     width: 14px;
     height: 7px;
@@ -245,7 +320,6 @@ onMounted(() => {
     content: "";
     position: absolute;
     top: 50%;
-    -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
   }
 
@@ -289,5 +363,54 @@ onMounted(() => {
   border: 0;
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
+}
+
+@media (max-width: 1780px) {
+}
+@media (max-width: 1366px) {
+}
+
+@media (max-width: 1024px) {
+  .filter {
+    display: none;
+  }
+  .filter-mobile__btn-open {
+    display: block;
+    margin-bottom: 40px;
+  }
+  
+  .filter-mobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100%;
+    background-color: $background;
+    z-index: 1000;
+    padding: 50px;
+  }
+  .filter-mobile__btn-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+  .slide-enter-active,
+  .slide-leave-active {
+    transition: all 0.6s ease-out;
+  }
+
+  .slide-enter-from,
+  .slide-leave-to {
+    transform: translateX(100%);
+  }
+}
+
+@media (max-width: 768px) {
+}
+
+@media (max-width: 576px) {
+}
+
+@media (max-width: 320px) {
 }
 </style>
