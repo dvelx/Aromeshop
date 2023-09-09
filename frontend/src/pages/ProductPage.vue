@@ -49,9 +49,7 @@
       <!--      </div>-->
     </div>
   </div>
-  <div class="container">
     <PopularProducts />
-  </div>
 </template>
 
 <script setup lang="ts">

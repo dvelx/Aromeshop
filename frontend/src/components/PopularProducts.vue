@@ -16,7 +16,7 @@
               <h5 class="card__title">
                 {{ item.title }}
               </h5>
-              <p class="card__price">{{ numberFormatter(item.price) }} ₽</p>
+              <span class="card__price">{{ numberFormatter(item.price) }} ₽</span>
             </div>
             <p class="card__text">
               {{ item.brand_title }}
@@ -73,7 +73,7 @@ const swiperOptions = {
 }
 const loadProducts = () => {
   apiDataService
-    .getAll(8, 0)
+    .getAll(26, 0)
     .then((res: ResponseData) => (productsData.value = res.data));
 };
 loadProducts();
@@ -111,8 +111,7 @@ loadProducts();
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 430px;
-  max-height: 430px;
+  height: 350px;
   margin-top: 30px;
   margin-bottom: 30px;
   border: 1px solid rgba(242, 242, 242, 0.5);
@@ -133,21 +132,26 @@ loadProducts();
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    max-height: 35px;
   }
   &__price {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    background-color: yellow;
+    border-radius: 5px;
+    padding: 7px 15px;
     color: $dark-text;
+    font-weight: 700;
   }
 
   &__title {
     font-size: 16px;
+    height: 18px;
     font-weight: 600;
-    line-height: 160%; /* 32px */
-    letter-spacing: 0.6px;
     color: $dark-text;
+    overflow: hidden;
   }
   &__text {
-    margin-bottom: 24px;
     color: $dark-text;
   }
 
@@ -168,17 +172,20 @@ loadProducts();
   }
 }
 
-@media (max-width: 1199px) {
+
+@media (max-width: 1780px) {
+}
+@media (max-width: 1366px) {
+}
+
+@media (max-width: 1024px) {
   .card {
     position: relative;
     display: flex;
     flex-direction: column;
     margin-top: 30px;
     margin-bottom: 30px;
-    height: 220px;
-    max-height: 270px;
-    border: 1px solid rgba(242, 242, 242, 0.5);
-    border-radius: 20px;
+    height: min-content;
     padding: 15px;
     background-color: white;
     box-shadow: $card_shadow;
@@ -197,22 +204,18 @@ loadProducts();
     }
 
     &__price {
-      font-size: 12px;
+      font-size: 16px;
       color: $dark-text;
     }
 
     &__title {
-      font-size: 12px;
-      font-weight: 600;
-      line-height: 160%; /* 32px */
-      letter-spacing: 0.6px;
-      color: $dark-text;
-      max-width: 150px;
+      height: 18px;
+      margin-bottom: 5px;
     }
 
     &__text {
-      margin-bottom: 14px;
       color: $dark-text;
+      font-size: 13px;
     }
 
     &__btn {
@@ -223,14 +226,6 @@ loadProducts();
       border-radius: 100px;
     }
   }
-}
-@media (max-width: 1780px) {
-}
-@media (max-width: 1366px) {
-}
-
-@media (max-width: 1024px) {
-  
 }
 
 @media (max-width: 768px) {

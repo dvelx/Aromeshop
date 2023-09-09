@@ -95,7 +95,7 @@
     <transition name="slide-menu">
       <div v-if="toggle" class="right__top-burger-menu">
         <nav class="burger-nav">
-          <button class="menu-close" @click="close">Закрыть</button>
+          <button class="menu-close" @click="close"></button>
           <ul class="burger-nav__list">
             <li class="nav__item">
               <router-link to="/catalog" class="nav__link" active-class="active" @click="isOpenBurgerMenu">
@@ -274,10 +274,25 @@ const close = () => {
     }
   }
   .menu-close {
-    color: $dark-text;
+    width: 54px;
+    height: 54px;
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 15px;
+    right: 15px;
+
+    &:before, &:after {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 2px;
+      background-color: $dark_text;
+    }
+    &:before {
+      transform: rotate(45deg);
+    }
+    &:after {
+      transform: rotate(-45deg);
+    }
   }
   .burger-nav {
     position: fixed;

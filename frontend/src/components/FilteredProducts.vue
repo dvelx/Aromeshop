@@ -381,6 +381,7 @@ onMounted(() => {
   }
   .filter-mobile__btn-open {
     display: block;
+    width: 100%;
     margin-bottom: 40px;
     padding: 10px;
     background-color: $background;
@@ -398,7 +399,6 @@ onMounted(() => {
     background-color: $background;
     z-index: 1000;
     padding: 50px;
-    overflow: hidden;
   }
   .filter-mobile__btn-close {
     width: 54px;

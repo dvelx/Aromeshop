@@ -26,7 +26,9 @@
   }
   &__banner {
     margin-bottom: 50px;
-    background: url("../assets/images/adv-queen-06 (1).webp") no-repeat 100%/100%;
+    background-image: url("../assets/images/adv-queen-06 (1).webp");
+    background-repeat: no-repeat;
+    background-size: cover;
   }
   &__badge {
     display: flex;
