@@ -171,4 +171,44 @@ loadOrder()
 }
 
 
+@media (max-width: 1780px) {
+}
+@media (max-width: 1366px) {
+}
+
+@media (max-width: 1024px) {
+
+}
+
+@media (max-width: 768px) {
+  .cart {
+    
+    &__form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    &__field {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      align-items: center;
+    }
+    
+    &__message {
+      width: 100%;
+      margin: 0 0 50px 0;
+      text-align: center;
+    }
+  }
+  
+}
+
+@media (max-width: 576px) {
+}
+
+@media (max-width: 320px) {
+}
+
 </style>

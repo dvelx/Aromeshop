@@ -174,7 +174,40 @@ const order = () => {
       border: 1px solid $primary;
       padding: 15px 15px;
       font-size: 20px;
+      color: $dark_text;
     }
   }
+}
+
+@media (max-width: 1780px) {
+}
+@media (max-width: 1366px) {
+}
+
+@media (max-width: 1024px) {
+
+}
+
+@media (max-width: 768px) {
+  .order__container {
+    width: 100%;
+    align-items: center;
+    padding: 0 30px;
+  }
+  .form {
+    display: flex;
+    flex-direction: column;
+    
+    &__cart {
+      width: 100%;
+      margin-bottom: 40px;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+}
+
+@media (max-width: 320px) {
 }
 </style>
