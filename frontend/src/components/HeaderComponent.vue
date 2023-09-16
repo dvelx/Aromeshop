@@ -97,22 +97,27 @@
           <button class="menu-close" @click="close"></button>
           <ul class="burger-nav__list">
             <li class="burger-nav__item">
-              <router-link to="/catalog" class="burger-nav__link" active-class="active" @click="isOpenBurgerMenu">
+              <router-link to="/" class="burger-nav__link" active-class="active" @click="close">
+                ГЛАВНАЯ
+              </router-link>
+            </li>
+            <li class="burger-nav__item">
+              <router-link to="/catalog" class="burger-nav__link" active-class="active" @click="close">
                 МАГАЗИН
               </router-link>
             </li>
             <li class="burger-nav__item">
-              <router-link to="/about-us" class="burger-nav__link" active-class="active" @click="isOpenBurgerMenu">
+              <router-link to="/about-us" class="burger-nav__link" active-class="active" @click="close">
                 О&nbsp;НАС
               </router-link>
             </li>
             <li class="burger-nav__item">
-              <router-link to="/blog" class="burger-nav__link" active-class="active" @click="isOpenBurgerMenu">
+              <router-link to="/blog" class="burger-nav__link" active-class="active" @click="close">
                 БЛОГ
               </router-link>
             </li>
             <li class="burger-nav__item">
-              <router-link to="/reviews" class="burger-nav__link" active-class="active" @click="isOpenBurgerMenu">
+              <router-link to="/reviews" class="burger-nav__link" active-class="active" @click="close">
                 ОТЗЫВЫ
               </router-link>
             </li>
@@ -136,9 +141,15 @@ const cartProductsAmount = computed(() => {
   );
 });
 const isOpenBurgerMenu = () => {
-  toggle.value = !toggle.value;
+  document.body.style.position = 'fixed'
+  document.body.style.top = `-${window.screenY}px`
+  toggle.value = true;
 };
 const close = () => {
+  const scrollY = document.body.style.top
+  document.body.style.position = '';
+  document.body.style.top = '';
+  window.scrollTo(0, parseInt(scrollY || '0') * -1)
   toggle.value = false
 }
 
