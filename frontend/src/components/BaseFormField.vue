@@ -33,3 +33,4 @@ defineProps<{
   font-weight: 300;
 }
 </style>
+

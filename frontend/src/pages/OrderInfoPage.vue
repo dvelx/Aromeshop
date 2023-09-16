@@ -7,10 +7,16 @@
             Благодарим за&nbsp;выбор нашего магазина. На&nbsp;Вашу почту придет письмо с&nbsp;деталями заказа.
             Наши менеджеры свяжутся с&nbsp;Вами в&nbsp;течение часа для уточнения деталей доставки.
           </p>
-          
-          {{ datePurchased }} ----  {{ timePurchased }}
 
           <ul class="dictionary">
+            <li class="dictionary__item">
+              <span class="dictionary__key">
+                Дата и время создания заказа
+              </span>
+              <span class="dictionary__value">
+                {{ datePurchased }}/{{ timePurchased }}
+              </span>
+            </li>
             <li class="dictionary__item">
               <span class="dictionary__key">
                 Получатель

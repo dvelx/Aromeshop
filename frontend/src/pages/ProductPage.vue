@@ -210,10 +210,10 @@ loadProduct();
       width: 100%;
     }
     &__left {
+      grid-template-columns: 1fr;
+      align-items: center;
       width: 100%;
-    }
-    &__image {
-      max-height: 200px;
+      margin-bottom: 80px;
     }
   }
 }

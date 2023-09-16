@@ -4,14 +4,15 @@
       v-model="value"
       class="form__input"
       type="text"
-      name="name"
+      :name="typeInput"
       :placeholder="String(placeholder)"
+      
     />
   </BaseFormField>
 </template>
 
 <script setup lang="ts">
-import {computed, reactive} from "vue";
+import {computed} from "vue";
 import BaseFormField from "@/components/BaseFormField.vue";
 
 const props = defineProps<{
@@ -19,6 +20,7 @@ const props = defineProps<{
   error: String;
   placeholder: String;
   modelValue: String;
+  typeInput: string
 }>();
 const emits = defineEmits<{
   (e: "update:modelValue", modelValue: string): void;

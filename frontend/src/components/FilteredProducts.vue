@@ -125,17 +125,20 @@ import Brands from "@/types/Brands.ts";
 
 defineProps<{
   priceFrom: number,
-  priceTo: number
+  priceTo: number,
+  sortBy: string
 }>()
 
 const emits = defineEmits<{
   (e: "update:priceFrom", priceFrom: number): void;
   (e: "update:priceTo", priceTo: number): void;
+  (e: "update:sortBy", sortBy: string): void
 }>()
 
 const openFilter = ref(false)
 const currentPriceFrom = ref(0)
 const currentPriceTo = ref(0)
+const currentSortBy = ref('')
 const categories = ref({} as Categories[]);
 const brands = ref({} as Brands[]);
 
@@ -166,6 +169,7 @@ const closeFilter = () => {
 const submit = () => {
   emits("update:priceFrom", currentPriceFrom.value)
   emits("update:priceTo", currentPriceTo.value)
+  emits("update:sortBy", currentSortBy.value)
   openFilter.value = false
 }
 

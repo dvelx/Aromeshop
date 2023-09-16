@@ -100,13 +100,18 @@ store.loadBasket(store.state.userAccessKey);
 }
 
 @media (max-width: 1024px) {
-
+  .cart {
+    &__form {
+      display: flex;
+      flex-direction: column;
+      margin-right: auto;
+      margin-left: auto;
+    }
+  }
 }
 
 @media (max-width: 768px) {
   .cart {
-    &__container {
-    }
 
     &__form {
       display: flex;

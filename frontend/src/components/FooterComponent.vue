@@ -54,11 +54,6 @@
           </ul>
         </div>
       </div>
-      <div class="footer__right">
-        <h5 class="footer__slogan">
-          Stay in the know — we’ll send you offers & more.
-        </h5>
-      </div>
     </div>
     <div class="footer__bottom">
       <div class="container footer__bottom-container">
@@ -152,8 +147,10 @@
   }
   .footer__left {
     flex-direction: column;
+    width: 100%;
   }
   .footer__logo {
+    margin-right: 0;
     width: 200px;
   }
 }

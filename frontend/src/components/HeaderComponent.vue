@@ -93,33 +93,31 @@
 
 
     <transition name="slide-menu">
-      <div v-if="toggle" class="right__top-burger-menu">
-        <nav class="burger-nav">
+        <nav v-if="toggle" class="burger-nav">
           <button class="menu-close" @click="close"></button>
           <ul class="burger-nav__list">
-            <li class="nav__item">
-              <router-link to="/catalog" class="nav__link" active-class="active" @click="isOpenBurgerMenu">
+            <li class="burger-nav__item">
+              <router-link to="/catalog" class="burger-nav__link" active-class="active" @click="isOpenBurgerMenu">
                 МАГАЗИН
               </router-link>
             </li>
-            <li class="nav__item">
-              <router-link to="/about-us" class="nav__link" active-class="active" @click="isOpenBurgerMenu">
+            <li class="burger-nav__item">
+              <router-link to="/about-us" class="burger-nav__link" active-class="active" @click="isOpenBurgerMenu">
                 О&nbsp;НАС
               </router-link>
             </li>
-            <li class="nav__item">
-              <router-link to="/blog" class="nav__link" active-class="active" @click="isOpenBurgerMenu">
+            <li class="burger-nav__item">
+              <router-link to="/blog" class="burger-nav__link" active-class="active" @click="isOpenBurgerMenu">
                 БЛОГ
               </router-link>
             </li>
-            <li class="nav__item">
-              <router-link to="/reviews" class="nav__link" active-class="active" @click="isOpenBurgerMenu">
+            <li class="burger-nav__item">
+              <router-link to="/reviews" class="burger-nav__link" active-class="active" @click="isOpenBurgerMenu">
                 ОТЗЫВЫ
               </router-link>
             </li>
           </ul>
         </nav>
-      </div>
     </transition>
   </header>
 </template>
@@ -310,6 +308,13 @@ const close = () => {
       gap: 30px;
       padding: 40px;
       width: 300px;
+    }
+    &__link {
+      font-size: 20px;
+      line-height: 32px;
+      letter-spacing: 0.6px;
+      color: $dark_text;
+      position: relative;
     }
   }
   .slide-menu-enter-active,

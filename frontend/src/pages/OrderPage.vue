@@ -10,24 +10,28 @@
               title="ФИО"
               placeholder="Введите ваше полное имя"
               :error="formError.name"
+              type-input="fullName"
             />
             <BaseFormText
               v-model="formData.address"
               title="Адрес доставки"
               placeholder="Введите ваш адрес"
               :error="formError.address"
+              type-input="address"
             />
             <BaseFormText
               v-model="formData.phone"
               title="Телефон"
               placeholder="Введите ваш телефон"
               :error="formError.phone"
+              type-input="phone"
             />
             <BaseFormText
               v-model="formData.email"
               title="Email"
               placeholder="Введи ваш Email"
               :error="formError.email"
+              type-input="email"
             />
             <BaseFormTextarea
               v-model="formData.comment"
