@@ -86,43 +86,65 @@
             </div>
           </div>
         </div>
-        
       </div>
     </div>
 
-
-
     <transition name="slide-menu">
-        <nav v-if="toggle" class="burger-nav">
-          <button class="menu-close" @click="close"></button>
-          <ul class="burger-nav__list">
-            <li class="burger-nav__item">
-              <router-link to="/" class="burger-nav__link" active-class="active" @click="close">
-                ГЛАВНАЯ
-              </router-link>
-            </li>
-            <li class="burger-nav__item">
-              <router-link to="/catalog" class="burger-nav__link" active-class="active" @click="close">
-                МАГАЗИН
-              </router-link>
-            </li>
-            <li class="burger-nav__item">
-              <router-link to="/about-us" class="burger-nav__link" active-class="active" @click="close">
-                О&nbsp;НАС
-              </router-link>
-            </li>
-            <li class="burger-nav__item">
-              <router-link to="/blog" class="burger-nav__link" active-class="active" @click="close">
-                БЛОГ
-              </router-link>
-            </li>
-            <li class="burger-nav__item">
-              <router-link to="/reviews" class="burger-nav__link" active-class="active" @click="close">
-                ОТЗЫВЫ
-              </router-link>
-            </li>
-          </ul>
-        </nav>
+      <nav v-if="toggle" class="burger-nav">
+        <button class="menu-close" @click="close"></button>
+        <ul class="burger-nav__list">
+          <li class="burger-nav__item">
+            <router-link
+              to="/"
+              class="burger-nav__link"
+              active-class="active"
+              @click="close"
+            >
+              ГЛАВНАЯ
+            </router-link>
+          </li>
+          <li class="burger-nav__item">
+            <router-link
+              to="/catalog"
+              class="burger-nav__link"
+              active-class="active"
+              @click="close"
+            >
+              МАГАЗИН
+            </router-link>
+          </li>
+          <li class="burger-nav__item">
+            <router-link
+              to="/about-us"
+              class="burger-nav__link"
+              active-class="active"
+              @click="close"
+            >
+              О&nbsp;НАС
+            </router-link>
+          </li>
+          <li class="burger-nav__item">
+            <router-link
+              to="/blog"
+              class="burger-nav__link"
+              active-class="active"
+              @click="close"
+            >
+              БЛОГ
+            </router-link>
+          </li>
+          <li class="burger-nav__item">
+            <router-link
+              to="/reviews"
+              class="burger-nav__link"
+              active-class="active"
+              @click="close"
+            >
+              ОТЗЫВЫ
+            </router-link>
+          </li>
+        </ul>
+      </nav>
     </transition>
   </header>
 </template>
@@ -141,18 +163,17 @@ const cartProductsAmount = computed(() => {
   );
 });
 const isOpenBurgerMenu = () => {
-  document.body.style.position = 'fixed'
-  document.body.style.top = `-${window.screenY}px`
+  document.body.style.position = "fixed";
+  document.body.style.top = `-${window.screenY}px`;
   toggle.value = true;
 };
 const close = () => {
-  const scrollY = document.body.style.top
-  document.body.style.position = '';
-  document.body.style.top = '';
-  window.scrollTo(0, parseInt(scrollY || '0') * -1)
-  toggle.value = false
-}
-
+  const scrollY = document.body.style.top;
+  document.body.style.position = "";
+  document.body.style.top = "";
+  window.scrollTo(0, parseInt(scrollY || "0") * -1);
+  toggle.value = false;
+};
 </script>
 
 <style lang="scss" scoped>
@@ -216,10 +237,9 @@ const close = () => {
       gap: 30px;
     }
   }
-  &__burger-btn{
+  &__burger-btn {
     display: none;
   }
-  
 }
 .logo {
   align-self: center;
@@ -289,8 +309,9 @@ const close = () => {
     top: 15px;
     right: 15px;
 
-    &:before, &:after {
-      content: '';
+    &:before,
+    &:after {
+      content: "";
       position: absolute;
       width: 24px;
       height: 2px;
@@ -312,7 +333,7 @@ const close = () => {
     background-color: $background;
     z-index: 1001;
     padding: 50px;
-    
+
     &__list {
       display: flex;
       flex-direction: column;

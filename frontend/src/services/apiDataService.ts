@@ -1,7 +1,14 @@
 import { api } from "@/http/api.ts";
 
 class productDataService {
-  getAll(limit: number, page: number, sortBy: string, order: string, priceFrom: number, priceTo: number): Promise<any> {
+  getAll(
+    limit: number,
+    page: number,
+    sortBy: string,
+    order: string,
+    priceFrom: number,
+    priceTo: number,
+  ): Promise<any> {
     return api.get("/products", {
       params: {
         limit: limit,
@@ -9,7 +16,7 @@ class productDataService {
         sortBy: sortBy,
         order: order,
         priceFrom: priceFrom,
-        priceTo: priceTo
+        priceTo: priceTo,
       },
     });
   }
@@ -42,30 +49,38 @@ class productDataService {
   addProductToBasket(
     productId: number,
     amount: number,
-    accessKey: string | null
+    accessKey: string | null,
   ): Promise<any> {
-    return api.post("/baskets", {
-      productId: productId,
-      quantity: amount,
-    }, {
-      params: {
-        accessKey
-      }
-    });
+    return api.post(
+      "/baskets",
+      {
+        productId: productId,
+        quantity: amount,
+      },
+      {
+        params: {
+          accessKey,
+        },
+      },
+    );
   }
   changeProductQuantity(
     productId: number,
     quantity: number,
-    accessKey: string | null
+    accessKey: string | null,
   ): Promise<any> {
-    return api.put("/baskets", {
-      productId: productId,
-      quantity: quantity,
-    }, {
-      params: {
-        accessKey
-      }
-    });
+    return api.put(
+      "/baskets",
+      {
+        productId: productId,
+        quantity: quantity,
+      },
+      {
+        params: {
+          accessKey,
+        },
+      },
+    );
   }
   deleteProduct(productId: number, accessKey: string | null): Promise<any> {
     return api.delete("/baskets", {
@@ -73,8 +88,8 @@ class productDataService {
         productId: productId,
       },
       params: {
-        accessKey
-      }
+        accessKey,
+      },
     });
   }
 
@@ -103,8 +118,7 @@ class productDataService {
     );
   }
   getOrderById(orderId: number): Promise<any> {
-    return api.get("/order/" + orderId)
-      
+    return api.get("/order/" + orderId);
   }
 }
 

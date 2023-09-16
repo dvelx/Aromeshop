@@ -6,13 +6,12 @@
       type="text"
       :name="typeInput"
       :placeholder="String(placeholder)"
-      
     />
   </BaseFormField>
 </template>
 
 <script setup lang="ts">
-import {computed} from "vue";
+import { computed } from "vue";
 import BaseFormField from "@/components/BaseFormField.vue";
 
 const props = defineProps<{
@@ -20,7 +19,7 @@ const props = defineProps<{
   error: String;
   placeholder: String;
   modelValue: String;
-  typeInput: string
+  typeInput: string;
 }>();
 const emits = defineEmits<{
   (e: "update:modelValue", modelValue: string): void;

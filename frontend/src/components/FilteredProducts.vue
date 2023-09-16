@@ -1,26 +1,31 @@
 <template>
   <div class="filter">
     <h2 class="filter__title">Фильтровать</h2>
-    <form action="#" class="filter__form form" method="get" @submit.prevent="submit()">
+    <form
+      action="#"
+      class="filter__form form"
+      method="get"
+      @submit.prevent="submit()"
+    >
       <fieldset class="form__block">
         <legend class="form__legend">Цена</legend>
         <label class="form__label form__label--price">
           <input
+            v-model.number="currentPriceFrom"
             class="form__input"
             type="text"
             name="min-price"
             autocomplete="off"
-            v-model.number="currentPriceFrom"
           />
           <span class="form__value">От</span>
         </label>
         <label class="form__label form__label--price">
           <input
+            v-model.number="currentPriceTo"
             class="form__input"
             type="text"
             name="max-price"
             autocomplete="off"
-            v-model.number="currentPriceTo"
           />
           <span class="form__value">До</span>
         </label>
@@ -59,28 +64,32 @@
   <transition name="slide">
     <div v-if="openFilter" class="filter-mobile">
       <h2 class="filter__title">Фильтровать</h2>
-      <button class="filter-mobile__btn-close" @click="closeFilter">
-      </button>
-      <form action="#" class="filter__form form" method="get" @submit.prevent="submit()">
+      <button class="filter-mobile__btn-close" @click="closeFilter"></button>
+      <form
+        action="#"
+        class="filter__form form"
+        method="get"
+        @submit.prevent="submit()"
+      >
         <fieldset class="form__block">
           <legend class="form__legend">Цена</legend>
           <label class="form__label form__label--price">
             <input
+              v-model.number="currentPriceFrom"
               class="form__input"
               type="text"
               name="min-price"
               autocomplete="off"
-              v-model.number="currentPriceFrom"
             />
             <span class="form__value">От</span>
           </label>
           <label class="form__label form__label--price">
             <input
+              v-model.number="currentPriceTo"
               class="form__input"
               type="text"
               name="max-price"
               autocomplete="off"
-              v-model.number="currentPriceTo"
             />
             <span class="form__value">До</span>
           </label>
@@ -91,7 +100,11 @@
           <label class="form__label form__label--select">
             <select class="form__select" name="category">
               <option value="0">Все категории</option>
-              <option v-for="item of categories" :key="item.id" :value="item.id">
+              <option
+                v-for="item of categories"
+                :key="item.id"
+                :value="item.id"
+              >
                 {{ item.title }}
               </option>
             </select>
@@ -110,7 +123,9 @@
           </ul>
         </fieldset>
 
-        <button class="filter__submit" type="submit"  @click="closeFilter">Применить</button>
+        <button class="filter__submit" type="submit" @click="closeFilter">
+          Применить
+        </button>
       </form>
     </div>
   </transition>
@@ -124,21 +139,21 @@ import Categories from "@/types/Categories.ts";
 import Brands from "@/types/Brands.ts";
 
 defineProps<{
-  priceFrom: number,
-  priceTo: number,
-  sortBy: string
-}>()
+  priceFrom: number;
+  priceTo: number;
+  sortBy: string;
+}>();
 
 const emits = defineEmits<{
   (e: "update:priceFrom", priceFrom: number): void;
   (e: "update:priceTo", priceTo: number): void;
-  (e: "update:sortBy", sortBy: string): void
-}>()
+  (e: "update:sortBy", sortBy: string): void;
+}>();
 
-const openFilter = ref(false)
-const currentPriceFrom = ref(0)
-const currentPriceTo = ref(0)
-const currentSortBy = ref('')
+const openFilter = ref(false);
+const currentPriceFrom = ref(0);
+const currentPriceTo = ref(0);
+const currentSortBy = ref("");
 const categories = ref({} as Categories[]);
 const brands = ref({} as Brands[]);
 
@@ -154,24 +169,24 @@ const loadBrands = () => {
 };
 
 const openMobileFilter = () => {
-  document.body.style.position = 'fixed'
-  document.body.style.top = `-${window.screenY}px`
-  openFilter.value = true
-}
+  document.body.style.position = "fixed";
+  document.body.style.top = `-${window.screenY}px`;
+  openFilter.value = true;
+};
 const closeFilter = () => {
-  const scrollY = document.body.style.top
-  document.body.style.position = '';
-  document.body.style.top = '';
-  window.scrollTo(0, parseInt(scrollY || '0') * -1)
-  openFilter.value = false
-}
+  const scrollY = document.body.style.top;
+  document.body.style.position = "";
+  document.body.style.top = "";
+  window.scrollTo(0, parseInt(scrollY || "0") * -1);
+  openFilter.value = false;
+};
 
 const submit = () => {
-  emits("update:priceFrom", currentPriceFrom.value)
-  emits("update:priceTo", currentPriceTo.value)
-  emits("update:sortBy", currentSortBy.value)
-  openFilter.value = false
-}
+  emits("update:priceFrom", currentPriceFrom.value);
+  emits("update:priceTo", currentPriceTo.value);
+  emits("update:sortBy", currentSortBy.value);
+  openFilter.value = false;
+};
 
 onMounted(() => {
   loadCategories();
@@ -393,7 +408,7 @@ onMounted(() => {
     font-size: 16px;
     letter-spacing: 3px;
   }
-  
+
   .filter-mobile {
     position: fixed;
     top: 0;
@@ -410,9 +425,10 @@ onMounted(() => {
     position: absolute;
     top: 15px;
     right: 15px;
-    
-    &:before, &:after {
-      content: '';
+
+    &:before,
+    &:after {
+      content: "";
       position: absolute;
       width: 24px;
       height: 2px;

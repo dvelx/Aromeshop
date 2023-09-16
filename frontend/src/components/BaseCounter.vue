@@ -124,19 +124,18 @@ const minus = (value: number) => {
 }
 
 @media (max-width: 1024px) {
-
 }
 
 @media (max-width: 768px) {
   .form__counter {
     border: none;
     padding: 0 5px;
-    
+
     & button {
       width: 25px;
       height: 25px;
     }
-    
+
     & input {
       padding: 5px 3px;
       font-size: 14px;

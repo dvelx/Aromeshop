@@ -16,7 +16,9 @@
               <h5 class="card__title">
                 {{ item.title }}
               </h5>
-              <span class="card__price">{{ numberFormatter(item.price) }} ₽</span>
+              <span class="card__price"
+                >{{ numberFormatter(item.price) }} ₽</span
+              >
             </div>
             <p class="card__text">
               {{ item.brand_title }}
@@ -41,7 +43,6 @@ import Products from "@/types/Products.ts";
 import numberFormatter from "@/helpers/numberFormatter.ts";
 import Product from "@/types/Product.ts";
 
-
 const productsData = ref({} as Products);
 const products = computed<Product[]>(() => {
   return productsData.value.products;
@@ -50,7 +51,7 @@ const swiperOptions = {
   breakpoints: {
     320: {
       slidesPerView: 2,
-      spaceBetween: 10
+      spaceBetween: 10,
     },
     640: {
       slidesPerView: 2,
@@ -65,12 +66,11 @@ const swiperOptions = {
       spaceBetween: 40,
     },
     1366: {
-
       slidesPerView: 5,
       spaceBetween: 50,
-    }
-  }
-}
+    },
+  },
+};
 const loadProducts = () => {
   apiDataService
     .getAll(26, 0)
@@ -171,7 +171,6 @@ loadProducts();
     color: $white;
   }
 }
-
 
 @media (max-width: 1780px) {
 }

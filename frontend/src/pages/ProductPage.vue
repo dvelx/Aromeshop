@@ -49,7 +49,7 @@
       <!--      </div>-->
     </div>
   </div>
-    <PopularProducts />
+  <PopularProducts />
 </template>
 
 <script setup lang="ts">

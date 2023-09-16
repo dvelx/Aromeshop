@@ -126,7 +126,6 @@ const deleteProduct = (id: number) => {
 }
 
 @media (max-width: 1024px) {
-
 }
 
 @media (max-width: 768px) {
@@ -134,17 +133,16 @@ const deleteProduct = (id: number) => {
     display: flex;
     justify-content: space-between;
     grid-gap: 10px;
-    
+
     &__pic {
       width: 70px;
     }
-    
+
     &__title {
       font-size: 14px;
       line-height: 1;
     }
   }
-  
 }
 
 @media (max-width: 576px) {

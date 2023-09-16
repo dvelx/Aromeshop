@@ -92,16 +92,13 @@ import MainContent from "../components/MainContent.vue";
 
 @media (max-width: 768px) {
   .content {
-    
     &__container {
       grid-template-columns: 1fr;
     }
-    
+
     &__card {
       height: 450px;
-      
     }
-    
   }
 }
 
@@ -110,5 +107,4 @@ import MainContent from "../components/MainContent.vue";
 
 @media (max-width: 320px) {
 }
-
 </style>

@@ -99,7 +99,6 @@
 
 @media (max-width: 1024px) {
   .right {
-    
     &__main-text {
       width: 80%;
     }

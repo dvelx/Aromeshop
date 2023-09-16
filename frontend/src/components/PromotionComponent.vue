@@ -1,11 +1,11 @@
 <template>
   <div class="promotion-container">
     <div class="promotion__banner">
-      <div class="promotion__badge">
+      <div class="promotion__badge container">
         <span>35%</span>
         <p>OFF</p>
       </div>
-      <div class="promotion__text">
+      <div class="promotion__text container">
         <p>Используй свою скидку прямо сейчас</p>
       </div>
     </div>
@@ -58,7 +58,7 @@
     padding: 16px 64px;
     font-size: 20px;
     margin: auto;
-    width: 96%;
+    width: 50%;
     transition: all 0.4s ease-in-out;
   }
   &__btn:hover {

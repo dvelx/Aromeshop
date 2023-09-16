@@ -54,7 +54,7 @@ export const cartStore = defineStore("cartStore", () => {
     return apiDataService.changeProductQuantity(
       productId,
       amount,
-      state.value.userAccessKey
+      state.value.userAccessKey,
     );
   };
 
@@ -83,7 +83,7 @@ export const cartStore = defineStore("cartStore", () => {
       (err) => {
         console.log(err.response.data);
         state.value.userAccessKey = null;
-        loadBasket()
+        loadBasket();
       },
     );
   };

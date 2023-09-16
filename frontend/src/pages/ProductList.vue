@@ -1,16 +1,16 @@
 <template>
   <div class="container product-list__container">
-    <FilteredProducts 
+    <FilteredProducts
       v-model:priceFrom="priceFrom"
       v-model:priceTo="priceTo"
       v-model:ыщкеИн="sortBy"
     />
 
     <div class="product-list__content">
-<!--      <div v-if="loader" class="lds-ripple">-->
-<!--        <div></div>-->
-<!--        <div></div>-->
-<!--      </div>-->
+      <!--      <div v-if="loader" class="lds-ripple">-->
+      <!--        <div></div>-->
+      <!--        <div></div>-->
+      <!--      </div>-->
       <div class="product-list__list">
         <div v-for="item in products" :key="item.id" class="card">
           <router-link :to="'/product/' + item.slug">
@@ -55,12 +55,14 @@
           </button>
         </div>
       </div>
-      <button v-show="loader" class="show-more-btn" @click="showMore">показать еще</button>
-<!--      <BasePagination-->
-<!--        v-model:page="page"-->
-<!--        :per-page="limit"-->
-<!--        :count="Number(countProducts.count)"-->
-<!--      />-->
+      <button v-show="loader" class="show-more-btn" @click="showMore">
+        показать еще
+      </button>
+      <!--      <BasePagination-->
+      <!--        v-model:page="page"-->
+      <!--        :per-page="limit"-->
+      <!--        :count="Number(countProducts.count)"-->
+      <!--      />-->
     </div>
   </div>
 </template>
@@ -82,11 +84,10 @@ const loader = ref(true);
 const productsData = ref({} as Products);
 const page = ref(1);
 const limit = ref(8);
-const sortBy = ref('');
-const order = ref('');
+const sortBy = ref("");
+const order = ref("");
 const priceFrom = ref(0);
-const priceTo = ref(100000)
-
+const priceTo = ref(100000);
 
 const products = computed<Product[]>(() => {
   return productsData.value.products;
@@ -96,18 +97,29 @@ const products = computed<Product[]>(() => {
 // });
 
 const showMore = () => {
-  if (productsData.value.pagination.limit < productsData.value.pagination.count) {
-    limit.value = limit.value * 2
-  } 
-  if (productsData.value.pagination.limit >= productsData.value.pagination.count) {
-    loader.value = false
+  if (
+    productsData.value.pagination.limit < productsData.value.pagination.count
+  ) {
+    limit.value = limit.value * 2;
   }
-}
+  if (
+    productsData.value.pagination.limit >= productsData.value.pagination.count
+  ) {
+    loader.value = false;
+  }
+};
 
 const loadProducts = () => {
   apiDataService
-    .getAll(limit.value, page.value, sortBy.value, order.value, priceFrom.value, priceTo.value)
-    .then((res: ResponseData) => (productsData.value = res.data))
+    .getAll(
+      limit.value,
+      page.value,
+      sortBy.value,
+      order.value,
+      priceFrom.value,
+      priceTo.value,
+    )
+    .then((res: ResponseData) => (productsData.value = res.data));
 };
 
 const addCart = (id: number, quantity: number) => {
@@ -179,7 +191,6 @@ loadProducts();
     padding-left: 20px;
     padding-right: 20px;
   }
- 
 
   &__title {
     font-size: 16px;
@@ -211,7 +222,6 @@ loadProducts();
     background-color: $primary;
   }
 }
-
 
 @media (max-width: 1780px) {
   .product-list {
