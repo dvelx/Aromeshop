@@ -28,5 +28,5 @@ export default interface OrderInfo {
       slug: string;
       title: string;
     }[];
-  };
+  }[];
 }

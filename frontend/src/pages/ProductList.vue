@@ -3,7 +3,7 @@
     <FilteredProducts
       v-model:priceFrom="priceFrom"
       v-model:priceTo="priceTo"
-      v-model:ыщкеИн="sortBy"
+      v-model:sort-by="sortBy"
     />
 
     <div class="product-list__content">

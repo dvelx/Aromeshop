@@ -17,7 +17,7 @@ const props = defineProps<{
   title: String;
   error: String;
   placeholder: String;
-  modelValue: String;
+  modelValue: string;
 }>();
 
 const emits = defineEmits<{

@@ -52,22 +52,20 @@
         <div class="cart__block">
           <ul class="cart__orders">
             <li
-              v-for="item of orderProduct"
-              :key="item.product.id"
+              v-for="item of orderInfo.items"
+              :key="item.id"
               class="cart__order"
             >
-              <h3 class="cart__order-title">{{ item.product.title }}</h3>
+              <h3 class="cart__order-title">{{ item.product_title }}</h3>
               <b class="cart__order-price"
-                >{{ numberFormatter(item.product.price) }} ₽</b
+                >{{ numberFormatter(+item.price) }} ₽</b
               >
-              <span class="cart__order-span"
-                >Артикул: {{ item.product.id }}</span
-              >
+              <span class="cart__order-span">Артикул: {{ item.id }}</span>
             </li>
           </ul>
 
           <div class="cart__total">
-            <p @click="console.log(orderInfo)">Доставка: <b>бесплатно</b></p>
+            <p>Доставка: <b>бесплатно</b></p>
             <p>
               Итого: <b>{{}}</b> товара на сумму
               <b>{{ numberFormatter(+orderInfo.total) }} ₽</b>
@@ -93,9 +91,6 @@ const orderInfo = computed<OrderInfo>(() => {
   return store.state.orderInfo;
 });
 
-const orderProduct = computed(() => {
-  return store.state.orderInfo.items;
-});
 const datePurchased = computed(() => {
   return new Date(store.state.orderInfo.date_purchased).toLocaleDateString(
     "ru-RU",

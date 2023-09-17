@@ -8,9 +8,10 @@
 
 <script setup lang="ts">
 import numberFormatter from "../helpers/numberFormatter.ts";
+import CartProducts from "@/types/CartProducts.ts";
 
 defineProps<{
-  item: object;
+  item: CartProducts;
 }>();
 </script>
 

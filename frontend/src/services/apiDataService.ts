@@ -4,10 +4,10 @@ class productDataService {
   getAll(
     limit: number,
     page: number,
-    sortBy: string,
-    order: string,
-    priceFrom: number,
-    priceTo: number,
+    sortBy?: string,
+    order?: string,
+    priceFrom?: number,
+    priceTo?: number,
   ): Promise<any> {
     return api.get("/products", {
       params: {
