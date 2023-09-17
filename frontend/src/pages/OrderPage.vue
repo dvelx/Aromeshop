@@ -5,40 +5,70 @@
       <form action="#" method="post" class="form" @submit.prevent="order()">
         <div class="form__field">
           <div class="form__data">
-            <BaseFormText
-              v-model="formData.name"
-              title="ФИО"
-              placeholder="Введите ваше полное имя"
-              :error="formError.name"
-              type-input="fullName"
-            />
-            <BaseFormText
-              v-model="formData.address"
-              title="Адрес доставки"
-              placeholder="Введите ваш адрес"
-              :error="formError.address"
-              type-input="address"
-            />
-            <BaseFormText
-              v-model="formData.phone"
-              title="Телефон"
-              placeholder="Введите ваш телефон"
-              :error="formError.phone"
-              type-input="phone"
-            />
-            <BaseFormText
-              v-model="formData.email"
-              title="Email"
-              placeholder="Введи ваш Email"
-              :error="formError.email"
-              type-input="email"
-            />
-            <BaseFormTextarea
-              v-model="formData.comment"
-              title="Комментарий к заказу"
-              placeholder="Ваши пожелания"
-              :error="formError.comment"
-            />
+
+            <label class="form__label">
+              <input
+                v-model="formData.name"
+                v-maska:[maskOptions]
+                data-maska="Az Az Az"
+                class="form__input"
+                type="text"
+                name="fullName"
+                placeholder="Введите ваше полное имя"
+              />
+              <span class="form__value">ФИО</span>
+              <span v-if="formError" class="form__error">{{ formError.name }}</span>
+            </label>
+
+            <label class="form__label">
+              <input
+                v-model="formData.address"
+                class="form__input"
+                type="text"
+                name="address"
+                placeholder="Введите ваш адрес"
+              />
+              <span class="form__value">Адрес доставки</span>
+              <span v-if="formError" class="form__error">{{ formError.address }}</span>
+            </label>
+
+            <label class="form__label">
+              <input
+                v-model="formData.phone"
+                v-maska:[maskOptions]
+                data-maska="+7(###)#######"
+                class="form__input"
+                type="tel"
+                name="phone"
+                placeholder="Введите ваш телефон"
+              />
+              <span class="form__value">Телефон</span>
+              <span v-if="formError" class="form__error">{{ formError.phone }}</span>
+            </label>
+
+            <label class="form__label">
+              <input
+                v-model="formData.email"
+                class="form__input"
+                type="text"
+                name="email"
+                placeholder="Введите ваш Email"
+              />
+              <span class="form__value">Email</span>
+              <span v-if="formError" class="form__error">{{ formError.email }}</span>
+            </label>
+
+            <label class="form__label">
+              <textarea
+                v-model="formData.comment"
+                class="form__input form__input--area"
+                name="comments"
+                placeholder="Ваши пожелания"
+              ></textarea>
+              <span class="form__value">Комментарий к заказу</span>
+              <span v-if="formError" class="form__error">{{ formError.comment }}</span>
+            </label>
+            
           </div>
         </div>
         <div class="form__cart">
@@ -67,15 +97,14 @@
 </template>
 
 <script setup lang="ts">
-import BaseFormText from "@/components/BaseFormText.vue";
-import BaseFormTextarea from "@/components/BaseFormTextarea.vue";
-import { computed, ref } from "vue";
+import {computed, reactive, ref} from "vue";
 import OrderPageCart from "@/components/OrderPageCart.vue";
 import { cartStore } from "@/store/cartStore.ts";
 import numberFormatter from "@/helpers/numberFormatter.ts";
 import apiDataService from "@/services/apiDataService.ts";
 import ResponseData from "@/types/ResponseData.ts";
 import { useRouter } from "vue-router";
+import { vMaska } from "maska";
 
 interface FormData {
   name: string;
@@ -123,6 +152,15 @@ const order = () => {
       formError.value = error.response.data.error;
     });
 };
+//маска для ФИО
+const maskOptions = reactive({
+  tokens: {
+    A: { pattern: /[A-ZА-ЯЁ]/, transform: (v: string) => v.toLocaleUpperCase() },
+    z: { pattern: /[a-zа-яё]/, transform: (v: string) => v.toLocaleLowerCase(), multiple: true },
+    '#': { pattern: /[0-9]/ },
+  },
+});
+
 </script>
 
 <style lang="scss" scoped>
@@ -133,6 +171,7 @@ const order = () => {
   padding-left: 18%;
   padding-right: 18%;
 }
+
 .form {
   display: grid;
   grid-template-columns: auto 370px;
@@ -141,7 +180,49 @@ const order = () => {
   -webkit-box-align: start;
   -ms-flex-align: start;
   align-items: flex-start;
-
+  
+  &__label {
+    position: relative;
+    display: block;
+    color: #222;
+  }
+  &__label:not(:last-child) {
+    margin-bottom: 25px;
+  }
+  &__value {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    font-size: 12px;
+    line-height: 1;
+    color: #737373;
+    font-weight: 300;
+  }
+  &__input {
+    padding: 28px 45px 13px 20px;
+    width: 100%;
+    height: 65px;
+    border: 1px solid $primary;
+    border-radius: 10px;
+    background-color: #fafafa;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    color: #222;
+    font-size: 16px;
+    font-family: inherit;
+    line-height: 1;
+  }
+  &__input--area {
+    resize: none;
+    height: 140px;
+  }
+  &__input:focus,
+  &__input:hover {
+    outline: none;
+    border-color: $dark-text;
+  }
   &__field {
     grid-row: 1/3;
   }
