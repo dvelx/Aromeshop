@@ -1,6 +1,15 @@
 <template>
   <div class="filter">
     <h2 class="filter__title">Фильтровать</h2>
+    
+    <fieldset class="form__block">
+      <legend class="form__legend">Сортировать</legend>
+      <label class="form__label form__label-select">
+        <div @click="sorted('price', 'asc')">Сначала дороже</div>
+        <div @click="sorted('price', 'desc')">Сначала дешевле</div>
+        <div @click="sorted('name', '')">По названию</div>
+      </label>
+    </fieldset>
     <form
       action="#"
       class="filter__form form"
@@ -142,20 +151,26 @@ defineProps<{
   priceFrom: number;
   priceTo: number;
   sortBy: string;
+  order: string
 }>();
 
 const emits = defineEmits<{
   (e: "update:priceFrom", priceFrom: number): void;
   (e: "update:priceTo", priceTo: number): void;
   (e: "update:sortBy", sortBy: string): void;
+  (e: "update:order", order: string): void
 }>();
 
 const openFilter = ref(false);
 const currentPriceFrom = ref(0);
 const currentPriceTo = ref(0);
-const currentSortBy = ref("");
 const categories = ref({} as Categories[]);
 const brands = ref({} as Brands[]);
+
+const sorted = (sortBy: string, order: string) => {
+  emits("update:order", order);
+  emits("update:sortBy", sortBy);
+}
 
 const loadCategories = () => {
   apiDataService
@@ -184,7 +199,6 @@ const closeFilter = () => {
 const submit = () => {
   emits("update:priceFrom", currentPriceFrom.value);
   emits("update:priceTo", currentPriceTo.value);
-  emits("update:sortBy", currentSortBy.value);
   openFilter.value = false;
 };
 

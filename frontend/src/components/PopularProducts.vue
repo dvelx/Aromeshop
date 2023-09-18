@@ -1,34 +1,36 @@
 <template>
-  <div class="popular-container container">
-    <h1 class="title">Популярные ароматизаторы</h1>
-    <h3 class="title-cta">Купи наши популярные свечи</h3>
-    <swiper
-      :modules="[Pagination, Autoplay]"
-      :breakpoints="swiperOptions.breakpoints"
-      :pagination="{ clickable: true }"
-      :autoplay="{ delay: 3000 }"
-    >
-      <swiper-slide v-for="item in products" :key="item.id">
-        <router-link :to="'/product/' + item.slug">
-          <div class="card">
-            <img :src="item.image_url" alt="" class="card__image" />
-            <div class="card__desc">
-              <h5 class="card__title">
-                {{ item.title }}
-              </h5>
-              <span class="card__price"
+  <section class="popular-products">
+    <div class="popular-container container">
+      <h1 class="title">Популярные ароматизаторы</h1>
+      <h3 class="title-cta">Купи наши популярные свечи</h3>
+      <swiper
+        :modules="[Pagination, Autoplay]"
+        :breakpoints="swiperOptions.breakpoints"
+        :pagination="{ clickable: true }"
+        :autoplay="{ delay: 3000 }"
+      >
+        <swiper-slide v-for="item in products" :key="item.id">
+          <router-link :to="'/product/' + item.slug">
+            <div class="card">
+              <img :src="item.image_url" alt="" class="card__image" />
+              <div class="card__desc">
+                <h5 class="card__title">
+                  {{ item.title }}
+                </h5>
+                <span class="card__price"
                 >{{ numberFormatter(item.price) }} ₽</span
-              >
+                >
+              </div>
+              <p class="card__text">
+                {{ item.brand_title }}
+              </p>
             </div>
-            <p class="card__text">
-              {{ item.brand_title }}
-            </p>
-          </div>
-        </router-link>
-      </swiper-slide>
-      ...
-    </swiper>
-  </div>
+          </router-link>
+        </swiper-slide>
+        ...
+      </swiper>
+    </div>
+  </section>
 </template>
 
 <script setup lang="ts">

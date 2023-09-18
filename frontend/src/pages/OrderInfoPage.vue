@@ -12,6 +12,14 @@
           <ul class="dictionary">
             <li class="dictionary__item">
               <span class="dictionary__key">
+                Номер заказа:
+              </span>
+              <span class="dictionary__value">
+                Заказ № {{ orderInfo.id }}
+              </span>
+            </li>
+            <li class="dictionary__item">
+              <span class="dictionary__key">
                 Дата и время создания заказа
               </span>
               <span class="dictionary__value">
@@ -38,7 +46,7 @@
             </li>
             <li class="dictionary__item">
               <span class="dictionary__key"> Email </span>
-              <span class="dictionary__value"> l{{ orderInfo.email }} </span>
+              <span class="dictionary__value"> {{ orderInfo.email }} </span>
             </li>
             <li class="dictionary__item">
               <span class="dictionary__key"> Комментарий: </span>

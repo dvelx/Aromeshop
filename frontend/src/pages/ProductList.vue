@@ -1,70 +1,76 @@
 <template>
-  <div class="container product-list__container">
-    <FilteredProducts
-      v-model:priceFrom="priceFrom"
-      v-model:priceTo="priceTo"
-      v-model:sort-by="sortBy"
-    />
-
-    <div class="product-list__content">
-      <!--      <div v-if="loader" class="lds-ripple">-->
-      <!--        <div></div>-->
-      <!--        <div></div>-->
-      <!--      </div>-->
-      <div class="product-list__list">
-        <div v-for="item in products" :key="item.id" class="card">
-          <router-link :to="'/product/' + item.slug">
-            <img :src="item.image_url" alt="" class="card__image" />
-          </router-link>
-          <div class="card__desc">
-            <h5 class="card__title" @click="console.log(productsData)">
-              {{ item.title }}
-            </h5>
-            <p class="card__price">{{ numberFormatter(item.price) }} ₽</p>
-          </div>
-          <p class="card__text">
-            {{ item.brand_title }}
-          </p>
-          <button class="card__btn btn" @click="addCart(item.id, 1)">
-            В КОРЗИНУ
-
-            <svg
-              width="30"
-              height="30"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
-                fill="#0C0D12"
-              />
-              <path
-                d="M9 12H15"
-                stroke="white"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M12 9V15"
-                stroke="white"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <button v-show="loader" class="show-more-btn" @click="showMore">
-        показать еще
-      </button>
-      <!--      <BasePagination-->
-      <!--        v-model:page="page"-->
-      <!--        :per-page="limit"-->
-      <!--        :count="Number(countProducts.count)"-->
-      <!--      />-->
+  <section class="product-list">
+    <div class="top container">
+      <h1 class="top__title">Каталог товаров</h1>
     </div>
-  </div>
+    <div class="container product-list__container">
+      <FilteredProducts
+        v-model:priceFrom="priceFrom"
+        v-model:priceTo="priceTo"
+        v-model:sort-by="sortBy"
+        v-model:order="order"
+      />
+
+      <div class="product-list__content">
+        <!--      <div v-if="loader" class="lds-ripple">-->
+        <!--        <div></div>-->
+        <!--        <div></div>-->
+        <!--      </div>-->
+        <div class="product-list__list">
+          <div v-for="item in products" :key="item.id" class="card">
+            <router-link :to="'/product/' + item.slug">
+              <img :src="item.image_url" alt="" class="card__image" />
+            </router-link>
+            <div class="card__desc">
+              <h5 class="card__title" @click="console.log(productsData)">
+                {{ item.title }}
+              </h5>
+              <p class="card__price">{{ numberFormatter(item.price) }} ₽</p>
+            </div>
+            <p class="card__text">
+              {{ item.brand_title }}
+            </p>
+            <button class="card__btn btn" @click="addCart(item.id, 1)">
+              В КОРЗИНУ
+
+              <svg
+                width="30"
+                height="30"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
+                  fill="#0C0D12"
+                />
+                <path
+                  d="M9 12H15"
+                  stroke="white"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12 9V15"
+                  stroke="white"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <button v-show="loader" class="show-more-btn" @click="showMore">
+          показать еще
+        </button>
+        <!--      <BasePagination-->
+        <!--        v-model:page="page"-->
+        <!--        :per-page="limit"-->
+        <!--        :count="Number(countProducts.count)"-->
+        <!--      />-->
+      </div>
+    </div>
+  </section>
 </template>
 
 <script setup lang="ts">
@@ -126,7 +132,7 @@ const addCart = (id: number, quantity: number) => {
   store.addProductToCart(id, quantity);
 };
 
-watch([page, limit, priceFrom, priceTo], () => {
+watch([page, limit, priceFrom, priceTo, sortBy, order], () => {
   loadProducts();
 });
 loadProducts();
@@ -134,6 +140,15 @@ loadProducts();
 
 <style lang="scss" scoped>
 @import "../assets/style/main";
+.top {
+  
+  &__title {
+    text-align: center;
+    margin-bottom: 50px;
+    letter-spacing: 16px;
+    font-size: 36px;
+  }
+}
 .show-more-btn {
   width: 30%;
   background-color: transparent;

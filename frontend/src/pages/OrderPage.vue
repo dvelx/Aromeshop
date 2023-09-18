@@ -1,99 +1,101 @@
 <template>
-  <div class="container order__container">
-    <div class="order__content-top"></div>
-    <section class="order__content-form">
-      <form action="#" method="post" class="form" @submit.prevent="order()">
-        <div class="form__field">
-          <div class="form__data">
+  <section class="order">
+    <div class="container order__container">
+      <div class="order__content-top"></div>
+      <section class="order__content-form">
+        <form action="#" method="post" class="form" @submit.prevent="order()">
+          <div class="form__field">
+            <div class="form__data">
 
-            <label class="form__label">
-              <input
-                v-model="formData.name"
-                v-maska:[maskOptions]
-                data-maska="Az Az Az"
-                class="form__input"
-                type="text"
-                name="fullName"
-                placeholder="Введите ваше полное имя"
-              />
-              <span class="form__value">ФИО</span>
-              <span v-if="formError" class="form__error">{{ formError.name }}</span>
-            </label>
+              <label class="form__label">
+                <input
+                  v-model="formData.name"
+                  v-maska:[maskOptions]
+                  data-maska="Az Az Az"
+                  class="form__input"
+                  type="text"
+                  name="fullName"
+                  placeholder="Введите ваше полное имя"
+                />
+                <span class="form__value">ФИО</span>
+                <span v-if="formError" class="form__error">{{ formError.name }}</span>
+              </label>
 
-            <label class="form__label">
-              <input
-                v-model="formData.address"
-                class="form__input"
-                type="text"
-                name="address"
-                placeholder="Введите ваш адрес"
-              />
-              <span class="form__value">Адрес доставки</span>
-              <span v-if="formError" class="form__error">{{ formError.address }}</span>
-            </label>
+              <label class="form__label">
+                <input
+                  v-model="formData.address"
+                  class="form__input"
+                  type="text"
+                  name="address"
+                  placeholder="Введите ваш адрес"
+                />
+                <span class="form__value">Адрес доставки</span>
+                <span v-if="formError" class="form__error">{{ formError.address }}</span>
+              </label>
 
-            <label class="form__label">
-              <input
-                v-model="formData.phone"
-                v-maska:[maskOptions]
-                data-maska="+7(###)#######"
-                class="form__input"
-                type="tel"
-                name="phone"
-                placeholder="Введите ваш телефон"
-              />
-              <span class="form__value">Телефон</span>
-              <span v-if="formError" class="form__error">{{ formError.phone }}</span>
-            </label>
+              <label class="form__label">
+                <input
+                  v-model="formData.phone"
+                  v-maska:[maskOptions]
+                  data-maska="+7(###)###-##-##"
+                  class="form__input"
+                  type="tel"
+                  name="phone"
+                  placeholder="Введите ваш телефон"
+                />
+                <span class="form__value">Телефон</span>
+                <span v-if="formError" class="form__error">{{ formError.phone }}</span>
+              </label>
 
-            <label class="form__label">
-              <input
-                v-model="formData.email"
-                class="form__input"
-                type="text"
-                name="email"
-                placeholder="Введите ваш Email"
-              />
-              <span class="form__value">Email</span>
-              <span v-if="formError" class="form__error">{{ formError.email }}</span>
-            </label>
+              <label class="form__label">
+                <input
+                  v-model="formData.email"
+                  class="form__input"
+                  type="text"
+                  name="email"
+                  placeholder="Введите ваш Email"
+                />
+                <span class="form__value">Email</span>
+                <span v-if="formError" class="form__error">{{ formError.email }}</span>
+              </label>
 
-            <label class="form__label">
+              <label class="form__label">
               <textarea
                 v-model="formData.comment"
                 class="form__input form__input--area"
                 name="comments"
                 placeholder="Ваши пожелания"
               ></textarea>
-              <span class="form__value">Комментарий к заказу</span>
-              <span v-if="formError" class="form__error">{{ formError.comment }}</span>
-            </label>
-            
-          </div>
-        </div>
-        <div class="form__cart">
-          <ul class="form__cart-orders">
-            <OrderPageCart
-              v-for="item in products"
-              :key="item.id"
-              :item="item"
-            />
-          </ul>
+                <span class="form__value">Комментарий к заказу</span>
+                <span v-if="formError" class="form__error">{{ formError.comment }}</span>
+              </label>
 
-          <div class="form__cart-total">
-            <p>
-              Итого: <b>{{ totalAmount }}</b> товаров на сумму
-              <b>{{ totalPrice }} ₽</b>
-            </p>
+            </div>
           </div>
+          <div class="form__cart">
+            <ul class="form__cart-orders">
+              <OrderPageCart
+                v-for="item in products"
+                :key="item.id"
+                :item="item"
+              />
+            </ul>
 
-          <button class="form__cart-btn btn" type="submit">
-            Оформить заказ
-          </button>
-        </div>
-      </form>
-    </section>
-  </div>
+            <div class="form__cart-total">
+              <p>
+                Итого: <b>{{ totalAmount }}</b> товаров на сумму
+                <b>{{ totalPrice }} ₽</b>
+              </p>
+            </div>
+
+            <button class="form__cart-btn btn" type="submit">
+              Оформить заказ
+            </button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </section>
 </template>
 
 <script setup lang="ts">
@@ -152,13 +154,15 @@ const order = () => {
       formError.value = error.response.data.error;
     });
 };
-//маска для ФИО
+//маска 
 const maskOptions = reactive({
   tokens: {
     A: { pattern: /[A-ZА-ЯЁ]/, transform: (v: string) => v.toLocaleUpperCase() },
     z: { pattern: /[a-zа-яё]/, transform: (v: string) => v.toLocaleLowerCase(), multiple: true },
     '#': { pattern: /[0-9]/ },
+    m: { pattern: /[a-z0-9-.]/, multiple: true, transform: (v: string) => v.toLocaleLowerCase() }
   },
+  tokensReplace: true
 });
 
 </script>
