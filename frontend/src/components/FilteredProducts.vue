@@ -3,11 +3,12 @@
     <h2 class="filter__title">Фильтровать</h2>
     
     <fieldset class="form__block">
-      <legend class="form__legend">Сортировать</legend>
-      <label class="form__label form__label-select">
-        <div @click="sorted('price', 'asc')">Сначала дороже</div>
-        <div @click="sorted('price', 'desc')">Сначала дешевле</div>
-        <div @click="sorted('name', '')">По названию</div>
+      <div class="form__legend " @click="openSort">Сортировать &#8593 &#8595</div>
+      <label v-show="openSortBlock" class="form__label form__label-select sort-products">
+        <div @click="sorted('price', 'desc')">Сначала дороже</div>
+        <div @click="sorted('price', 'asc')">Сначала дешевле</div>
+        <div @click="sorted('name', 'asc')">По названию &#8593</div>
+        <div @click="sorted('name', 'desc')">По названию &#8595</div>
       </label>
     </fieldset>
     <form
@@ -63,6 +64,7 @@
           </li>
         </ul>
       </fieldset>
+      
 
       <button class="filter__submit" type="submit">Применить</button>
     </form>
@@ -131,6 +133,17 @@
             </li>
           </ul>
         </fieldset>
+        <fieldset class="form__block">
+          <legend class="form__legend">Коллекция</legend>
+          <ul class="check-list">
+            <li v-for="item of brands" :key="item.id" class="check-list__item">
+              <label class="check-list__label">
+                <input class="check-list__check sr-only" type="checkbox" />
+                <span class="check-list__desc">{{ item.title }}</span>
+              </label>
+            </li>
+          </ul>
+        </fieldset>
 
         <button class="filter__submit" type="submit" @click="closeFilter">
           Применить
@@ -166,7 +179,10 @@ const currentPriceFrom = ref(0);
 const currentPriceTo = ref(0);
 const categories = ref({} as Categories[]);
 const brands = ref({} as Brands[]);
-
+const openSortBlock = ref(false)
+const openSort = () => {
+  openSortBlock.value = !openSortBlock.value
+}
 const sorted = (sortBy: string, order: string) => {
   emits("update:order", order);
   emits("update:sortBy", sortBy);
@@ -241,10 +257,16 @@ onMounted(() => {
 }
 .form {
   &__block {
+    position: relative;
     border: 0;
     margin: 0 0 35px;
     border-bottom: 1px solid $primary;
     padding: 0 0 10px 0;
+  }
+  .sort-products {
+    position: absolute;
+    top: 0;
+    
   }
   &__legend {
     margin-bottom: 12px;
@@ -432,6 +454,7 @@ onMounted(() => {
     background-color: $background;
     z-index: 1000;
     padding: 50px;
+    overflow: scroll;
   }
   .filter-mobile__btn-close {
     width: 54px;

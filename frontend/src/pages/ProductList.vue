@@ -25,11 +25,11 @@
               <h5 class="card__title" @click="console.log(productsData)">
                 {{ item.title }}
               </h5>
-              <p class="card__price">{{ numberFormatter(item.price) }} ₽</p>
+              <p class="card__text">
+                {{ item.brand_title }}
+              </p>
+              <p class="card__price">Цена: {{ numberFormatter(item.price) }} ₽</p>
             </div>
-            <p class="card__text">
-              {{ item.brand_title }}
-            </p>
             <button class="card__btn btn" @click="addCart(item.id, 1)">
               В КОРЗИНУ
 
@@ -200,9 +200,8 @@ loadProducts();
 
   &__desc {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    flex-grow: 1;
     padding-left: 20px;
     padding-right: 20px;
   }
@@ -215,7 +214,12 @@ loadProducts();
   }
   &__text {
     margin-bottom: 24px;
-    padding-left: 20px;
+  }
+  &__price {
+    color: $dark-text;
+    font-weight: 700;
+    margin-top: auto;
+    margin-bottom: 24px;
   }
 
   &__btn {
@@ -384,11 +388,9 @@ loadProducts();
 
     &__desc {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       justify-content: space-between;
       align-items: center;
-      padding-left: 15px;
-      padding-right: 15px;
     }
 
     &__title {
@@ -400,7 +402,7 @@ loadProducts();
 
     &__text {
       margin-bottom: 24px;
-      padding-left: 15px;
+      padding: 0;
     }
 
     &__btn {

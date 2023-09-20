@@ -2,7 +2,7 @@
   <section class="popular-products">
     <div class="popular-container container">
       <h1 class="title">Популярные ароматизаторы</h1>
-      <h3 class="title-cta">Купи наши популярные свечи</h3>
+      <h3 class="title-cta">Купите наши популярные ароматы</h3>
       <swiper
         :modules="[Pagination, Autoplay]"
         :breakpoints="swiperOptions.breakpoints"
@@ -54,28 +54,33 @@ const swiperOptions = {
     320: {
       slidesPerView: 2,
       spaceBetween: 10,
+      slidesPerGroup: 2
     },
     640: {
       slidesPerView: 2,
       spaceBetween: 20,
+      slidesPerGroup: 2
     },
     768: {
       slidesPerView: 3,
       spaceBetween: 30,
+      slidesPerGroup: 3
     },
     1024: {
       slidesPerView: 4,
       spaceBetween: 40,
+      slidesPerGroup: 4
     },
     1366: {
       slidesPerView: 5,
       spaceBetween: 50,
+      slidesPerGroup: 5
     },
   },
 };
 const loadProducts = () => {
   apiDataService
-    .getAll(26, 0)
+    .getAll(48, 0)
     .then((res: ResponseData) => (productsData.value = res.data));
 };
 loadProducts();
