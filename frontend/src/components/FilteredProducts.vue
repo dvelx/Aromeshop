@@ -4,12 +4,14 @@
     
     <fieldset class="form__block">
       <div class="form__legend " @click="openSort">Сортировать &#8593 &#8595</div>
-      <label v-show="openSortBlock" class="form__label form__label-select sort-products">
-        <div @click="sorted('price', 'desc')">Сначала дороже</div>
-        <div @click="sorted('price', 'asc')">Сначала дешевле</div>
-        <div @click="sorted('name', 'asc')">По названию &#8593</div>
-        <div @click="sorted('name', 'desc')">По названию &#8595</div>
-      </label>
+      <transition name="sort">
+        <label v-show="openSortBlock" class="form__label form__label-select sort-products">
+          <div class="sort__btn" @click="sorted('price', 'desc')">Сначала дороже</div>
+          <div class="sort__btn" @click="sorted('price', 'asc')">Сначала дешевле</div>
+          <div class="sort__btn" @click="sorted('name', 'asc')">По названию &#8593</div>
+          <div class="sort__btn" @click="sorted('name', 'desc')">По названию &#8595</div>
+        </label>
+      </transition>
     </fieldset>
     <form
       action="#"
@@ -76,6 +78,17 @@
     <div v-if="openFilter" class="filter-mobile">
       <h2 class="filter__title">Фильтровать</h2>
       <button class="filter-mobile__btn-close" @click="closeFilter"></button>
+      <fieldset class="form__block">
+        <div class="form__legend " @click="openSort">Сортировать &#8593 &#8595</div>
+        <transition name="sort">
+          <label v-show="openSortBlock" class="form__label form__label-select sort-products">
+            <div class="sort__btn" @click="sorted('price', 'desc')">Сначала дороже</div>
+            <div class="sort__btn" @click="sorted('price', 'asc')">Сначала дешевле</div>
+            <div class="sort__btn" @click="sorted('name', 'asc')">По названию &#8593</div>
+            <div class="sort__btn" @click="sorted('name', 'desc')">По названию &#8595</div>
+          </label>
+        </transition>
+      </fieldset>
       <form
         action="#"
         class="filter__form form"
@@ -186,6 +199,7 @@ const openSort = () => {
 const sorted = (sortBy: string, order: string) => {
   emits("update:order", order);
   emits("update:sortBy", sortBy);
+  closeFilter()
 }
 
 const loadCategories = () => {
@@ -431,6 +445,7 @@ onMounted(() => {
 }
 
 @media (max-width: 1024px) {
+  
   .filter {
     display: none;
   }
@@ -478,6 +493,9 @@ onMounted(() => {
       transform: rotate(-45deg);
     }
   }
+  .sort__btn {
+    margin-bottom: 5px;
+  }
   .slide-enter-active,
   .slide-leave-active {
     transition: all 0.6s ease-out;
@@ -486,6 +504,16 @@ onMounted(() => {
   .slide-enter-from,
   .slide-leave-to {
     transform: translateX(100%);
+  }
+  .sort-enter-active,
+  .sort-leave-active {
+    transition: all 0.5s ease-in-out;
+  }
+
+  .sort-enter-from,
+  .sort-leave-to {
+    transform: translateY(-15px);
+    opacity: 0;
   }
 }
 
