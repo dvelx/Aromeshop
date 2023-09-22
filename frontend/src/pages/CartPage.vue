@@ -1,13 +1,19 @@
 <template>
-  <section class="cart">
+  <section v-if="Object.keys(cartProducts).length == 0" >
+    <div class="container error-container">
+      <h1 class="error-server" style="text-align: center; margin-bottom: 40px;">Ваша корзина пуста</h1>
+      <router-link to="/catalog" class="right__btn btn"
+      >Смотреть товары</router-link
+      >
+    </div>
+  </section>
+  <section v-else class="cart">
     <div class="container cart__container">
       <form class="cart__form form" action="#" method="POST">
         <div class="cart__field">
           <ul class="cart__list">
-            <li v-if="cartProducts.length === 0">Ваша корзина пуста</li>
             <CartItem
               v-for="item of cartProducts"
-              v-else
               :key="item.id"
               :item="item"
             />
@@ -100,7 +106,29 @@ store.loadBasket(store.state.userAccessKey);
     color: $dark-text;
   }
 }
+.error-container {
+  display: flex;
+  flex-direction: column;
+}
+.right__btn {
+  margin: 0 auto 40px auto;
+  width: 40%;
+  text-align: center;
+  background-color: $dark_text;
+  color: $white;
+  padding: 16px 40px;
+  border-radius: 100px;
+  font-family: "Zilla Slab", serif;
+  font-size: 20px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  transition: all 0.4s ease-in-out;
 
+  &:hover {
+    background-color: $primary;
+    color: $dark-text;
+  }
+}
 @media (max-width: 1780px) {
 }
 @media (max-width: 1366px) {

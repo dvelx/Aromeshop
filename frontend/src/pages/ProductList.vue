@@ -1,5 +1,10 @@
 <template>
-  <section class="product-list">
+  <section v-if="Object.keys(productsData).length == 0" >
+    <div class="container">
+      <h1 class="error-server" style="text-align: center; color: red">Не удалось загрузить товары, попробуйте зайти позже</h1>
+    </div>
+  </section>
+  <section v-else class="product-list">
     <div class="top container">
       <h1 class="top__title">Каталог товаров</h1>
     </div>

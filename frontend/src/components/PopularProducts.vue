@@ -1,5 +1,10 @@
 <template>
-  <section class="popular-products">
+  <section v-if="Object.keys(productsData).length == 0" >
+    <div class="container">
+      <h1 class="error-server" style="text-align: center; color: red; margin-bottom: 40px;">Не удалось загрузить товары, попробуйте зайти позже</h1>
+    </div>
+  </section>
+  <section v-else class="popular-products">
     <div class="popular-container container">
       <h1 class="title">Популярные ароматизаторы</h1>
       <h3 class="title-cta">Купите наши популярные ароматы</h3>
