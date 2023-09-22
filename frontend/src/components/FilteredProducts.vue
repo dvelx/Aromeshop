@@ -3,7 +3,7 @@
     <h2 class="filter__title">Фильтровать</h2>
     
     <fieldset class="form__block">
-      <div class="form__legend " @click="openSort">Сортировать &#8593 &#8595</div>
+      <div class="form__legend sort__btn-open" @click="openSort">Сортировать &#8593 &#8595</div>
       <transition name="sort">
         <label v-show="openSortBlock" class="form__label form__label-select sort-products">
           <div class="sort__btn" @click="sorted('price', 'desc')">Сначала дороже</div>
@@ -146,17 +146,6 @@
             </li>
           </ul>
         </fieldset>
-        <fieldset class="form__block">
-          <legend class="form__legend">Коллекция</legend>
-          <ul class="check-list">
-            <li v-for="item of brands" :key="item.id" class="check-list__item">
-              <label class="check-list__label">
-                <input class="check-list__check sr-only" type="checkbox" />
-                <span class="check-list__desc">{{ item.title }}</span>
-              </label>
-            </li>
-          </ul>
-        </fieldset>
 
         <button class="filter__submit" type="submit" @click="closeFilter">
           Применить
@@ -269,6 +258,23 @@ onMounted(() => {
     color: $dark-text;
   }
 }
+.sort__btn,
+.sort__btn-open {
+  cursor: pointer;
+}
+.sort__btn {
+  margin-bottom: 10px;
+}
+.sort-enter-active,
+.sort-leave-active {
+  transition: all 0.5s ease-in-out;
+}
+
+.sort-enter-from,
+.sort-leave-to {
+  transform: translateY(-15px);
+  opacity: 0;
+}
 .form {
   &__block {
     position: relative;
@@ -277,11 +283,7 @@ onMounted(() => {
     border-bottom: 1px solid $primary;
     padding: 0 0 10px 0;
   }
-  .sort-products {
-    position: absolute;
-    top: 0;
-    
-  }
+  
   &__legend {
     margin-bottom: 12px;
     font-size: 14px;
