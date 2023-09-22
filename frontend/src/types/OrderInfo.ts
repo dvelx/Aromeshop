@@ -1,21 +1,21 @@
 export default interface OrderInfo {
-  address: string,
-  comment: string,
-  date_finished: string,
-  date_purchased: string,
-  email: string,
-  id: number,
-  name: string,
-  phone: string,
-  status_id: number,
-  total: string,
+  address: string;
+  comment: string;
+  date_finished: string;
+  date_purchased: string;
+  email: string;
+  id: number;
+  name: string;
+  phone: string;
+  status_id: number;
+  total: string;
   items: {
-    id: number,
-    order_id: number,
-    price: string,
-    product_id: number,
-    product_title: string,
-    quantity: number,
+    id: number;
+    order_id: number;
+    price: string;
+    product_id: number;
+    product_title: string;
+    quantity: number;
     product: {
       brand_id: number;
       brand_title: string;
@@ -27,6 +27,6 @@ export default interface OrderInfo {
       price: number;
       slug: string;
       title: string;
-    }[]
-  }
+    }[];
+  }[];
 }

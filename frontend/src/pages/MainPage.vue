@@ -77,12 +77,34 @@ import MainContent from "../components/MainContent.vue";
     align-self: flex-end;
   }
 }
+@media (max-width: 1780px) {
+}
+@media (max-width: 1366px) {
+}
 
-@media (max-width: 1199px) {
+@media (max-width: 1024px) {
   .card {
     &__text {
       font-size: 13px;
     }
   }
+}
+
+@media (max-width: 768px) {
+  .content {
+    &__container {
+      grid-template-columns: 1fr;
+    }
+
+    &__card {
+      height: 450px;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+}
+
+@media (max-width: 320px) {
 }
 </style>

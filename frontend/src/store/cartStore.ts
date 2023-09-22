@@ -3,17 +3,11 @@ import { computed, ref } from "vue";
 import apiDataService from "@/services/apiDataService.ts";
 import ResponseData from "@/types/ResponseData.ts";
 import OrderInfo from "@/types/OrderInfo.ts";
+import CartProducts from "@/types/CartProducts.ts";
 
-interface IItem {
-  price: number;
-  quantity: number;
-  id: number;
-  title: string;
-  image_url: string;
-}
 export const cartStore = defineStore("cartStore", () => {
   const state = ref({
-    cartProduct: [] as IItem[],
+    cartProduct: [] as CartProducts[],
     totalPrice: 0 as number,
     userAccessKey: null as string | null,
     cartId: 0 as number,
@@ -54,7 +48,7 @@ export const cartStore = defineStore("cartStore", () => {
     return apiDataService.changeProductQuantity(
       productId,
       amount,
-      state.value.userAccessKey
+      state.value.userAccessKey,
     );
   };
 
@@ -71,7 +65,7 @@ export const cartStore = defineStore("cartStore", () => {
       .then(() => loadBasket(state.value.userAccessKey));
   };
   const loadBasket = (accessKey: string | null = null) => {
-    return apiDataService.getBasket(accessKey).then(
+    apiDataService.getBasket(accessKey).then(
       (res) => {
         if (!state.value.userAccessKey) {
           localStorage.setItem("userAccessKeyAroma", res.data.user.accessKey);
@@ -83,6 +77,7 @@ export const cartStore = defineStore("cartStore", () => {
       (err) => {
         console.log(err.response.data);
         state.value.userAccessKey = null;
+        loadBasket();
       },
     );
   };

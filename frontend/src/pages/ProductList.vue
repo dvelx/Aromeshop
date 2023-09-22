@@ -1,66 +1,76 @@
 <template>
-  <div class="container product-list__container">
-    <FilteredProducts 
-      v-model:priceFrom="priceFrom"
-      v-model:priceTo="priceTo"
-    />
-
-    <div class="product-list__content">
-<!--      <div v-if="loader" class="lds-ripple">-->
-<!--        <div></div>-->
-<!--        <div></div>-->
-<!--      </div>-->
-      <div class="product-list__list">
-        <div v-for="item in products" :key="item.id" class="card">
-          <router-link :to="'/product/' + item.slug">
-            <img :src="item.image_url" alt="" class="card__image" />
-          </router-link>
-          <div class="card__desc">
-            <h5 class="card__title">
-              {{ item.title }}
-            </h5>
-            <p class="card__price">{{ numberFormatter(item.price) }} ₽</p>
-          </div>
-          <p class="card__text">
-            {{ item.brand_title }}
-          </p>
-          <button class="card__btn btn" @click="addCart(item.id, 1)">
-            В КОРЗИНУ
-
-            <svg
-              width="30"
-              height="30"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
-                fill="#0C0D12"
-              />
-              <path
-                d="M9 12H15"
-                stroke="white"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M12 9V15"
-                stroke="white"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <BasePagination
-        v-model:page="page"
-        :per-page="limit"
-        :count="Number(countProducts.count)"
-      />
+  <section class="product-list">
+    <div class="top container">
+      <h1 class="top__title">Каталог товаров</h1>
     </div>
-  </div>
+    <div class="container product-list__container">
+      <FilteredProducts
+        v-model:priceFrom="priceFrom"
+        v-model:priceTo="priceTo"
+        v-model:sort-by="sortBy"
+        v-model:order="order"
+      />
+
+      <div class="product-list__content">
+        <!--      <div v-if="loader" class="lds-ripple">-->
+        <!--        <div></div>-->
+        <!--        <div></div>-->
+        <!--      </div>-->
+        <div class="product-list__list">
+          <div v-for="item in products" :key="item.id" class="card">
+            <router-link :to="'/product/' + item.slug">
+              <img :src="item.image_url" alt="" class="card__image" />
+            </router-link>
+            <div class="card__desc">
+              <h5 class="card__title" @click="console.log(productsData)">
+                {{ item.title }}
+              </h5>
+              <p class="card__text">
+                {{ item.brand_title }}
+              </p>
+              <p class="card__price">Цена: {{ numberFormatter(item.price) }} ₽</p>
+            </div>
+            <button class="card__btn btn" @click="addCart(item.id, 1)">
+              В КОРЗИНУ
+
+              <svg
+                width="30"
+                height="30"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
+                  fill="#0C0D12"
+                />
+                <path
+                  d="M9 12H15"
+                  stroke="white"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12 9V15"
+                  stroke="white"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <button v-show="loader" class="show-more-btn" @click="showMore">
+          показать еще
+        </button>
+        <!--      <BasePagination-->
+        <!--        v-model:page="page"-->
+        <!--        :per-page="limit"-->
+        <!--        :count="Number(countProducts.count)"-->
+        <!--      />-->
+      </div>
+    </div>
+  </section>
 </template>
 
 <script setup lang="ts">
@@ -72,40 +82,57 @@ import Products from "@/types/Products.ts";
 import numberFormatter from "@/helpers/numberFormatter.ts";
 import { cartStore } from "@/store/cartStore.ts";
 import Product from "@/types/Product.ts";
-import BasePagination from "@/components/BasePagination.vue";
+// import BasePagination from "@/components/BasePagination.vue";
 
 const store = cartStore();
 
-const loader = ref(false);
+const loader = ref(true);
 const productsData = ref({} as Products);
 const page = ref(1);
-const limit = ref(9);
-const sortBy = ref('');
-const order = ref('');
+const limit = ref(8);
+const sortBy = ref("");
+const order = ref("");
 const priceFrom = ref(0);
-const priceTo = ref(100000)
-
+const priceTo = ref(100000);
 
 const products = computed<Product[]>(() => {
   return productsData.value.products;
 });
-const countProducts = computed(() => {
-  return productsData.value.pagination || 0;
-});
+// const countProducts = computed(() => {
+//   return productsData.value.pagination || 0;
+// });
+
+const showMore = () => {
+  if (
+    productsData.value.pagination.limit < productsData.value.pagination.count
+  ) {
+    limit.value = limit.value * 2;
+  }
+  if (
+    productsData.value.pagination.limit >= productsData.value.pagination.count
+  ) {
+    loader.value = false;
+  }
+};
 
 const loadProducts = () => {
-  loader.value = true;
   apiDataService
-    .getAll(limit.value, page.value, sortBy.value, order.value, priceFrom.value, priceTo.value)
-    .then((res: ResponseData) => (productsData.value = res.data))
-    .then(() => (loader.value = false));
+    .getAll(
+      limit.value,
+      page.value,
+      sortBy.value,
+      order.value,
+      priceFrom.value,
+      priceTo.value,
+    )
+    .then((res: ResponseData) => (productsData.value = res.data));
 };
 
 const addCart = (id: number, quantity: number) => {
   store.addProductToCart(id, quantity);
 };
 
-watch([page, priceFrom, priceTo], () => {
+watch([page, limit, priceFrom, priceTo, sortBy, order], () => {
   loadProducts();
 });
 loadProducts();
@@ -113,6 +140,26 @@ loadProducts();
 
 <style lang="scss" scoped>
 @import "../assets/style/main";
+.top {
+  
+  &__title {
+    text-align: center;
+    margin-bottom: 50px;
+    letter-spacing: 16px;
+    font-size: 36px;
+  }
+}
+.show-more-btn {
+  width: 30%;
+  background-color: transparent;
+  border: 1px solid $primary;
+  border-radius: 20px;
+  padding: 10px 30px;
+  font-size: 16px;
+  margin-bottom: 30px;
+  margin-right: auto;
+  margin-left: auto;
+}
 .product-list {
   &__container {
     display: flex;
@@ -126,7 +173,8 @@ loadProducts();
   &__list {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
+    justify-content: center;
+    gap: 20px;
   }
 }
 .card {
@@ -152,13 +200,11 @@ loadProducts();
 
   &__desc {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    flex-grow: 1;
     padding-left: 20px;
     padding-right: 20px;
   }
- 
 
   &__title {
     font-size: 16px;
@@ -168,7 +214,12 @@ loadProducts();
   }
   &__text {
     margin-bottom: 24px;
-    padding-left: 20px;
+  }
+  &__price {
+    color: $dark-text;
+    font-weight: 700;
+    margin-top: auto;
+    margin-bottom: 24px;
   }
 
   &__btn {
@@ -191,7 +242,6 @@ loadProducts();
   }
 }
 
-
 @media (max-width: 1780px) {
   .product-list {
     &__list {
@@ -210,18 +260,22 @@ loadProducts();
 @media (max-width: 1024px) {
   .product-list {
     &__container {
-      gap: 25px;
+      flex-direction: column;
+    }
+    &__content {
+      width: 100%;
     }
 
     &__list {
       display: grid;
-      grid-template: repeat(2, 1fr) / repeat(2, 1fr);
-      gap: 15px;
+      grid-template: repeat(2, 1fr) / repeat(3, 1fr);
+      justify-content: space-between;
     }
   }
   .card {
-    padding-bottom: 150px;
+    padding-bottom: 30px;
     padding-top: 10px;
+    width: 250px;
 
     &__image {
       height: 150px;
@@ -257,9 +311,106 @@ loadProducts();
 }
 
 @media (max-width: 768px) {
+  .product-list {
+    &__container {
+      flex-direction: column;
+    }
+
+    &__list {
+      display: grid;
+      grid-template: repeat(2, 1fr) / repeat(2, 1fr);
+      gap: 20px;
+    }
+  }
+  .card {
+    padding-bottom: 30px;
+    padding-top: 10px;
+    width: 250px;
+
+    &__image {
+      height: 150px;
+      margin-bottom: 24px;
+    }
+
+    &__desc {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+
+    &__title {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 160%; /* 32px */
+      letter-spacing: 0.6px;
+    }
+
+    &__text {
+      margin-bottom: 24px;
+      padding-left: 15px;
+    }
+
+    &__btn {
+      justify-content: center;
+      padding: 5px 7px;
+    }
+  }
 }
 
 @media (max-width: 576px) {
+  .show-more-btn {
+    width: 90%;
+  }
+  .product-list {
+    &__container {
+      flex-direction: column;
+    }
+
+    &__list {
+      display: grid;
+      grid-template-columns: 1fr;
+      margin-right: auto;
+      margin-left: auto;
+      width: 100%;
+    }
+  }
+  .card {
+    padding: 10px 30px 30px 30px;
+    width: 100%;
+
+    &__image {
+      height: 150px;
+      margin-bottom: 24px;
+    }
+
+    &__desc {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &__title {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 160%; /* 32px */
+      letter-spacing: 0.6px;
+    }
+
+    &__text {
+      margin-bottom: 24px;
+      padding: 0;
+    }
+
+    &__btn {
+      justify-content: center;
+      padding: 5px 7px;
+      width: 100%;
+    }
+  }
 }
 
 @media (max-width: 320px) {

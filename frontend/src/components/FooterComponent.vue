@@ -54,11 +54,6 @@
           </ul>
         </div>
       </div>
-      <div class="footer__right">
-        <h5 class="footer__slogan">
-          Stay in the know — we’ll send you offers & more.
-        </h5>
-      </div>
     </div>
     <div class="footer__bottom">
       <div class="container footer__bottom-container">
@@ -134,5 +129,34 @@
       justify-content: space-between;
     }
   }
+}
+
+@media (max-width: 1780px) {
+}
+@media (max-width: 1366px) {
+}
+
+@media (max-width: 1024px) {
+}
+
+@media (max-width: 768px) {
+  .footer__container {
+    flex-direction: column;
+    padding-left: 50px;
+  }
+  .footer__left {
+    flex-direction: column;
+    width: 100%;
+  }
+  .footer__logo {
+    margin-right: 0;
+    width: 200px;
+  }
+}
+
+@media (max-width: 576px) {
+}
+
+@media (max-width: 320px) {
 }
 </style>

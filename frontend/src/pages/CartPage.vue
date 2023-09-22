@@ -6,8 +6,8 @@
           <ul class="cart__list">
             <li v-if="cartProducts.length === 0">Ваша корзина пуста</li>
             <CartItem
-              v-else
               v-for="item of cartProducts"
+              v-else
               :key="item.id"
               :item="item"
             />
@@ -19,8 +19,15 @@
             Итого: <span>{{ numberFormatter(totalPrice) }} ₽</span>
           </p>
 
-          <router-link to="/order" v-slot="{ navigate }">
-            <button class="cart__button" type="submit" @click="navigate" :disabled="cartProducts.length === 0">Оформить заказ</button>
+          <router-link v-slot="{ navigate }" to="/order">
+            <button
+              class="cart__button"
+              type="submit"
+              :disabled="cartProducts.length === 0"
+              @click="navigate"
+            >
+              Оформить заказ
+            </button>
           </router-link>
         </div>
       </form>
@@ -86,11 +93,49 @@ store.loadBasket(store.state.userAccessKey);
     transition: all 0.4s ease-in-out;
   }
   &__button:disabled {
-    opacity: .6;
+    opacity: 0.6;
   }
   &__button:not([disabled]):hover {
     background-color: $primary;
     color: $dark-text;
   }
+}
+
+@media (max-width: 1780px) {
+}
+@media (max-width: 1366px) {
+}
+
+@media (max-width: 1024px) {
+  .cart {
+    &__form {
+      display: flex;
+      flex-direction: column;
+      margin-right: auto;
+      margin-left: auto;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .cart {
+    &__form {
+      display: flex;
+      flex-direction: column;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    &__block {
+      margin-bottom: 40px;
+      align-items: center;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+}
+
+@media (max-width: 320px) {
 }
 </style>

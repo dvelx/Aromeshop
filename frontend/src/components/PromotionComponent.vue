@@ -1,19 +1,23 @@
 <template>
-  <div class="promotion-container">
-    <div class="promotion__banner">
-      <div class="promotion__badge">
-        <span>35%</span>
-        <p>OFF</p>
-      </div>
-      <div class="promotion__text">
-        <p>Используй свою скидку прямо сейчас</p>
+  <section class="promotion">
+    <div class="promotion-container">
+      <div class="promotion__banner">
+        <div class="promotion__badge container">
+          <span>35%</span>
+          <p>OFF</p>
+        </div>
+        <div class="promotion__text container">
+          <p>Используй свою скидку прямо сейчас</p>
+        </div>
+
+        <button class="button promotion__btn btn">ПОДРОБНЕЕ...</button>
       </div>
     </div>
-    <button class="button promotion__btn btn">ПОДРОБНЕЕ...</button>
-  </div>
+  </section>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+</script>
 
 <style lang="scss" scoped>
 @import "src/assets/style/main";
@@ -22,12 +26,16 @@
     margin-bottom: 50px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
   }
   &__banner {
-    padding: 100px 80px;
+    display: flex;
+    padding-top: 40px;
+    flex-direction: column;
     margin-bottom: 50px;
-    background: url("../assets/images/adv-queen-06 (1).webp") no-repeat 100%/100%;
+    background-image: url("../assets/images/adv-queen-06 (1).webp");
+    background-repeat: no-repeat;
+    background-size: cover;
   }
   &__badge {
     display: flex;
@@ -50,14 +58,17 @@
     line-height: 140%;
     letter-spacing: 0.96px;
     color: $white;
+    margin-bottom: 40px;
   }
   &__btn {
     border: 1px solid $primary;
     border-radius: 100px;
     padding: 16px 64px;
     font-size: 20px;
-    margin: auto;
-    width: 35%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 40px;
+    width: 50%;
     transition: all 0.4s ease-in-out;
   }
   &__btn:hover {
