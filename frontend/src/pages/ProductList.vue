@@ -1,7 +1,7 @@
 <template>
   <section v-if="Object.keys(productsData).length == 0" >
     <div class="container">
-      <h1 class="error-server" style="text-align: center; color: red">Не удалось загрузить товары, попробуйте зайти позже</h1>
+      <h1 class="error-server" style="text-align: center; color: red; margin-bottom: 40px">Не удалось загрузить товары, попробуйте зайти позже</h1>
     </div>
   </section>
   <section v-else class="product-list">
