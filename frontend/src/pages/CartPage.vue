@@ -159,6 +159,14 @@ store.loadBasket(store.state.userAccessKey);
       align-items: center;
     }
   }
+  .right__btn {
+    width: 80%;
+    color: $white;
+    padding: 16px 20px;
+    border-radius: 100px;
+    font-size: 15px;
+    
+  }
 }
 
 @media (max-width: 576px) {
