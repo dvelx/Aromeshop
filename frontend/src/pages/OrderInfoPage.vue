@@ -204,6 +204,9 @@ loadOrder();
       width: 100%;
       align-items: center;
     }
+    &__block {
+      width: 100%;
+    }
 
     &__message {
       width: 100%;

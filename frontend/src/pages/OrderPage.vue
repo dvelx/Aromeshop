@@ -281,9 +281,24 @@ const maskOptions = reactive({
     align-items: center;
     padding: 0 30px;
   }
+  .order__content-form {
+    width: 100%;
+  }
   .form {
     display: flex;
     flex-direction: column;
+    
+    &__field {
+      width: 100%;
+    }
+    
+    &__data {
+      grid-template-columns: 1fr;
+    }
+    
+    &__label {
+      grid-column: 1/-1;
+    }
 
     &__cart {
       width: 100%;

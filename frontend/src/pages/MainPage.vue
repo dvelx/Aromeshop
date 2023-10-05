@@ -92,6 +92,7 @@ import MainContent from "../components/MainContent.vue";
 
 @media (max-width: 768px) {
   .content {
+    width: 100%;
     &__container {
       grid-template-columns: 1fr;
     }

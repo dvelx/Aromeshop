@@ -109,6 +109,12 @@
 }
 
 @media (max-width: 768px) {
+  .right {
+    &__main-text {
+      width: 100%;
+      text-align: center;
+    }
+  }
 }
 
 @media (max-width: 576px) {

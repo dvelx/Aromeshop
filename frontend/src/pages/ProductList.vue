@@ -416,6 +416,10 @@ loadProducts();
       width: 100%;
     }
   }
+  .top__title {
+    letter-spacing: 8px;
+    font-size: 24px;
+  }
 }
 
 @media (max-width: 320px) {
