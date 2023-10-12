@@ -73,9 +73,9 @@
           </ul>
 
           <div class="cart__total">
-            <p>Доставка: <b>бесплатно</b></p>
+            <p>Доставка: <b @click="console.log(totalItemOrder)">бесплатно</b></p>
             <p>
-              Итого: <b>{{}}</b> товара на сумму
+              Итого: <b>{{ totalItemOrder }}</b> {{ countTextFormatter(+totalItemOrder) }} на сумму
               <b>{{ numberFormatter(+orderInfo.total) }} ₽</b>
             </p>
           </div>
@@ -91,6 +91,7 @@ import { computed } from "vue";
 import { useRoute } from "vue-router";
 import numberFormatter from "../helpers/numberFormatter.ts";
 import OrderInfo from "@/types/OrderInfo.ts";
+import countTextFormatter from "../helpers/countTextFormatter.ts";
 
 const store = cartStore();
 const route = useRoute();
@@ -98,6 +99,10 @@ const route = useRoute();
 const orderInfo = computed<OrderInfo>(() => {
   return store.state.orderInfo;
 });
+
+const totalItemOrder = computed(() => {
+  return orderInfo.value.items.reduce((acc, item) => item.quantity + acc, 0)
+})
 
 const datePurchased = computed(() => {
   return new Date(store.state.orderInfo.date_purchased).toLocaleDateString(

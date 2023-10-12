@@ -36,6 +36,9 @@ export const cartStore = defineStore("cartStore", () => {
       0,
     );
   };
+  const cartTotalQuantity = () => {
+    return syncCart.value.reduce((acc, item) => item.quantity + acc, 0)
+  }
   const updateCartProductQuantity = (productId: number, amount: number) => {
     const item = syncCart.value.find((item) => item.id === productId);
     if (item) {
@@ -91,6 +94,7 @@ export const cartStore = defineStore("cartStore", () => {
     state,
     addProductToCart,
     cartTotalPrice,
+    cartTotalQuantity,
     deleteProduct,
     updateUserAccessKey,
     loadBasket,

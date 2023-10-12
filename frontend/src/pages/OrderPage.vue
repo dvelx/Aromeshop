@@ -83,7 +83,7 @@
 
             <div class="form__cart-total">
               <p>
-                Итого: <b>{{ totalAmount }}</b> товаров на сумму
+                Итого: <b>{{ totalAmount }}</b> {{ countTextFormatter(totalAmount) }} на сумму
                 <b>{{ totalPrice }} ₽</b>
               </p>
             </div>
@@ -103,6 +103,7 @@ import {computed, reactive, ref} from "vue";
 import OrderPageCart from "@/components/OrderPageCart.vue";
 import { cartStore } from "@/store/cartStore.ts";
 import numberFormatter from "@/helpers/numberFormatter.ts";
+import countTextFormatter from "@/helpers/countTextFormatter.ts";
 import apiDataService from "@/services/apiDataService.ts";
 import ResponseData from "@/types/ResponseData.ts";
 import { useRouter } from "vue-router";
@@ -132,7 +133,7 @@ const totalPrice = computed(() => {
 });
 
 const totalAmount = computed(() => {
-  return products.value.length;
+  return store.cartTotalQuantity();
 });
 
 const order = () => {

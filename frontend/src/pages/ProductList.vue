@@ -1,10 +1,6 @@
 <template>
-  <section v-if="Object.keys(productsData).length == 0" >
-    <div class="container">
-      <h1 class="error-server" style="text-align: center; color: red; margin-bottom: 40px">Не удалось загрузить товары, попробуйте зайти позже</h1>
-    </div>
-  </section>
-  <section v-else class="product-list">
+  
+  <section class="product-list">
     <div class="top container">
       <h1 class="top__title">Каталог товаров</h1>
     </div>
@@ -17,11 +13,18 @@
       />
 
       <div class="product-list__content">
-        <!--      <div v-if="loader" class="lds-ripple">-->
-        <!--        <div></div>-->
-        <!--        <div></div>-->
-        <!--      </div>-->
-        <div class="product-list__list">
+        <div v-if="loader" class="product-list__list">
+          <div v-for="item in limit" :key="item" class="card skeleton">
+            <div class="skeleton-image"></div>
+            <div class="skeleton-desc">
+              <div class="skeleton-title"></div>
+              <div class="skeleton-text"></div>
+              <div class="skeleton-price"></div>
+            </div>
+            <div class="skeleton-btn"></div>
+          </div>
+        </div>
+        <div v-else class="product-list__list">
           <div v-for="item in products" :key="item.id" class="card">
             <router-link :to="'/product/' + item.slug">
               <img :src="item.image_url" alt="" class="card__image" />
@@ -65,7 +68,7 @@
             </button>
           </div>
         </div>
-        <button v-show="loader" class="show-more-btn" @click="showMore">
+        <button v-show="showMoreBtn" class="show-more-btn" @click="showMore">
           показать еще
         </button>
         <!--      <BasePagination-->
@@ -92,6 +95,7 @@ import Product from "@/types/Product.ts";
 const store = cartStore();
 
 const loader = ref(true);
+const showMoreBtn = ref(true)
 const productsData = ref({} as Products);
 const page = ref(1);
 const limit = ref(8);
@@ -103,20 +107,15 @@ const priceTo = ref(100000);
 const products = computed<Product[]>(() => {
   return productsData.value.products;
 });
-// const countProducts = computed(() => {
-//   return productsData.value.pagination || 0;
-// });
 
 const showMore = () => {
   if (
     productsData.value.pagination.limit < productsData.value.pagination.count
   ) {
-    limit.value = limit.value * 2;
+    limit.value = limit.value + 8;
   }
-  if (
-    productsData.value.pagination.limit >= productsData.value.pagination.count
-  ) {
-    loader.value = false;
+  else {
+    showMoreBtn.value = false;
   }
 };
 
@@ -130,7 +129,9 @@ const loadProducts = () => {
       priceFrom.value,
       priceTo.value,
     )
-    .then((res: ResponseData) => (productsData.value = res.data));
+    .then((res: ResponseData) => (productsData.value = res.data))
+    .then(() => loader.value = false)
+  ;
 };
 
 const addCart = (id: number, quantity: number) => {
@@ -244,6 +245,60 @@ loadProducts();
   }
   &__btn:hover {
     background-color: $primary;
+  }
+}
+$avatar-offset: 52 + 16;
+@keyframes skeleton-glow {
+  0% {
+    background-position: -100px + $avatar-offset
+  }
+  40%, 100% {
+    background-position: 160px + $avatar-offset
+  }
+}
+.card.skeleton {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.skeleton {
+  &-image {
+    animation: skeleton-glow 1.6s infinite linear ;
+    background-image: $skeleton-gradient;
+    height: 200px;
+    margin-bottom: 24px;
+    border-radius: 20px;
+  }
+  &-desc {
+    display: flex;
+    flex-direction: column;
+  }
+  &-title {
+    height: 16px;
+    animation: skeleton-glow 1.6s linear infinite;
+    background-image: $skeleton-gradient;
+    margin-bottom: 24px;
+    border-radius: 10px;
+  }
+  &-text {
+    height: 16px;
+    margin-bottom: 24px;
+    animation: skeleton-glow 1.6s linear infinite;
+    background-image: $skeleton-gradient;
+    border-radius: 10px;
+  }
+  &-price {
+    height: 16px;
+    margin-bottom: 24px;
+    animation: skeleton-glow 1.6s linear infinite;
+    background-image: $skeleton-gradient;
+    border-radius: 10px;
+  }
+  &-btn {
+    height: 16px;
+    margin-bottom: 24px;
+    animation: skeleton-glow 1.6s linear infinite;
+    background-image: $skeleton-gradient;
+    border-radius: 10px;
   }
 }
 
@@ -425,53 +480,4 @@ loadProducts();
 @media (max-width: 320px) {
 }
 
-//.lds-ripple {
-//  display: inline-block;
-//  position: relative;
-//  width: 80px;
-//  height: 80px;
-//  margin-right: auto;
-//  margin-left: auto;
-//  margin-top: 30px;
-//}
-//.lds-ripple div {
-//  position: absolute;
-//  border: 4px solid $primary;
-//  opacity: 1;
-//  border-radius: 50%;
-//  animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
-//}
-//.lds-ripple div:nth-child(2) {
-//  animation-delay: -0.5s;
-//}
-//@keyframes lds-ripple {
-//  0% {
-//    top: 36px;
-//    left: 36px;
-//    width: 0;
-//    height: 0;
-//    opacity: 0;
-//  }
-//  4.9% {
-//    top: 36px;
-//    left: 36px;
-//    width: 0;
-//    height: 0;
-//    opacity: 0;
-//  }
-//  5% {
-//    top: 36px;
-//    left: 36px;
-//    width: 0;
-//    height: 0;
-//    opacity: 1;
-//  }
-//  100% {
-//    top: 0;
-//    left: 0;
-//    width: 72px;
-//    height: 72px;
-//    opacity: 0;
-//  }
-//}
 </style>
