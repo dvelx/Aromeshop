@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import { ROUTES_PATHS } from "../constans/router.ts";
 
 const router = createRouter({

@@ -6,7 +6,6 @@
         <form action="#" method="post" class="form" @submit.prevent="order()">
           <div class="form__field">
             <div class="form__data">
-
               <label class="form__label">
                 <input
                   v-model="formData.name"
@@ -18,7 +17,9 @@
                   placeholder="Введите ваше полное имя"
                 />
                 <span class="form__value">ФИО</span>
-                <span v-if="formError" class="form__error">{{ formError.name }}</span>
+                <span v-if="formError" class="form__error">{{
+                  formError.name
+                }}</span>
               </label>
 
               <label class="form__label">
@@ -30,7 +31,9 @@
                   placeholder="Введите ваш адрес"
                 />
                 <span class="form__value">Адрес доставки</span>
-                <span v-if="formError" class="form__error">{{ formError.address }}</span>
+                <span v-if="formError" class="form__error">{{
+                  formError.address
+                }}</span>
               </label>
 
               <label class="form__label">
@@ -44,7 +47,9 @@
                   placeholder="Введите ваш телефон"
                 />
                 <span class="form__value">Телефон</span>
-                <span v-if="formError" class="form__error">{{ formError.phone }}</span>
+                <span v-if="formError" class="form__error">{{
+                  formError.phone
+                }}</span>
               </label>
 
               <label class="form__label">
@@ -56,20 +61,23 @@
                   placeholder="Введите ваш Email"
                 />
                 <span class="form__value">Email</span>
-                <span v-if="formError" class="form__error">{{ formError.email }}</span>
+                <span v-if="formError" class="form__error">{{
+                  formError.email
+                }}</span>
               </label>
 
               <label class="form__label">
-              <textarea
-                v-model="formData.comment"
-                class="form__input form__input--area"
-                name="comments"
-                placeholder="Ваши пожелания"
-              ></textarea>
+                <textarea
+                  v-model="formData.comment"
+                  class="form__input form__input--area"
+                  name="comments"
+                  placeholder="Ваши пожелания"
+                ></textarea>
                 <span class="form__value">Комментарий к заказу</span>
-                <span v-if="formError" class="form__error">{{ formError.comment }}</span>
+                <span v-if="formError" class="form__error">{{
+                  formError.comment
+                }}</span>
               </label>
-
             </div>
           </div>
           <div class="form__cart">
@@ -83,7 +91,8 @@
 
             <div class="form__cart-total">
               <p>
-                Итого: <b>{{ totalAmount }}</b> {{ countTextFormatter(totalAmount) }} на сумму
+                Итого: <b>{{ totalAmount }}</b>
+                {{ countTextFormatter(totalAmount) }} на сумму
                 <b>{{ totalPrice }} ₽</b>
               </p>
             </div>
@@ -99,7 +108,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, reactive, ref} from "vue";
+import { computed, reactive, ref } from "vue";
 import OrderPageCart from "@/components/OrderPageCart.vue";
 import { cartStore } from "@/store/cartStore.ts";
 import numberFormatter from "@/helpers/numberFormatter.ts";
@@ -155,17 +164,27 @@ const order = () => {
       formError.value = error.response.data.error;
     });
 };
-//маска 
+//маска
 const maskOptions = reactive({
   tokens: {
-    A: { pattern: /[A-ZА-ЯЁ]/, transform: (v: string) => v.toLocaleUpperCase() },
-    z: { pattern: /[a-zа-яё]/, transform: (v: string) => v.toLocaleLowerCase(), multiple: true },
-    '#': { pattern: /[0-9]/ },
-    m: { pattern: /[a-z0-9-.]/, multiple: true, transform: (v: string) => v.toLocaleLowerCase() }
+    A: {
+      pattern: /[A-ZА-ЯЁ]/,
+      transform: (v: string) => v.toLocaleUpperCase(),
+    },
+    z: {
+      pattern: /[a-zа-яё]/,
+      transform: (v: string) => v.toLocaleLowerCase(),
+      multiple: true,
+    },
+    "#": { pattern: /[0-9]/ },
+    m: {
+      pattern: /[a-z0-9-.]/,
+      multiple: true,
+      transform: (v: string) => v.toLocaleLowerCase(),
+    },
   },
-  tokensReplace: true
+  tokensReplace: true,
 });
-
 </script>
 
 <style lang="scss" scoped>
@@ -185,7 +204,7 @@ const maskOptions = reactive({
   -webkit-box-align: start;
   -ms-flex-align: start;
   align-items: flex-start;
-  
+
   &__label {
     position: relative;
     display: block;
@@ -288,15 +307,15 @@ const maskOptions = reactive({
   .form {
     display: flex;
     flex-direction: column;
-    
+
     &__field {
       width: 100%;
     }
-    
+
     &__data {
       grid-template-columns: 1fr;
     }
-    
+
     &__label {
       grid-column: 1/-1;
     }

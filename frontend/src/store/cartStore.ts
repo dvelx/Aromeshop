@@ -37,8 +37,8 @@ export const cartStore = defineStore("cartStore", () => {
     );
   };
   const cartTotalQuantity = () => {
-    return syncCart.value.reduce((acc, item) => item.quantity + acc, 0)
-  }
+    return syncCart.value.reduce((acc, item) => item.quantity + acc, 0);
+  };
   const updateCartProductQuantity = (productId: number, amount: number) => {
     const item = syncCart.value.find((item) => item.id === productId);
     if (item) {

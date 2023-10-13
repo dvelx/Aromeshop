@@ -1,7 +1,12 @@
 <template>
-  <section v-if="Object.keys(productsData).length == 0" >
+  <section v-if="Object.keys(productsData).length == 0">
     <div class="container">
-      <h1 class="error-server" style="text-align: center; color: red; margin-bottom: 40px;">Не удалось загрузить товары, попробуйте зайти позже</h1>
+      <h1
+        class="error-server"
+        style="text-align: center; color: red; margin-bottom: 40px"
+      >
+        Не удалось загрузить товары, попробуйте зайти позже
+      </h1>
     </div>
   </section>
   <section v-else class="popular-products">
@@ -23,7 +28,7 @@
                   {{ item.title }}
                 </h5>
                 <span class="card__price"
-                >{{ numberFormatter(item.price) }} ₽</span
+                  >{{ numberFormatter(item.price) }} ₽</span
                 >
               </div>
               <p class="card__text">
@@ -59,27 +64,27 @@ const swiperOptions = {
     320: {
       slidesPerView: 2,
       spaceBetween: 10,
-      slidesPerGroup: 2
+      slidesPerGroup: 2,
     },
     640: {
       slidesPerView: 2,
       spaceBetween: 20,
-      slidesPerGroup: 2
+      slidesPerGroup: 2,
     },
     768: {
       slidesPerView: 3,
       spaceBetween: 30,
-      slidesPerGroup: 3
+      slidesPerGroup: 3,
     },
     1024: {
       slidesPerView: 4,
       spaceBetween: 40,
-      slidesPerGroup: 4
+      slidesPerGroup: 4,
     },
     1366: {
       slidesPerView: 5,
       spaceBetween: 50,
-      slidesPerGroup: 5
+      slidesPerGroup: 5,
     },
   },
 };

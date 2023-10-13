@@ -16,8 +16,7 @@
   </section>
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss" scoped>
 @import "src/assets/style/main";
@@ -62,6 +61,8 @@
   }
   &__btn {
     border: 1px solid $primary;
+    background-color: $primary;
+    color: $white;
     border-radius: 100px;
     padding: 16px 64px;
     font-size: 20px;

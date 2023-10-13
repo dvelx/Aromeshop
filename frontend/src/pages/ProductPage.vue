@@ -1,26 +1,7 @@
 <template>
   <div class="product-page__container container">
     <div class="product-page__left">
-      <img
-        :src="product.image_url"
-        :alt="product.title"
-        class="product-page__image"
-      />
-      <img
-        :src="product.image_url"
-        :alt="product.title"
-        class="product-page__image"
-      />
-      <img
-        :src="product.image_url"
-        :alt="product.title"
-        class="product-page__image"
-      />
-      <img
-        :src="product.image_url"
-        :alt="product.title"
-        class="product-page__image"
-      />
+      <ProductPageCarousel :product="product" />
     </div>
     <div class="product-page__right">
       <h1 class="product-page__title">{{ product.title }}</h1>
@@ -63,6 +44,7 @@ import apiDataService from "@/services/apiDataService.ts";
 import ResponseData from "@/types/ResponseData.ts";
 import Product from "@/types/Product.ts";
 import numberFormatter from "@/helpers/numberFormatter.ts";
+import ProductPageCarousel from "@/components/ProductPageCarousel.vue";
 
 const route = useRoute();
 const store = cartStore();
@@ -73,6 +55,7 @@ const productAmount = ref<number>(1);
 const productSlug = computed(() => {
   return String(route.params.slug);
 });
+
 const addCart = () => {
   store.addProductToCart(product.value.id, productAmount.value);
 };
@@ -125,16 +108,10 @@ loadProduct();
     margin-bottom: 50px;
   }
   &__left {
-    display: grid;
-    width: 50%;
+    display: flex;
+    flex-direction: column;
     gap: 20px;
-    grid-template-columns: repeat(2, 1fr);
-    justify-items: center;
-  }
-  &__image {
-    border: 1px solid $primary;
-    border-radius: 10px;
-    background-color: transparent;
+    width: 50%;
   }
 
   &__right {
@@ -210,7 +187,6 @@ loadProduct();
       width: 100%;
     }
     &__left {
-      grid-template-columns: 1fr;
       align-items: center;
       width: 100%;
       margin-bottom: 80px;

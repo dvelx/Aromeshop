@@ -1,9 +1,11 @@
 <template>
-  <section v-if="Object.keys(cartProducts).length == 0" >
+  <section v-if="Object.keys(cartProducts).length == 0">
     <div class="container error-container">
-      <h1 class="error-server" style="text-align: center; margin-bottom: 40px;">Ваша корзина пуста</h1>
+      <h1 class="error-server" style="text-align: center; margin-bottom: 40px">
+        Ваша корзина пуста
+      </h1>
       <router-link to="/catalog" class="right__btn btn"
-      >Смотреть товары</router-link
+        >Смотреть товары</router-link
       >
     </div>
   </section>
@@ -165,7 +167,6 @@ store.loadBasket(store.state.userAccessKey);
     padding: 16px 20px;
     border-radius: 100px;
     font-size: 15px;
-    
   }
 }
 

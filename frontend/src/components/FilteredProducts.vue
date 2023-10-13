@@ -189,6 +189,7 @@ const sorted = (sortBy: string, order: string) => {
   emits("update:order", order);
   emits("update:sortBy", sortBy);
   closeFilter()
+  openSortBlock.value = false
 }
 
 const loadCategories = () => {

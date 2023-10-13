@@ -1,5 +1,4 @@
 <template>
-  
   <section class="product-list">
     <div class="top container">
       <h1 class="top__title">Каталог товаров</h1>
@@ -36,7 +35,9 @@
               <p class="card__text">
                 {{ item.brand_title }}
               </p>
-              <p class="card__price">Цена: {{ numberFormatter(item.price) }} ₽</p>
+              <p class="card__price">
+                Цена: {{ numberFormatter(item.price) }} ₽
+              </p>
             </div>
             <button class="card__btn btn" @click="addCart(item.id, 1)">
               В КОРЗИНУ
@@ -95,7 +96,7 @@ import Product from "@/types/Product.ts";
 const store = cartStore();
 
 const loader = ref(true);
-const showMoreBtn = ref(true)
+const showMoreBtn = ref(true);
 const productsData = ref({} as Products);
 const page = ref(1);
 const limit = ref(8);
@@ -113,8 +114,7 @@ const showMore = () => {
     productsData.value.pagination.limit < productsData.value.pagination.count
   ) {
     limit.value = limit.value + 8;
-  }
-  else {
+  } else {
     showMoreBtn.value = false;
   }
 };
@@ -130,8 +130,7 @@ const loadProducts = () => {
       priceTo.value,
     )
     .then((res: ResponseData) => (productsData.value = res.data))
-    .then(() => loader.value = false)
-  ;
+    .then(() => (loader.value = false));
 };
 
 const addCart = (id: number, quantity: number) => {
@@ -147,7 +146,6 @@ loadProducts();
 <style lang="scss" scoped>
 @import "../assets/style/main";
 .top {
-  
   &__title {
     text-align: center;
     margin-bottom: 50px;
@@ -250,10 +248,11 @@ loadProducts();
 $avatar-offset: 52 + 16;
 @keyframes skeleton-glow {
   0% {
-    background-position: -100px + $avatar-offset
+    background-position: -100px + $avatar-offset;
   }
-  40%, 100% {
-    background-position: 160px + $avatar-offset
+  40%,
+  100% {
+    background-position: 160px + $avatar-offset;
   }
 }
 .card.skeleton {
@@ -262,7 +261,7 @@ $avatar-offset: 52 + 16;
 }
 .skeleton {
   &-image {
-    animation: skeleton-glow 1.6s infinite linear ;
+    animation: skeleton-glow 1.6s infinite linear;
     background-image: $skeleton-gradient;
     height: 200px;
     margin-bottom: 24px;
@@ -479,5 +478,4 @@ $avatar-offset: 52 + 16;
 
 @media (max-width: 320px) {
 }
-
 </style>

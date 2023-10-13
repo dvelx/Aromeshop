@@ -11,9 +11,7 @@
 
           <ul class="dictionary">
             <li class="dictionary__item">
-              <span class="dictionary__key">
-                Номер заказа:
-              </span>
+              <span class="dictionary__key"> Номер заказа: </span>
               <span class="dictionary__value">
                 Заказ № {{ orderInfo.id }}
               </span>
@@ -73,9 +71,12 @@
           </ul>
 
           <div class="cart__total">
-            <p>Доставка: <b @click="console.log(totalItemOrder)">бесплатно</b></p>
             <p>
-              Итого: <b>{{ totalItemOrder }}</b> {{ countTextFormatter(+totalItemOrder) }} на сумму
+              Доставка: <b @click="console.log(totalItemOrder)">бесплатно</b>
+            </p>
+            <p>
+              Итого: <b>{{ totalItemOrder }}</b>
+              {{ countTextFormatter(+totalItemOrder) }} на сумму
               <b>{{ numberFormatter(+orderInfo.total) }} ₽</b>
             </p>
           </div>
@@ -101,8 +102,8 @@ const orderInfo = computed<OrderInfo>(() => {
 });
 
 const totalItemOrder = computed(() => {
-  return orderInfo.value.items.reduce((acc, item) => item.quantity + acc, 0)
-})
+  return orderInfo.value.items.reduce((acc, item) => item.quantity + acc, 0);
+});
 
 const datePurchased = computed(() => {
   return new Date(store.state.orderInfo.date_purchased).toLocaleDateString(
