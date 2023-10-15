@@ -37,6 +37,7 @@
 import PopularProducts from "../components/PopularProducts.vue";
 import Promotion from "../components/PromotionComponent.vue";
 import MainContent from "../components/MainContent.vue";
+
 </script>
 
 <style lang="scss" scoped>

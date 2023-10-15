@@ -1,121 +1,116 @@
 <template>
-  <Carousel
-    id="gallery"
-    v-model="currentSlide"
-    :items-to-show="1"
-    :wrap-around="false"
+  <Swiper 
+    :spaceBetween="10"
+    :navigation="true"
+    :thumbs="{ swiper: thumbsSwiper }"
+    :modules="[FreeMode, Navigation, Thumbs]"
+    class="product-swiper"
   >
-    <Slide v-for="slide in 4" :key="slide">
-      <div class="carousel__item">
-        <img
-          class="product-page__image main__image"
-          :src="product.image_url"
-          :alt="product.title"
-        />
-      </div>
-    </Slide>
-  </Carousel>
+    <SwiperSlide v-for="item in 5" :key="item" class="product-slide">
+      <img :src="product.image_url" :alt="product.title">
+    </SwiperSlide>
+  </Swiper>
+  <Swiper 
+    @swiper="setThumbsSwiper"
+    :spaceBetween="10"
+    :slidesPerView="4"
+    :freeMode="true"
+    :watchSlidesProgress="true"
+    :modules="[FreeMode, Navigation, Thumbs]"
+    class="product-swiper"  
+  >
 
-  <Carousel
-    id="thumbnails"
-    ref="carousel"
-    v-model="currentSlide"
-    :items-to-show="5"
-    :wrap-around="true"
-  >
-    <Slide v-for="slide in 4" :key="slide">
-      <div class="carousel__item" @click="slideTo(slide - 1)">
-        <img
-          class="product-page__image"
-          :src="product.image_url"
-          :alt="product.title"
-        />
-      </div>
-    </Slide>
-  </Carousel>
+    <SwiperSlide v-for="item in 5" :key="item" class="product-slide">
+      <img :src="product.image_url" :alt="product.title">
+    </SwiperSlide>
+  </Swiper>
 </template>
 
 <script setup lang="ts">
-import { Carousel, Slide } from "vue3-carousel";
-import { ref } from "vue";
+import {Ref, ref} from "vue";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
+import { Swiper as SwiperClass } from "swiper/types";
 import Product from "@/types/Product.ts";
+
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/navigation';
+import 'swiper/css/thumbs';
 
 defineProps<{
   product: Product;
 }>();
 
-const currentSlide = ref(0);
+const thumbsSwiper: Ref<SwiperClass | undefined> = ref();
 
-const slideTo = (val: number) => {
-  currentSlide.value = val;
+const setThumbsSwiper = (swiper: SwiperClass) => {
+  thumbsSwiper.value = swiper;
 };
 </script>
 
 <style lang="scss">
-.product-page__image.main__image {
-  width: 400px;
-  height: 400px;
-  border-radius: 10px;
-}
-.product-page__image {
-  border-radius: 10px;
-  object-fit: cover;
+@import "src/assets/style/variables";
+.product-swiper.swiper {
   width: 100%;
-  min-height: 180px;
-}
-.carousel__viewport {
-  border-radius: 10px;
-  overflow: hidden;
-}
-.carousel {
-  position: relative;
-  text-align: center;
-  box-sizing: border-box;
-  touch-action: pan-y;
-  overscroll-behavior: none;
-}
-.carousel * {
-  box-sizing: border-box;
-}
-.carousel__track {
-  display: flex;
-  padding: 0 !important;
-  position: relative;
+  height: 100%;
 }
 
-.carousel__slide {
-  scroll-snap-stop: normal;
-  flex-shrink: 0;
-  margin-right: 5px;
-  margin-left: 5px;
-  position: relative;
+.product-slide.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: transparent;
+
+  /* Center slide text vertically */
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: translateZ(0);
 }
-.carousel__item {
-  min-height: 200px;
+
+.product-slide.swiper-slide img {
+  display: block;
   width: 100%;
-  border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  height: 100%;
+  object-fit: contain;
 }
-#thumbnails .carousel__item {
-  min-height: 100px;
-  cursor: pointer;
+
+
+.product-swiper.swiper {
+  width: 100%;
+  height: 300px;
+  margin-left: auto;
+  margin-right: auto;
 }
-.carousel__sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
+
+.product-slide.swiper-slide {
+  background-size: cover;
+  background-position: center;
 }
+
+
+
+.product-slide {
+  height: 20%;
+  box-sizing: border-box;
+  padding: 10px 0;
+}
+
+.product-slide.swiper-slide {
+  width: 25%;
+  height: 100%;
+  opacity: 0.4;
+}
+
+.product-slide.swiper-slide-thumb-active {
+  opacity: 1;
+}
+.swiper-button-prev, .swiper-button-next {
+ color: $primary; 
+}
+
+
+
+
 
 @media (max-width: 1780px) {
 }
