@@ -4,9 +4,9 @@
     :navigation="true"
     :thumbs="{ swiper: thumbsSwiper }"
     :modules="[FreeMode, Navigation, Thumbs]"
-    class="product-swiper"
+    class="product-swiper top-swiper"
   >
-    <SwiperSlide v-for="item in 5" :key="item" class="product-slide">
+    <SwiperSlide v-for="item in 5" :key="item" class="product-slide  main-img">
       <img :src="product.image_url" :alt="product.title">
     </SwiperSlide>
   </Swiper>
@@ -51,56 +51,35 @@ const setThumbsSwiper = (swiper: SwiperClass) => {
 
 <style lang="scss">
 @import "src/assets/style/variables";
+.product-swiper.swiper.top-swiper {
+  height: 300px;
+}
 .product-swiper.swiper {
   width: 100%;
   height: 100%;
 }
-
 .product-slide.swiper-slide {
   text-align: center;
   font-size: 18px;
   background: transparent;
-
-  /* Center slide text vertically */
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
 .product-slide.swiper-slide img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
-
-
-.product-swiper.swiper {
-  width: 100%;
-  height: 300px;
-  margin-left: auto;
-  margin-right: auto;
+.product-slide.swiper-slide.main-img {
+  opacity: 1;
 }
-
-.product-slide.swiper-slide {
-  background-size: cover;
-  background-position: center;
-}
-
-
-
-.product-slide {
-  height: 20%;
-  box-sizing: border-box;
-  padding: 10px 0;
-}
-
 .product-slide.swiper-slide {
   width: 25%;
   height: 100%;
   opacity: 0.4;
 }
-
 .product-slide.swiper-slide-thumb-active {
   opacity: 1;
 }

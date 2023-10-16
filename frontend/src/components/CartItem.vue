@@ -1,33 +1,31 @@
 <template>
-  <li class="cart__item product">
-    <div class="product__pic">
-      <img :src="item.image_url" width="120" height="120" alt="title" />
+  <li class="cart-item__wrapper">
+    <div class="cart-item__image-block">
+      <img :src="item.image_url" :alt="item.title" />
     </div>
-    <h3 class="product__title">{{ item.title }}</h3>
-
-    <span class="product__code"> Артикул: {{ item.id }} </span>
-    <BaseCounter v-model:amount="productQuantity" />
-
-    <b class="product__price"> {{ productTotalPrice }} ₽ </b>
-
-    <button
-      class="product__del button-del"
-      style="cursor: pointer"
-      type="button"
-      aria-label="Удалить товар из корзины"
-      @click="deleteProduct(item.id)"
-    >
-      <svg
-        width="18"
-        height="18"
-        viewBox="0 0 18 18"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M17 1L1 17" stroke="#9D9D9D" stroke-width="0.8" />
-        <path d="M17 17L1 0.999999" stroke="#9D9D9D" stroke-width="0.8" />
-      </svg>
-    </button>
+    <div class="cart-item__right">
+      <div class="cart-item__name-and-article-block">
+        <h3 class="cart-item__title">{{ item.title }}</h3>
+        <span class="cart-item__code"> Артикул: {{ item.id }} </span>
+      </div>
+      <div class="cart-item__quantity-price">
+        <div class="cart-item__actions-container">
+          <BaseCounter v-model:amount="productQuantity" class="cart-item__counter"/>
+          <button
+            class="cart-item__action-del"
+            style="cursor: pointer"
+            type="button"
+            aria-label="Удалить товар из корзины"
+            @click="deleteProduct(item.id)"
+          >Удалить</button>
+        </div>
+        <div class="cart-item__price">
+          <span class="cart-item__main-value"> {{ productTotalPrice }} ₽ </span>
+        </div>
+      </div>
+    </div>
+    
+    
   </li>
 </template>
 
@@ -70,55 +68,65 @@ const deleteProduct = (id: number) => {
 
 <style lang="scss" scoped>
 @import "src/assets/style/main";
-.product {
-  display: grid;
-  grid-template-columns: 120px 280px 200px 120px 20px;
-  grid-template-rows: repeat(3, min-content);
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  grid-gap: 10px 20px;
-  margin-bottom: 20px;
-
-  &__pic {
-    align-self: flex-start;
-    grid-column: 1/2;
-    grid-row: 1/4;
+.cart-item {
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    padding-bottom: 30px;
+    border-bottom: 1px solid $primary;
+    margin-bottom: 30px;
   }
-
-  &__title {
-    margin: 0;
-    grid-column: 2/3;
-    grid-row: 1/2;
-    font-size: 16px;
-    line-height: 22px;
-    font-weight: 400;
+  &__image-block {
+    width: 128px;
+    min-width: 128px;
+    height: 128px;
+    overflow: hidden;
+    position: relative;
+    margin-right: 24px;
+    padding-right: 24px;
   }
-
-  &__info {
-    margin: 0;
-    grid-column: 2/3;
-    grid-row: 2/3;
-    font-size: 14px;
-    line-height: 1;
-    color: #737373;
+  &__right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+    align-self: stretch;
   }
-
+  &__name-and-article-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-self: stretch;
+    width: 397px;
+    padding: 20px 0 20px 0;
+  }
+  &__quantity-price {
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+    gap: 60px;
+  }
+  &__counter {
+    margin-bottom: 20px;
+  }
+  &__action-del {
+    margin-right: auto;
+    margin-left: auto;
+    display: flex;
+    margin-top: 20px;
+    font-size: 18px;
+    color: $dark_text;
+  }
   &__code {
-    grid-column: 2/3;
-    grid-row: 2/4;
     font-size: 12px;
     color: #b9b9b9;
   }
-
-  &__del {
-    grid-column: 5/6;
-    grid-row: 1/2;
-  }
-  &__del:hover svg path {
-    stroke: black;
+  &__main-value {
+    font-weight: 700;
+    font-size: 24px;
   }
 }
+
 
 @media (max-width: 1780px) {
 }
@@ -129,18 +137,23 @@ const deleteProduct = (id: number) => {
 }
 
 @media (max-width: 768px) {
-  .product {
-    display: flex;
-    justify-content: space-between;
-    grid-gap: 10px;
-
-    &__pic {
-      width: 70px;
+  .cart-item {
+    &__right {
+      flex-direction: column;
     }
-
+    &__name-and-article-block {
+      width: 60%;
+      margin: 0;
+    }
+    &__quantity-price {
+      flex-direction: row-reverse;
+      align-items: flex-start;
+      width: 100%;
+      margin-top: 12px;
+    }
     &__title {
-      font-size: 14px;
-      line-height: 1;
+      font-weight: 500;
+      font-size: 18px;
     }
   }
 }

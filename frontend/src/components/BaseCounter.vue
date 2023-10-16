@@ -71,9 +71,6 @@ const minus = (value: number) => {
 .form__counter {
   justify-content: space-between;
   flex-direction: row;
-  border: 1px solid $primary;
-  border-radius: 50px;
-  padding: 0 15px;
 
   &,
   & button {
@@ -104,7 +101,7 @@ const minus = (value: number) => {
   }
   & input {
     padding: 10px 5px;
-    width: 70px;
+    width: 50px;
     border-radius: 0;
     background-color: transparent;
     border: 0;

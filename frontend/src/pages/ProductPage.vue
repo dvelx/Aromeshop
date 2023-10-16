@@ -186,6 +186,16 @@ loadProduct();
     &__right {
       width: 100%;
     }
+    &__price {
+      position: inherit;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+    &__btn-add {
+      border-radius: 20px;
+      padding: 10px 15px;
+      font-size: 14px;
+    }
     &__left {
       align-items: center;
       width: 100%;

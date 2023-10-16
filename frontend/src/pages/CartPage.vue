@@ -144,6 +144,9 @@ store.loadBasket(store.state.userAccessKey);
       margin-right: auto;
       margin-left: auto;
     }
+    &__block {
+      margin-bottom: 40px;
+    }
   }
 }
 
