@@ -6,7 +6,7 @@ export const options = {
   index: false,
   maxAge: "1d",
   redirect: false,
-  setHeaders: function (res: { set: (arg0: string, arg1: number) => void; }, path: any, stat: any) {
+  setHeaders: function (res, path, stat) {
     res.set("x-timestamp", Date.now());
   },
 };

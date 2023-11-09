@@ -1,19 +1,17 @@
 import nodemailer from "nodemailer";
-import dotenv from "dotenv";
+import config from "../config.js";
 
 export default class Mailer {
-  transporter: nodemailer.Transporter;
+  //transporter: nodemailer.Transporter;
   constructor() {
-    dotenv.config();
-
     this.transporter = nodemailer.createTransport({
-      service: process.env.MAIL_SERVICE,
-      host: process.env.MAIL_HOST,
-      port: +process.env.MAIL_PORT,
+      service: config.mailService,
+      host: config.mailHost,
+      port: +config.mailPort,
       secure: false,
       auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASSWORD,
+        user: config.mailUser,
+        pass: config.mailPassword,
       },
       tls: {
         ciphers: "SSLv3",
@@ -23,7 +21,7 @@ export default class Mailer {
 
   async sendMail({ to, subject, text, html }) {
     let result = await this.transporter.sendMail({
-      from: `"${process.env.MAIL_SENDER}" <${process.env.MAIL_USER}>`,
+      from: `"${config.mailSender}" <${config.mailUser}>`,
       to,
       subject,
       text,

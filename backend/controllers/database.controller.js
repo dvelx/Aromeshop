@@ -1,357 +1,239 @@
-import exprepress, { json, request, response } from "express";
-import Database from "../database.js";
-import slugify from "slugify";
-import { hostname } from "os";
-import { getHtml, sendOrderEmail } from "../email/order-email.js";
-
-const database = new Database();
-database.connect();
-
-const router = exprepress.Router();
-router.use(exprepress.json());
-
-// параметры для slugify
-const slugParams = {
-  locale: "ru",
-  lower: true,
-  strict: true,
-};
-
-function getRequestHostUrl(request) {
-  return `${request.protocol}://${request.get("host")}/`;
-}
-
-async function sendResponse(response, data) {
-  try {
-    // const data = await data();
-
-    // если в ответе есть ошибка, меняем статус
-    if (data?.error) response.statusCode = 400;
-
-    response.json(data);
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-/* Получение списка категорий */
-router.route("/categories").get(async (request, response) => {
-  sendResponse(response, await database.getCategories());
-});
-
-/* Получение списка производителей */
-router.route("/brands").get(async (request, response) => {
-  sendResponse(response, await database.getBrands());
-});
-
-/* Получение списка товаров */
-router.route("/products").get(async (request, response) => {
-  const hostname = getRequestHostUrl(request);
-  let { limit, page, sortBy, order, priceFrom, priceTo } = request.query;
-
-  let error = {};
-
-  if (priceFrom && isNaN(priceFrom)) {
-    error = { ...error, priceFrom: "priceFrom is not a number" };
-  }
-  if (priceTo && isNaN(priceTo)) {
-    error = { ...error, priceTo: "priceTo is not a number" };
-  }
-  if (order && order != "asc" && order != "desc") {
-    error = { ...error, order: "order can be only 'asc' or 'desc'" };
-  }
-  if (sortBy && sortBy != "price" && sortBy != "name" && sortBy != "id") {
-    error = { ...error, sortBy: "order can be only 'asc' or 'desc'" };
+import { where, Op } from "sequelize";
+import {
+  Brand,
+  Cart,
+  CartItem,
+  Category,
+  Feedback,
+  Order,
+  OrderItem,
+  OrderStatus,
+  Product,
+  User,
+} from "../models/index.js";
+class DatabaseController {
+  /** Получает список категорий с БД */
+  async getCategories() {
+    return await Category.findAll();
   }
 
-  if (Object.keys(error).length > 0) {
-    sendResponse(response, { error });
-    return;
-  }
-
-  sendResponse(
-    response,
-    await database.getProducts(hostname, {
-      limit,
-      page,
-      sortBy,
-      order,
-      priceFrom,
-      priceTo,
-    })
-  );
-});
-
-/* Получение товара по id */
-router.route("/product/:id").get(async (request, response) => {
-  const hostname = getRequestHostUrl(request);
-  const productId = request.params.id;
-
-  sendResponse(response, await database.getProductById(productId, hostname));
-});
-
-/* Создание категории */
-router.route("/category").post(async (request, response) => {
-  const { title, image } = request.body;
-
-  sendResponse(
-    response,
-    await database.addCategory(title, slugify(title, slugParams), image)
-  );
-});
-
-/* Создание продукта */
-router.route("/product").post(async (request, response) => {
-  const { title, image, description, price } = request.body;
-
-  sendResponse(
-    response,
-    await database.addProduct(
-      title,
-      slugify(title, slugParams),
-      image,
-      description,
-      price
-    )
-  );
-});
-
-/* Создание пользователя */
-router.route("/users/accessKey").get(async (request, response) => {
-  sendResponse(response, await database.addUser());
-});
-
-/* Получение корзины */
-router.route("/baskets").get(async (request, response) => {
-  const hostname = getRequestHostUrl(request);
-  const { accessKey } = request.query;
-
-  let result = await database.getCart({ accessKey, hostname });
-  if (!result) result = { error: "Wrong accessKey" };
-
-  sendResponse(response, result);
-});
-
-/* Добавление в корзину */
-router.route("/baskets").post(async (request, response) => {
-  const { productId, quantity } = request.body;
-  const { accessKey } = request.query;
-  if (!accessKey) {
-    sendResponse(response, { error: "accessKey required" });
-    return;
-  }
-  const hostname = getRequestHostUrl(request);
-
-  let error = {};
-  let result = {};
-  let cart = await database.getCart({ accessKey, hostname });
-  if (!cart) error = { ...error, accessKey: "Wrong accessKey" };
-  if (!productId) error = { ...error, productId: "productId required" };
-  if (!quantity) error = { ...error, quantity: "quantity undefined" };
-  if (Object.keys(error).length > 0) {
-    sendResponse(response, { error });
-    return;
-  } else {
-    await database.addProductToCart({ cartId: cart.id, productId, quantity });
-    result = await database.getCart({ accessKey, hostname });
-  }
-  sendResponse(response, result);
-});
-
-/* Изменение количества товара в корзине */
-router.route("/baskets").put(async (request, response) => {
-  const { productId, quantity } = request.body;
-  const { accessKey } = request.query;
-  if (!accessKey) {
-    sendResponse(response, { error: "accessKey required" });
-    return;
-  }
-  let error = {};
-  let result = {};
-  const hostname = getRequestHostUrl(request);
-  let cart = await database.getCart({ accessKey, hostname });
-  if (!cart) error = { ...error, accessKey: "Wrong accessKey" };
-  if (!productId) error = { ...error, productId: "productId required" };
-  if (!quantity) error = { ...error, quantity: "quantity undefined" };
-  if (Object.keys(error).length > 0) {
-    sendResponse(response, { error });
-    return;
-  } else {
-    await database.setProductQuantity({
-      cartId: cart.id,
-      productId,
-      quantity,
+  /** Получает список производителей с БД */
+  async getBrands() {
+    return await Brand.findAll({
+      attributes: {
+        include: [
+          [
+            Brand.sequelize.fn("COUNT", Brand.sequelize.col("Products.id")),
+            "productsCount",
+          ],
+        ],
+      },
+      include: [{ model: Product, attributes: [] }],
+      group: ["Brand.id"],
     });
-    result = await database.getCart({ accessKey, hostname });
-    sendResponse(response, result);
   }
-});
 
-/* Удаление товара из корзины */
-router.route("/baskets").delete(async (request, response) => {
-  const { productId } = request.body;
-  const { accessKey } = request.query;
-  if (!accessKey) {
-    sendResponse(response, { error: "accessKey required" });
-    return;
+  async addCategory({ title, image }) {
+    return await Category.create({ title, image });
   }
-  let error = {};
-  let result = {};
-  const hostname = getRequestHostUrl(request);
-  let cart = await database.getCart({ accessKey, hostname });
-  if (!cart) error = { ...error, accessKey: "Wrong accessKey" };
-  if (!productId) error = { ...error, productId: "productId required" };
 
-  if (Object.keys(error).length > 0) {
-    sendResponse(response, { error });
-    return;
-  } else await database.deleteProductFromCart({ cartId: cart.id, productId });
-  result = await database.getCart({ accessKey, hostname });
-  sendResponse(response, result);
-});
-
-router.route("/orders").post(async (request, response) => {
-  let { name, address, phone, email, comment } = request.body;
-  const { accessKey } = request.query;
-  const phoneRegex =
-    /^(?:\+?\d{1,3})(?:\(?\d{3}\)[-\s]{0,}\d{3}[-\s]{0,}\d{2}[-\s]{0,}\d{2})$/;
-
-  const emailRegex =
-    /^([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22))*\x40([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d))*$/;
-  let error = {};
-  if (!accessKey) {
-    error = { error: "accessKey required" };
-  } else {
-    // check accessKey...
-    if (!name) {
-      error = { ...error, name: "Name required" };
-    }
-
-    if (!address) {
-      error = { ...error, address: "address required" };
-    }
-    if (!phone) {
-      error = { ...error, phone: "phone required" };
-    } else if (!phoneRegex.test(phone) || phone.length > 20) {
-      error = { ...error, phone: "invalid phone format" };
-    }
-    if (!email) {
-      error = { ...error, email: "email required" };
-    } else if (!emailRegex.test(email) || email.length > 50) {
-      error = { ...error, email: "invalid email format" };
-    }
-    if (!comment) {
-      comment = "";
-    }
+  async addProduct({ title, image, description, price }) {
+    return await Product.create({ title, image, description, price });
   }
-  if (Object.keys(error).length > 0) {
-    sendResponse(response, { error });
-    return;
-  }
-  const hostname = getRequestHostUrl(request);
-  const cart = await database.getCart({ hostname, accessKey });
-  let result = {};
-  let lastOrder;
 
-  if (cart) {
-    database.db.beginTransaction();
-
+  async addUser() {
+    let user;
     try {
-      await database.makeOrder({
-        name,
-        address,
-        phone,
-        email,
-        comment,
-      });
-      [lastOrder] = await database.getLastInsertedOrder();
-
-      cart.items.forEach(async (item) => {
-        const product = await database.getProductById(item.id);
-        await database.addOrderItem({
-          orderId: lastOrder.id,
-          productId: product.id,
-          productTitle: product.title,
-          quantity: item.quantity,
-          price: product.price,
-        });
-      });
-      await database.deleteCartById(cart.id);
-      database.db.commit();
-      result = lastOrder;
+      user = await User.create();
+      await user.reload();
     } catch (error) {
       console.log(error);
-      database.db.rollback();
     }
-    const items = await database.getOrderItems(lastOrder.id);
-    for (let i = 0; i < items.length; i++) {
-      const product = await database.getProductById(
-        items[i]["product_id"],
-        hostname
+    return user;
+  }
+  async getUserByUID(uid) {
+    return await User.findOne({ where: { accessKey: uid } });
+  }
+  async getProducts(
+    { limit, page, sortBy, order, priceFrom, priceTo }
+  ) {
+    //     const sortValue = { id: "id", price: "price", name: "title" };
+    //     const orderValue = { asc: "ASC", desc: "DESC" };
+
+    //     let sorting = sortValue[sortBy] ? sortValue[sortBy] : sortValue.id;
+    //     let ordering = orderValue[order] ? orderValue[order] : orderValue.asc;
+    //     let sql = `SELECT *, CONCAT('${hostname}', image) as image_url FROM ${this.db_name}.products_view`;
+
+    //     const where = ` WHERE ${priceFrom ? "price > " + priceFrom : ""} ${
+    //       priceFrom && priceTo ? " AND" : ""
+    //     } ${priceTo ? "price < " + priceTo : ""}`;
+
+    //     if (priceFrom || priceTo) sql += where;
+    //     sql += ` ORDER BY ${
+    //       sortBy === "name" ? " brand_title " + ordering + ", " : ""
+    //     }${sorting} ${ordering} `;
+
+    //     if (page && limit && page > 0) {
+    //       sql += ` LIMIT ${(page - 1) * limit}, ${limit}`;
+    //     } else if (limit) sql += ` LIMIT ${limit}`;
+
+    //     const products = await this.runQuery(sql);
+    //     sql = `SELECT COUNT(*) AS count, MIN(price) AS minPrice, MAX(price) AS maxPrice FROM ${this.db_name}.products_view`;
+    //     if (priceFrom || priceTo) sql += where;
+    //     const [{ count, minPrice, maxPrice }] = await this.runQuery(sql);
+    //     return {
+    //       products,
+    //       pagination: { page: +page, limit: +limit, count },
+    //       filter: { minPrice, maxPrice },
+    //     };
+    const products = await Product.findAll({
+      attributes: { exclude: ["brand_id", "category_id"] },
+      include: [Brand, Category],
+    });
+
+    return products;
+  }
+
+  async getProductById(productId) {
+    const product = await Product.findOne({
+      where: {
+        [Op.or]: [{ id: productId }, { slug: productId }],
+      },
+      attributes: { exclude: ["brand_id", "category_id"] },
+      include: [Brand, Category],
+    });
+
+    return product;
+  }
+
+  async getCart(accessKey) {
+    let user;
+    // accessKey не передан - создать нового пользователя
+    if (!accessKey) {
+      user = await this.addUser();
+    }
+    // Если передан
+    else {
+      // получаем пользователя по UID
+      user = await User.findOne({ where: { accessKey } });
+      // если пользователь не найден вернём ошибку
+      if (!user) return null;
+    }
+
+    const count = await Cart.count({ where: { userId: user.id } });
+
+    if (count === 0) {
+      await Cart.create({ userId: user.id });
+    }
+    // получаем корзину по UID пользователя
+    const cart = await Cart.findOne({
+      attributes: ["id"],
+      where: { userId: user.id },
+      include: [
+        {
+          model: CartItem,
+          include: {
+            model: Product,
+            attributes: [
+              "id",
+              "slug",
+              "title",
+              "description",
+              "price",
+              "image",
+            ],
+            include: [Brand, Category],
+          },
+          attributes: ["quantity"],
+        },
+        User
+      ],
+    });
+
+    return cart;
+  }
+
+  async addProductToCart({ cartId, productId, quantity }) {
+    let cartItem = await CartItem.findOne({ where: { cartId, productId } });
+
+    if (cartItem) {
+      cartItem.increment("quantity", { by: quantity });
+    } else {
+      cartItem = await CartItem.create({ cartId, productId, quantity });
+    }
+    return cartItem;
+  }
+
+  async setProductQuantity({ cartId, productId, quantity }) {
+    return await CartItem.update(
+      { quantity },
+      { where: { cartId, productId } }
+    );
+  }
+
+  async deleteProductFromCart({ cartId, productId }) {
+    return await CartItem.destroy({ where: { cartId, productId } });
+  }
+
+  async addOrderItem({ orderId, productId, productTitle, quantity, price }) {
+    return await OrderItem.create({
+      orderId,
+      productId,
+      productTitle,
+      quantity,
+      price,
+    });
+  }
+  async makeOrder({ name, address, phone, email, comment }, cart) {
+    const t = await Order.sequelize.transaction();
+
+    let lastId;
+    try {
+      const order = await Order.create(
+        {
+          name,
+          address,
+          phone,
+          email,
+          comment,
+        },
+        { transaction: t }
       );
-      items[i] = { ...items[i], product };
+
+      cart.CartItems.forEach(async (item) => {
+
+        const product = item.Product;
+
+        await OrderItem.create ({
+          orderId: order.id, 
+          productId: product.id, 
+          productTitle: product.title, 
+          quantity: item.quantity, 
+          price: product.price
+        }, 
+        {
+          transaction: t
+        })
+
+      });
+      await cart.destroy();
+      await t.commit();
+      return order.id;
+    } catch (error) {
+        console.log(error);
+      await t.rollback();
     }
-
-    const total = items
-      .reduce((acc, item) => acc + parseFloat(item.price * item.quantity), 0)
-      .toFixed(2);
-    result = { ...result, items, total };
-    console.log("1, host: ", hostname);
-    sendOrderEmail({ order: result, hostname });
-  } else {
-    result = { error: "Wrong accessKey" };
-  }
-  sendResponse(response, result);
-});
-
-router.route("/order/:id").get(async (request, response) => {
-  const orderId = request.params.id;
-  const [order] = await database.getOrderById(orderId);
-  const hostname = getRequestHostUrl(request);
-  if (!order) {
-    sendResponse(response, { error: "Order not found!" });
-    return;
   }
 
-  const items = await database.getOrderItems(orderId);
-  for (let i = 0; i < items.length; i++) {
-    const product = await database.getProductById(
-      items[i]["product_id"],
-      hostname
-    );
-    items[i] = { ...items[i], product };
-  }
-  const total = items
-    .reduce((acc, item) => acc + parseFloat(item.price * item.quantity), 0)
-    .toFixed(2);
-
-  const result = { ...order, items, total };
-  sendResponse(response, result);
-});
-
-router.route("/email-test/:id").get(async (request, response) => {
-  const orderId = request.params.id;
-  const [order] = await database.getOrderById(orderId);
-  const hostname = getRequestHostUrl(request);
-  if (!order) {
-    sendResponse(response, { error: "Order not found!" });
-    return;
+  async getOrderById(orderId) {
+    return await Order.findByPk(orderId, {
+      include: [OrderItem],
+    });
   }
 
-  const items = await database.getOrderItems(orderId);
-  for (let i = 0; i < items.length; i++) {
-    const product = await database.getProductById(
-      items[i]["product_id"],
-      hostname
-    );
-    items[i] = { ...items[i], product };
+  async getOrderItems(orderId) {
+    return await OrderItem.findAll({ where: { orderId } });
   }
-  const total = items
-    .reduce((acc, item) => acc + parseFloat(item.price * item.quantity), 0)
-    .toFixed(2);
+}
 
-  const result = { ...order, items, total };
-  const html = getHtml(result, hostname);
-  response.send(html);
-});
-export default router;
+export default new DatabaseController();
