@@ -1,14 +1,16 @@
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath, pathToFileURL } from "url";
 import sequelize, { DataTypes } from "sequelize";
 import Migration from "./models/_Migration.js";
 import database from "./database.js";
 
 const logger = console;
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(new URL(import.meta.url));
+// const __dirname = path.dirname(__filename);
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const migrationsPath = path.join(__dirname, "migrations");
 
 export async function runMigrations() {
@@ -47,7 +49,8 @@ export async function runMigrations() {
     }
     logger.debug(`Migration "${file}" applying...`, { scope: "migrations" });
 
-    const { up, down } = await import(path.join(migrationsPath, file));
+    const migrationFile = path.join(migrationsPath, file);
+    const { up, down } = await import(pathToFileURL(migrationFile));
 
     if (!up || !down) {
       throw new Error(`Invalid migration functions in file ${file}`);
@@ -85,8 +88,8 @@ export async function revertMigration(name) {
   if (!migration) {
     throw new Error(`Migration "${name}" not applied`);
   }
-
-  const { up, down } = await import(migrationFile);
+  
+  const { up, down } = await import(pathToFileURL(migrationFile));
 
   if (!up || !down) {
     throw new Error(`Invalid migration functions in file ${migrationFile}`);
