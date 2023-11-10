@@ -133,5 +133,5 @@ export async function up(queryInterface, { DataTypes }) {
   ]);
 }
 export async function down(queryInterface, { DataTypes }) {
-  await queryInterface.bulkDelete("products", { id: [1, 2] });
+  await queryInterface.bulkDelete("products", { id: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13] });
 }
