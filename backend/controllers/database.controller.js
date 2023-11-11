@@ -230,7 +230,7 @@ class DatabaseController {
 
       attributes: { 
         include: [[Order.sequelize.literal("(SELECT SUM(quantity * price) FROM order_items WHERE order_items.order_id = Order.id)"), "total"]],
-        exclude: ['status_id']
+        exclude: ['status_id', 'statusId']
     },
       include: [
         {
