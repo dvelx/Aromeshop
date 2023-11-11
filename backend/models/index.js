@@ -20,6 +20,7 @@ Product.belongsTo(Brand, { foreignKey: "brand_id" });
 Product.belongsTo(Category, { foreignKey: "category_id" });
 Order.belongsTo(OrderStatus, { foreignKey: "status_id" });
 Order.hasMany(OrderItem, { foreignKey: "order_id" });
+OrderItem.belongsTo(Product, { foreignKey: "product_id" })
 OrderStatus.hasMany(Order, { foreignKey: "status_id" });
 
 export {
