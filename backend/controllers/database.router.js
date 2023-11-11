@@ -253,17 +253,20 @@ router.route("/orders").post(async (request, response) => {
       cart
     );
 
-    const items = await DatabaseController.getOrderItems(lastOrderId);
+    const order = await DatabaseController.getOrderById(lastOrderId);
+    result = order;
+    // const items = await DatabaseController.getOrderItems(lastOrderId);
 
-    const total = items
-      .reduce((acc, item) => acc + parseFloat(item.price * item.quantity), 0)
-      .toFixed(2);
-    result = { ...result, items, total };
+    // const total = items
+    //   .reduce((acc, item) => acc + parseFloat(item.price * item.quantity), 0)
+    //   .toFixed(2);
+    // result = { ...result, items, total };
+
     // sendOrderEmail({ order: result, hostname });
   } else {
     result = { error: "Wrong accessKey" };
   }
-  sendResponse(response, result);
+  sendResponse(response,result);
 });
 
 /* Получение заказа по id */

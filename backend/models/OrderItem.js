@@ -43,27 +43,6 @@ const model = OrderItems.init(
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
-    datePurchased: {
-      field: "date_purchased",
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
-    dateFinished: {
-      field: "date_finished",
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
-    statusId: {
-      field: "status_id",
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 1,
-      references: {
-        model: "orderStatuses",
-        key: "id",
-      },
-      onDelete: "restrict",
-    },
   },
   {
     charset: "utf8mb4",

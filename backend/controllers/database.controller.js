@@ -226,9 +226,20 @@ class DatabaseController {
   }
 
   async getOrderById(orderId) {
-    return await Order.findByPk(orderId, {
-      include: [OrderItem],
+    let order = await Order.findByPk(orderId, {
+
+      attributes: { 
+        include: [[Order.sequelize.literal("(SELECT SUM(quantity * price) FROM order_items WHERE order_items.order_id = Order.id)"), "total"]],
+        exclude: ['status_id']
+    },
+      include: [{
+        model: OrderItem,
+        attributes: {
+          exclude: ['order_id', 'orderId', 'id']
+        }
+      }],
     });
+    return order;
   }
 
   async getOrderItems(orderId) {
