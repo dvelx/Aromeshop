@@ -38,7 +38,7 @@ const model = Order.init(
     dateFinished: {
       field: "date_finished",
       type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
+      defaultValue: null,
     },
     statusId: {
       field: "status_id",

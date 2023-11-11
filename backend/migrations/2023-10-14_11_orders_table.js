@@ -33,7 +33,7 @@ export async function up(queryInterface, { DataTypes }) {
       },
       date_finished: {
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
+        defaultValue: null,
       },
       status_id: {
         type: DataTypes.INTEGER,
