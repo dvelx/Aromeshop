@@ -31,7 +31,7 @@ class Database {
 export default new Database(
   new Sequelize({
     dialect: "mysql",
-    logging: true ? console.log : false,
+    logging: false ? console.log : false,
     host: config.mysqlHost,
     username: config.mysqlUser,
     password: `${config.mysqlPassword}`,
