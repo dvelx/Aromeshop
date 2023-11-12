@@ -1,5 +1,5 @@
-import { DataTypes, Model } from "sequelize";
-import database from "../database.js";
+import { DataTypes, Model } from 'sequelize'
+import database from '../database.js'
 
 class OrderStatus extends Model {}
 
@@ -8,22 +8,22 @@ const model = OrderStatus.init(
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true,
+      primaryKey: true
     },
     title: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     code: {
       type: DataTypes.STRING(50),
       allowNull: false,
-      primaryKey: true,
-    },
+      primaryKey: true
+    }
   },
   {
-    charset: "utf8mb4",
+    charset: 'utf8mb4',
     sequelize: database.sequelize,
-    tableName: "order_statuses",
+    tableName: 'order_statuses'
   }
-);
-export default model;
+)
+export default model

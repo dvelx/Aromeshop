@@ -1,4 +1,4 @@
-export async function up(queryInterface, { DataTypes }) {
+export async function up (queryInterface, { DataTypes }) {
   await queryInterface.sequelize.query(`
 CREATE TRIGGER TG_PRODUCTS_INSERT BEFORE INSERT ON products 
 FOR EACH ROW
@@ -9,11 +9,11 @@ FROM information_schema.tables
 WHERE table_name = 'products'
 AND table_schema = DATABASE ();
 SET NEW.slug = CONCAT (SLUGIFY (NEW.title), '-', product_id);
-END;`);
+END;`)
 }
 
-export async function down(queryInterface) {
+export async function down (queryInterface) {
   await queryInterface.sequelize.query(
-    "DROP FUNCTION IF EXISTS TRIGGER TG_PRODUCTS_INSERT"
-  );
+    'DROP FUNCTION IF EXISTS TRIGGER TG_PRODUCTS_INSERT'
+  )
 }

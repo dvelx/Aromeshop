@@ -1,49 +1,49 @@
-import express from "express";
-import router from "./controllers/database.router.js";
+import express from 'express'
+import router from './controllers/database.router.js'
 
-import cors from "cors";
-import { options } from "./static-options.js";
-import database from "./database.js";
-import { runMigrations } from "./migration.js";
-import config from "./config.js";
+import cors from 'cors'
+import { options } from './static-options.js'
+import database from './database.js'
+import { runMigrations } from './migration.js'
+import config from './config.js'
 
-const app = express();
+const app = express()
 
-app.use(cors());
+app.use(cors())
 
 // подключение статической папки с админкой
-app.use("/admin", express.static("admin", options));
+app.use('/admin', express.static('admin', options))
 
 // подключение станической папки с картинками
-app.use("/img", express.static("img"));
+app.use('/img', express.static('img'))
 
 // подключение Bootstrap
-app.use("/", express.static("./node_modules/bootstrap/dist/"));
-app.use("/icons", express.static("./node_modules/bootstrap-icons/"));
+app.use('/', express.static('./node_modules/bootstrap/dist/'))
+app.use('/icons', express.static('./node_modules/bootstrap-icons/'))
 
 // подключение контроллера БД
-app.use("/api/", router);
+app.use('/api/', router)
 
 /* В остальных случаях отправим HTML-страницу */
-app.get("/admin", (req, res) => {
-  res.sendFile("/admin/index.html", { root: "." });
-});
+app.get('/admin', (req, res) => {
+  res.sendFile('/admin/index.html', { root: '.' })
+})
 
-await connectDatabase();
+await connectDatabase()
 
 app.listen(`${config.port}`, () => {
-  console.log(`Server started on ${config.hostname}:${config.port} ...`);
-});
+  console.log(`Server started on ${config.hostname}:${config.port} ...`)
+})
 
-async function connectDatabase() {
+async function connectDatabase () {
   try {
-    await database.createDatabase();
-    await database.openConnection();
-    console.log("Database connection has been established successfully.");
-    await runMigrations();
+    await database.createDatabase()
+    await database.openConnection()
+    console.log('Database connection has been established successfully.')
+    await runMigrations()
     // await closeConnection();
   } catch (error) {
-    console.error("Unable to connect to the database:", error);
-    process.exit(1);
+    console.error('Unable to connect to the database:', error)
+    process.exit(1)
   }
 }

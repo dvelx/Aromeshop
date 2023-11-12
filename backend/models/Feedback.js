@@ -1,5 +1,5 @@
-import { DataTypes, Model } from "sequelize";
-import database from "../database.js";
+import { DataTypes, Model } from 'sequelize'
+import database from '../database.js'
 
 class Feedback extends Model {}
 
@@ -12,15 +12,15 @@ const model = Feedback.init(
     phone: { type: DataTypes.STRING(20), allowNull: false },
     email: { type: DataTypes.STRING(150), allowNull: false },
     receivedDate: {
-      field: "received_date",
+      field: 'received_date',
       type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
+      defaultValue: DataTypes.NOW
+    }
   },
   {
-    charset: "utf8mb4",
+    charset: 'utf8mb4',
     sequelize: database.sequelize,
-    tableName: "feedbacks",
+    tableName: 'feedbacks'
   }
-);
-export default model;
+)
+export default model

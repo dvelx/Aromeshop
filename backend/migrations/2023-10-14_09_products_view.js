@@ -1,4 +1,4 @@
-const viewName = "productsView";
+const viewName = 'productsView'
 const query = `SELECT
   products.id AS \`id\`,
   category_id,
@@ -12,12 +12,12 @@ const query = `SELECT
   products.price AS \`price\`
 FROM products
   JOIN categories ON products.category_id = categories.id
-  JOIN brands ON products.brand_id = brands.id;`;
-export async function up(queryInterface, { DataTypes }) {
+  JOIN brands ON products.brand_id = brands.id;`
+export async function up (queryInterface, { DataTypes }) {
   await queryInterface.sequelize.query(
     `CREATE OR REPLACE VIEW ${viewName} AS ${query}`
-  );
+  )
 }
-export async function down(queryInterface, { DataTypes }) {
-  await queryInterface.sequelize(`${query}`);
+export async function down (queryInterface, { DataTypes }) {
+  await queryInterface.sequelize(`${query}`)
 }

@@ -1,5 +1,5 @@
-import { DataTypes, Model } from "sequelize";
-import database from "../database.js";
+import { DataTypes, Model } from 'sequelize'
+import database from '../database.js'
 
 class Cart extends Model {}
 
@@ -8,25 +8,25 @@ const model = Cart.init(
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true,
+      autoIncrement: true
     },
     userId: {
-      field: "user_id",
+      field: 'user_id',
       type: DataTypes.INTEGER,
       allowNull: false,
       unique: true,
       references: {
-        model: "users",
-        key: "id",
+        model: 'users',
+        key: 'id'
       },
-      onDelete: "cascade",
-    },
+      onDelete: 'cascade'
+    }
   },
   {
-    charset: "utf8mb4",
+    charset: 'utf8mb4',
     sequelize: database.sequelize,
-    tableName: "carts",
+    tableName: 'carts'
   }
-);
+)
 
-export default model;
+export default model

@@ -1,5 +1,5 @@
-import { DataTypes, Model } from "sequelize";
-import database from "../database.js";
+import { DataTypes, Model } from 'sequelize'
+import database from '../database.js'
 
 class Category extends Model {}
 
@@ -10,14 +10,14 @@ const model = Category.init(
     slug: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      unique: true,
+      unique: true
     },
-    image: { type: DataTypes.STRING(2048), defaultValue: null },
+    image: { type: DataTypes.STRING(2048), defaultValue: null }
   },
   {
-    charset: "utf8mb4",
+    charset: 'utf8mb4',
     sequelize: database.sequelize,
-    tableName: "categories",
+    tableName: 'categories'
   }
-);
-export default model;
+)
+export default model

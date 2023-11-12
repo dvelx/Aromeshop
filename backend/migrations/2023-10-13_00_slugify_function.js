@@ -1,4 +1,4 @@
-export async function up(queryInterface, { DataTypes }) {
+export async function up (queryInterface, { DataTypes }) {
   await queryInterface.sequelize.query(`
   
   CREATE FUNCTION \`SLUGIFY\`(DIRTY_STRING VARCHAR(255)) RETURNS VARCHAR(255) DETERMINISTIC
@@ -67,11 +67,11 @@ export async function up(queryInterface, { DataTypes }) {
     REPLACE (new_string, '--', '-');
     END WHILE;
     RETURN new_string;
-    END;`);
+    END;`)
 }
 
-export async function down(queryInterface) {
+export async function down (queryInterface) {
   await queryInterface.sequelize.query(
-    "DROP FUNCTION IF EXISTS FUNCTION SLUGIFY"
-  );
+    'DROP FUNCTION IF EXISTS FUNCTION SLUGIFY'
+  )
 }

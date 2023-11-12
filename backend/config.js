@@ -1,6 +1,6 @@
-import dotenv from "dotenv";
-import IP from "ip";
-dotenv.config();
+import dotenv from 'dotenv'
+import IP from 'ip'
+dotenv.config()
 const config = {
   port: process.env.APP_PORT,
   domain: process.env.APP_DOMAIN,
@@ -17,6 +17,6 @@ const config = {
   mailUser: process.env.MAIL_USER,
   mailPassword: process.env.MAIL_PASSWORD,
   mailHost: process.env.MAIL_HOST,
-  mailPort: process.env.MAIL_PORT,
-};
-export default config;
+  mailPort: process.env.MAIL_PORT
+}
+export default config

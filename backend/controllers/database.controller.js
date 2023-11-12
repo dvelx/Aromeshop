@@ -1,50 +1,52 @@
-import {Op} from "sequelize";
-import {Brand, Cart, CartItem, Category, Order, OrderItem, OrderStatus, Product, User,} from "../models/index.js";
+import { Op } from 'sequelize'
+import { Brand, Cart, CartItem, Category, Order, OrderItem, OrderStatus, Product, User } from '../models/index.js'
 
 class DatabaseController {
   /** Получает список категорий с БД */
-  async getCategories() {
-    return await Category.findAll();
+  async getCategories () {
+    return await Category.findAll()
   }
 
   /** Получает список производителей с БД */
-  async getBrands() {
+  async getBrands () {
     return await Brand.findAll({
       attributes: {
         include: [
           [
-            Brand.sequelize.fn("COUNT", Brand.sequelize.col("Products.id")),
-            "productsCount",
-          ],
-        ],
+            Brand.sequelize.fn('COUNT', Brand.sequelize.col('Products.id')),
+            'productsCount'
+          ]
+        ]
       },
       include: [{ model: Product, attributes: [] }],
-      group: ["Brand.id"],
-    });
+      group: ['Brand.id']
+    })
   }
 
-  async addCategory({ title, image }) {
-    return await Category.create({ title, image });
+  async addCategory ({ title, image }) {
+    return await Category.create({ title, image })
   }
 
-  async addProduct({ title, image, description, price }) {
-    return await Product.create({ title, image, description, price });
+  async addProduct ({ title, image, description, price }) {
+    return await Product.create({ title, image, description, price })
   }
 
-  async addUser() {
-    let user;
+  async addUser () {
+    let user
     try {
-      user = await User.create();
-      await user.reload();
+      user = await User.create()
+      await user.reload()
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-    return user;
+    return user
   }
-  async getUserByUID(uid) {
-    return await User.findOne({ where: { accessKey: uid } });
+
+  async getUserByUID (uid) {
+    return await User.findOne({ where: { accessKey: uid } })
   }
-  async getProducts(
+
+  async getProducts (
     { limit, page, sortBy, order, priceFrom, priceTo }
   ) {
     //     const sortValue = { id: "id", price: "price", name: "title" };
@@ -78,90 +80,88 @@ class DatabaseController {
     //     };
     return await Product.findAll({
       attributes: {
-        exclude: ["brand_id", "category_id"]
+        exclude: ['brand_id', 'category_id']
       },
-      include: [Brand, Category],
-    });
+      include: [Brand, Category]
+    })
   }
 
-  async getProductById(productId) {
+  async getProductById (productId) {
     return await Product.findOne({
       where: {
-        [Op.or]: [{id: productId}, {slug: productId}],
+        [Op.or]: [{ id: productId }, { slug: productId }]
       },
-      attributes: {exclude: ["brand_id", "category_id"]},
-      include: [Brand, Category],
-    });
+      attributes: { exclude: ['brand_id', 'category_id'] },
+      include: [Brand, Category]
+    })
   }
 
-  async getCart(accessKey) {
-    let user;
+  async getCart (accessKey) {
+    let user
     // accessKey не передан - создать нового пользователя
     if (!accessKey) {
-      user = await this.addUser();
-    }
-    // Если передан
-    else {
+      user = await this.addUser()
+    } else {
       // получаем пользователя по UID
-      user = await User.findOne({ where: { accessKey } });
+      user = await User.findOne({ where: { accessKey } })
       // если пользователь не найден вернём ошибку
-      if (!user) return null;
+      if (!user) return null
     }
 
-    const count = await Cart.count({ where: { userId: user.id } });
+    const count = await Cart.count({ where: { userId: user.id } })
 
     if (count === 0) {
-      await Cart.create({ userId: user.id });
+      await Cart.create({ userId: user.id })
     }
     // получаем корзину по UID пользователя
     return await Cart.findOne({
-      attributes: ["id"],
-      where: {userId: user.id},
+      attributes: ['id'],
+      where: { userId: user.id },
       include: [
         {
           model: CartItem,
           include: {
             model: Product,
             attributes: [
-              "id",
-              "slug",
-              "title",
-              "description",
-              "price",
-              "image",
+              'id',
+              'slug',
+              'title',
+              'description',
+              'price',
+              'image'
             ],
-            include: [Brand, Category],
+            include: [Brand, Category]
           },
-          attributes: ["quantity"],
+          attributes: ['quantity']
         },
         User
-      ],
-    });
+      ]
+    })
   }
 
-  async addProductToCart({ cartId, productId, quantity }) {
-    let cartItem = await CartItem.findOne({ where: { cartId, productId } });
+  async addProductToCart ({ cartId, productId, quantity }) {
+    let cartItem = await CartItem.findOne({ where: { cartId, productId } })
 
     if (cartItem) {
-      cartItem.increment("quantity", { by: quantity });
+      cartItem.increment('quantity', { by: quantity })
     } else {
-      cartItem = await CartItem.create({ cartId, productId, quantity });
+      cartItem = await CartItem.create({ cartId, productId, quantity })
     }
-    return cartItem;
+    return cartItem
   }
 
-  async setProductQuantity({ cartId, productId, quantity }) {
+  async setProductQuantity ({ cartId, productId, quantity }) {
     return await CartItem.update(
       { quantity },
       { where: { cartId, productId } }
-    );
+    )
   }
 
-  async deleteProductFromCart({ cartId, productId }) {
-    return await CartItem.destroy({ where: { cartId, productId } });
+  async deleteProductFromCart ({ cartId, productId }) {
+    return await CartItem.destroy({ where: { cartId, productId } })
   }
 
- /* async addOrderItem({ orderId, productId, productTitle, quantity, price }) {
+  /* async addOrderItem({ orderId, productId, productTitle, quantity, price }) {
     return await OrderItem.create({
       orderId,
       productId,
@@ -169,11 +169,10 @@ class DatabaseController {
       quantity,
       price,
     });
-  }*/
-  async makeOrder({ name, address, phone, email, comment }, cart) {
-    const t = await Order.sequelize.transaction();
+  } */
+  async makeOrder ({ name, address, phone, email, comment }, cart) {
+    const t = await Order.sequelize.transaction()
 
-    let lastId;
     try {
       const order = await Order.create(
         {
@@ -181,40 +180,38 @@ class DatabaseController {
           address,
           phone,
           email,
-          comment,
+          comment
         },
         { transaction: t }
-      );
+      )
 
       for (const item of cart.CartItems) {
+        const product = item.Product
 
-        const product = item.Product;
-
-        await OrderItem.create ({
-          orderId: order.id, 
-          productId: product.id, 
-          productTitle: product.title, 
-          quantity: item.quantity, 
+        await OrderItem.create({
+          orderId: order.id,
+          productId: product.id,
+          productTitle: product.title,
+          quantity: item.quantity,
           price: product.price
-        }, 
+        },
         {
           transaction: t
         })
-
       }
-      await cart.destroy();
-      await t.commit();
-      return order.id;
+      await cart.destroy()
+      await t.commit()
+      return order.id
     } catch (error) {
-        console.log(error);
-      await t.rollback();
+      console.log(error)
+      await t.rollback()
     }
   }
 
-  async getOrderById(orderId) {
+  async getOrderById (orderId) {
     return await Order.findByPk(orderId, {
       attributes: {
-        include: [[Order.sequelize.literal("(SELECT SUM(quantity * price) FROM order_items WHERE order_items.order_id = Order.id)"), "total"]],
+        include: [[Order.sequelize.literal('(SELECT SUM(quantity * price) FROM order_items WHERE order_items.order_id = Order.id)'), 'total']],
         exclude: ['status_id', 'statusId']
       },
       include: [
@@ -225,20 +222,20 @@ class DatabaseController {
           include: {
             model: Product,
             attributes: [
-              "id",
-              "slug",
-              "title",
-              "description",
-              "price",
-              "image",
+              'id',
+              'slug',
+              'title',
+              'description',
+              'price',
+              'image'
             ],
-            include: [Brand, Category],
-          },
+            include: [Brand, Category]
+          }
         },
         OrderStatus
-      ],
-    });
+      ]
+    })
   }
 }
 
-export default new DatabaseController();
+export default new DatabaseController()

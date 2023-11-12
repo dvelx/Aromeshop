@@ -1,11 +1,11 @@
-export async function up(queryInterface, { DataTypes }) {
+export async function up (queryInterface, { DataTypes }) {
   await queryInterface.sequelize.query(`
 CREATE TRIGGER TG_USERS_INSERT BEFORE INSERT ON users 
-FOR EACH ROW SET new.access_key = REPLACE (uuid (), '-', '');`);
+FOR EACH ROW SET new.access_key = REPLACE (uuid (), '-', '');`)
 }
 
-export async function down(queryInterface) {
+export async function down (queryInterface) {
   await queryInterface.sequelize.query(
-    "DROP FUNCTION IF EXISTS TRIGGER TG_USERS_INSERT"
-  );
+    'DROP FUNCTION IF EXISTS TRIGGER TG_USERS_INSERT'
+  )
 }

@@ -1,9 +1,9 @@
-import nodemailer from "nodemailer";
-import config from "../config.js";
+import nodemailer from 'nodemailer'
+import config from '../config.js'
 
 export default class Mailer {
-  //transporter: nodemailer.Transporter;
-  constructor() {
+  // transporter: nodemailer.Transporter;
+  constructor () {
     this.transporter = nodemailer.createTransport({
       service: config.mailService,
       host: config.mailHost,
@@ -11,24 +11,24 @@ export default class Mailer {
       secure: false,
       auth: {
         user: config.mailUser,
-        pass: config.mailPassword,
+        pass: config.mailPassword
       },
       tls: {
-        ciphers: "SSLv3",
-      },
-    });
+        ciphers: 'SSLv3'
+      }
+    })
   }
 
-  async sendMail({ to, subject, text, html }) {
-    let result = await this.transporter.sendMail({
+  async sendMail ({ to, subject, text, html }) {
+    const result = await this.transporter.sendMail({
       from: `"${config.mailSender}" <${config.mailUser}>`,
       to,
       subject,
       text,
-      html,
-    });
+      html
+    })
 
-    console.log(result);
-    return result;
+    console.log(result)
+    return result
   }
 }

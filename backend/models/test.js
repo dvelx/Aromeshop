@@ -1,3 +1,3 @@
-console.log("test...");
-const test = null;
-export default test;
+console.log('test...')
+const test = null
+export default test

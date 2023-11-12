@@ -1,28 +1,28 @@
-export async function up(queryInterface, { DataTypes }) {
+export async function up (queryInterface, { DataTypes }) {
   await queryInterface.createTable(
-    "order_statuses",
+    'order_statuses',
     {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
-        primaryKey: true,
+        primaryKey: true
       },
       title: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       code: {
         type: DataTypes.STRING(50),
         allowNull: false,
-        primaryKey: true,
-      },
+        primaryKey: true
+      }
     },
     {
-      charset: "utf8mb4",
-      underscored: true,
+      charset: 'utf8mb4',
+      underscored: true
     }
-  );
+  )
 }
-export async function down(queryInterface, { DataTypes }) {
-  await queryInterface.dropTable("order_statuses");
+export async function down (queryInterface, { DataTypes }) {
+  await queryInterface.dropTable('order_statuses')
 }

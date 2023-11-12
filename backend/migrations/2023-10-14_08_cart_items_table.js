@@ -1,37 +1,37 @@
-export async function up(queryInterface, { DataTypes }) {
+export async function up (queryInterface, { DataTypes }) {
   await queryInterface.createTable(
-    "cart_items",
+    'cart_items',
     {
       cart_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         allowNull: false,
         references: {
-          model: "carts",
-          key: "id",
+          model: 'carts',
+          key: 'id'
         },
-        onDelete: "cascade",
+        onDelete: 'cascade'
       },
       product_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
         references: {
-          model: "products",
-          key: "id",
+          model: 'products',
+          key: 'id'
         },
-        onDelete: "cascade",
+        onDelete: 'cascade'
       },
       quantity: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-      },
+        allowNull: false
+      }
     },
     {
-      charset: "utf8mb4",
+      charset: 'utf8mb4'
     }
-  );
+  )
 }
-export async function down(queryInterface, { DataTypes }) {
-  await queryInterface.dropTable("cart_items");
+export async function down (queryInterface, { DataTypes }) {
+  await queryInterface.dropTable('cart_items')
 }
