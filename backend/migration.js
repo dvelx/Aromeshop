@@ -7,15 +7,12 @@ import database from "./database.js";
 
 const logger = console;
 
-// const __filename = fileURLToPath(new URL(import.meta.url));
-// const __dirname = path.dirname(__filename);
-
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const migrationsPath = path.join(__dirname, "migrations");
 
 export async function runMigrations() {
   const queryInterface = database.sequelize.getQueryInterface();
-  queryInterface.createTable("_migrations", {
+  await queryInterface.createTable("_migrations", {
     filename: DataTypes.STRING,
     appliedAt: {
       type: DataTypes.DATE,

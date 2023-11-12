@@ -3,8 +3,8 @@ import Sequelize from "sequelize";
 import config from "./config.js";
 
 class Database {
-  constructor(sequalize) {
-    this.sequelize = sequalize;
+  constructor(sequelize) {
+    this.sequelize = sequelize;
   }
 
   openConnection() {

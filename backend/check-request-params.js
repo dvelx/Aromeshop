@@ -61,6 +61,29 @@ export default async function checkRequestParams(params){
         break;}
       case 'comment': { break;}
 
+      case 'priceFrom': {
+        if(value && isNaN(value)) {
+          error = { ...error, priceFrom: "`priceFrom` is not a number" };
+        }
+        break;
+      }
+      case 'priceTo':{
+        if(value && isNaN(value)) {
+          error = { ...error, priceTo: "priceTo is not a number" };
+        }
+        break;
+      }
+      case 'order': {
+        if(value && value !== "asc" && value !== "desc") {
+          error = { ...error, order: "`order` can be only 'asc' or 'desc'" };
+        }
+        break;
+      }
+      case 'sortBy': {
+        if (value && value !== "price" && value !== "name" && value !== "id") {
+          error = { ...error, sortBy: "`sortBy` can be only 'price', 'name' or 'id'" };
+        }
+      }
     }
   }
 

@@ -1,61 +1,33 @@
-import exprepress from "express";
+import express from "express";
 
 import { getHtml, sendOrderEmail } from "../email/order-email.js";
 import DatabaseController from "./database.controller.js";
 import checkRequestParams from "../check-request-params.js";
 
-const router = exprepress.Router();
-router.use(exprepress.json());
-
-function getRequestHostUrl(request) {
-  return `${request.protocol}://${request.get("host")}/`;
-}
-
-async function sendResponse(response, data) {
-  try {
-    // если в ответе есть ошибка, меняем статус
-    if (data?.error) response.statusCode = 400;
-
-    response.json(data);
-  } catch (error) {
-    console.log(error);
-  }
-}
+const router = express.Router();
+router.use(express.json());
 
 /* Получение списка категорий */
 router.route("/categories").get(async (request, response) => {
   const categories = await DatabaseController.getCategories();
-  sendResponse(response, categories);
+  response.status(200).json(categories);
 });
 
 /* Получение списка производителей */
 router.route("/brands").get(async (request, response) => {
   const brands = await DatabaseController.getBrands();
-  sendResponse(response, brands);
+  response.status(200).json(brands);
 });
 
 /* Получение списка товаров */
 router.route("/products").get(async (request, response) => {
 
-  let { limit, page, sortBy, order, priceFrom, priceTo } = request.query;
+  const { limit, page, sortBy, order, priceFrom, priceTo } = request.query;
 
-  let error = {};
-
-  if (priceFrom && isNaN(priceFrom)) {
-    error = { ...error, priceFrom: "priceFrom is not a number" };
-  }
-  if (priceTo && isNaN(priceTo)) {
-    error = { ...error, priceTo: "priceTo is not a number" };
-  }
-  if (order && order != "asc" && order != "desc") {
-    error = { ...error, order: "order can be only 'asc' or 'desc'" };
-  }
-  if (sortBy && sortBy != "price" && sortBy != "name" && sortBy != "id") {
-    error = { ...error, sortBy: "order can be only 'asc' or 'desc'" };
-  }
+  const error = await checkRequestParams({ limit, page, sortBy, order, priceFrom, priceTo });
 
   if (Object.keys(error).length > 0) {
-    sendResponse(response, { error });
+    response.status(400).send({error});
     return;
   }
 
@@ -67,7 +39,8 @@ router.route("/products").get(async (request, response) => {
     priceFrom,
     priceTo,
   });
-  sendResponse(response, products);
+
+  response.status(200).json(products);
 });
 
 /* Получение товара по id */
@@ -76,7 +49,7 @@ router.route("/products/:id").get(async (request, response) => {
   const productId = request.params.id;
 
   const product = await DatabaseController.getProductById(productId);
-  sendResponse(response, product);
+  response.status(200).json(product);
 });
 
 /* Создание категории */
@@ -84,26 +57,27 @@ router.route("/category").post(async (request, response) => {
   const { title, image } = request.body;
 
   const category = await DatabaseController.addCategory({ title, image });
-  sendResponse(response, category);
+  response.status(200).json(category);
 });
 
 /* Создание продукта */
 router.route("/product").post(async (request, response) => {
   const { title, image, description, price } = request.body;
 
-  const product = await DatabaseController.addProduct(
+  const product = await DatabaseController.addProduct({
     title,
     image,
     description,
     price
+  }
   );
-  sendResponse(response, product);
+  response.status(200).json(product);
 });
 
 /* Создание пользователя */
 router.route("/users/accessKey").get(async (request, response) => {
   const user = await DatabaseController.addUser();
-  sendResponse(response, user);
+  response.status(200).json(user);
 });
 
 /* Получение корзины */
@@ -112,7 +86,7 @@ router.route("/baskets").get(async (request, response) => {
 
   const cart = await DatabaseController.getCart(accessKey);
 
-  sendResponse(response, cart);
+  response.status(200).json(cart);
 });
 
 /* Добавление в корзину */
@@ -121,10 +95,10 @@ router.route("/baskets").post(async (request, response) => {
   const { productId, quantity } = request.body;
   
   const { accessKey } = request.query;
-  const error = await checkRequestParams({productId, quantity, accessKey})
+  const error = await checkRequestParams({productId, quantity, accessKey});
 
   if (Object.keys(error).length > 0) {
-    sendResponse(response, { error });
+    response.status(400).send({error});
     return;
   } 
   
@@ -138,7 +112,7 @@ router.route("/baskets").post(async (request, response) => {
   
   const result = await DatabaseController.getCart(accessKey);
   
-  sendResponse(response, result);
+  response.status(200).json(result);
 });
 
 /* Изменение количества товара в корзине */
@@ -146,14 +120,14 @@ router.route("/baskets").put(async (request, response) => {
   const { productId, quantity } = request.body;
   const { accessKey } = request.query;
 
-  let error = await checkRequestParams({productId, quantity, accessKey})
+  const error = await checkRequestParams({productId, quantity, accessKey})
   
   if (Object.keys(error).length > 0) {
-    sendResponse(response, { error });
+    response.status(400).send({ error });
     return;
   }
 
-  let cart = await DatabaseController.getCart(accessKey);
+  const cart = await DatabaseController.getCart(accessKey);
 
   await DatabaseController.setProductQuantity({
     cartId: cart.id,
@@ -162,8 +136,7 @@ router.route("/baskets").put(async (request, response) => {
   });
 
   const result = await DatabaseController.getCart(accessKey);
-  
-  sendResponse(response, result);
+  response.status(200).json(result);
   
 });
 
@@ -175,7 +148,7 @@ router.route("/baskets").delete(async (request, response) => {
   const error = await checkRequestParams({productId, accessKey})
   
   if (Object.keys(error).length > 0) {
-    sendResponse(response, { error });
+    response.status(400).send({ error });
     return;
   }
 
@@ -189,17 +162,17 @@ router.route("/baskets").delete(async (request, response) => {
   
   const result = await DatabaseController.getCart( accessKey);
 
-  sendResponse(response, result);
+  response.status(200).json(result);
 });
 
 /* Оформление заказа */
 router.route("/orders").post(async (request, response) => {
-  let { name, address, phone, email, comment } = request.body;
+  const { name, address, phone, email, comment } = request.body;
   const { accessKey } = request.query;
   const error = await checkRequestParams({accessKey, name, address, phone, email, comment});
   
   if (Object.keys(error).length > 0) {
-    sendResponse(response, { error });
+    response.status(400).send({ error });
     return;
   }
   
@@ -212,18 +185,27 @@ router.route("/orders").post(async (request, response) => {
 
   const result = await DatabaseController.getOrderById(lastOrderId);
 
-  sendResponse(response,result);
+  response.status(200).json(result);
 });
 
 /* Получение заказа по id */
 router.route("/orders/:id").get(async (request, response) => {
-  const orderId = request.params.id;
-  const order = await DatabaseController.getOrderById(orderId);
-  if (!order) {
-    sendResponse(response, { error: "Order not found!" });
-    return;
+  try {
+    const orderId = request.params.id;
+    const order = await DatabaseController.getOrderById(orderId);
+    hjg = 6;
+
+    if (!order) {
+      response.status(400).send({ error: "Order not found!" });
+      return;
+    }
+
+    response.status(200).json(order);
   }
-  sendResponse(response, order);
+  catch (err) {
+    response.status(500).json({ error: "Internal server error", message: err });
+  }
+  
 });
 
 export default router;

@@ -1,16 +1,6 @@
-import { where, Op } from "sequelize";
-import {
-  Brand,
-  Cart,
-  CartItem,
-  Category,
-  Feedback,
-  Order,
-  OrderItem,
-  OrderStatus,
-  Product,
-  User,
-} from "../models/index.js";
+import {Op} from "sequelize";
+import {Brand, Cart, CartItem, Category, Order, OrderItem, OrderStatus, Product, User,} from "../models/index.js";
+
 class DatabaseController {
   /** Получает список категорий с БД */
   async getCategories() {
@@ -86,24 +76,22 @@ class DatabaseController {
     //       pagination: { page: +page, limit: +limit, count },
     //       filter: { minPrice, maxPrice },
     //     };
-    const products = await Product.findAll({
-      attributes: { exclude: ["brand_id", "category_id"] },
+    return await Product.findAll({
+      attributes: {
+        exclude: ["brand_id", "category_id"]
+      },
       include: [Brand, Category],
     });
-
-    return products;
   }
 
   async getProductById(productId) {
-    const product = await Product.findOne({
+    return await Product.findOne({
       where: {
-        [Op.or]: [{ id: productId }, { slug: productId }],
+        [Op.or]: [{id: productId}, {slug: productId}],
       },
-      attributes: { exclude: ["brand_id", "category_id"] },
+      attributes: {exclude: ["brand_id", "category_id"]},
       include: [Brand, Category],
     });
-
-    return product;
   }
 
   async getCart(accessKey) {
@@ -126,9 +114,9 @@ class DatabaseController {
       await Cart.create({ userId: user.id });
     }
     // получаем корзину по UID пользователя
-    const cart = await Cart.findOne({
+    return await Cart.findOne({
       attributes: ["id"],
-      where: { userId: user.id },
+      where: {userId: user.id},
       include: [
         {
           model: CartItem,
@@ -149,8 +137,6 @@ class DatabaseController {
         User
       ],
     });
-
-    return cart;
   }
 
   async addProductToCart({ cartId, productId, quantity }) {
@@ -175,7 +161,7 @@ class DatabaseController {
     return await CartItem.destroy({ where: { cartId, productId } });
   }
 
-  async addOrderItem({ orderId, productId, productTitle, quantity, price }) {
+ /* async addOrderItem({ orderId, productId, productTitle, quantity, price }) {
     return await OrderItem.create({
       orderId,
       productId,
@@ -183,7 +169,7 @@ class DatabaseController {
       quantity,
       price,
     });
-  }
+  }*/
   async makeOrder({ name, address, phone, email, comment }, cart) {
     const t = await Order.sequelize.transaction();
 
@@ -200,7 +186,7 @@ class DatabaseController {
         { transaction: t }
       );
 
-      cart.CartItems.forEach(async (item) => {
+      for (const item of cart.CartItems) {
 
         const product = item.Product;
 
@@ -215,7 +201,7 @@ class DatabaseController {
           transaction: t
         })
 
-      });
+      }
       await cart.destroy();
       await t.commit();
       return order.id;
@@ -226,17 +212,16 @@ class DatabaseController {
   }
 
   async getOrderById(orderId) {
-    let order = await Order.findByPk(orderId, {
-
-      attributes: { 
+    return await Order.findByPk(orderId, {
+      attributes: {
         include: [[Order.sequelize.literal("(SELECT SUM(quantity * price) FROM order_items WHERE order_items.order_id = Order.id)"), "total"]],
         exclude: ['status_id', 'statusId']
-    },
+      },
       include: [
         {
           model: OrderItem,
           attributes: ['quantity', 'price', 'productTitle'],
-          
+
           include: {
             model: Product,
             attributes: [
@@ -249,15 +234,10 @@ class DatabaseController {
             ],
             include: [Brand, Category],
           },
-        }, 
+        },
         OrderStatus
       ],
     });
-    return order;
-  }
-
-  async getOrderItems(orderId) {
-    return await OrderItem.findAll({ where: { orderId } });
   }
 }
 
