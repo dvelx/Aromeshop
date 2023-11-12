@@ -1,7 +1,8 @@
 import express from 'express'
-import router from './controllers/database.router.js'
+import apiRouter from './routes/api/index.js'
 
 import cors from 'cors'
+
 import { options } from './static-options.js'
 import database from './database.js'
 import { runMigrations } from './migration.js'
@@ -22,7 +23,7 @@ app.use('/', express.static('./node_modules/bootstrap/dist/'))
 app.use('/icons', express.static('./node_modules/bootstrap-icons/'))
 
 // подключение контроллера БД
-app.use('/api/', router)
+app.use('/api/', apiRouter)
 
 /* В остальных случаях отправим HTML-страницу */
 app.get('/admin', (req, res) => {

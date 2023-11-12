@@ -1,103 +1,70 @@
 import express from 'express'
 
 // import { getHtml, sendOrderEmail } from '../email/order-email.js'
-import DatabaseController from './database.controller.js'
-import checkRequestParams from '../check-request-params.js'
+import DatabaseController from '../../controllers/database.controller.js'
+import checkRequestParams from '../../check-request-params.js'
 
-const router = express.Router()
-router.use(express.json())
+import bodyParser from 'body-parser'
+import swaggerJsdoc from 'swagger-jsdoc'
+import swaggerUi from 'swagger-ui-express'
+import getBrands from './getBrands.js'
+import getCategories from './getCategories.js'
+import getProducts from './getProducts.js'
+import getProductsById from './getProductsById.js'
+import postCategory from './postCategory.js'
+import postProduct from './postProduct.js'
+import getBaskets from './getBaskets.js'
 
-/* Получение списка категорий */
-router.route('/categories').get(async (request, response) => {
-  try {
-    const categories = await DatabaseController.getCategories()
-    response.status(200).json(categories)
-  } catch (e) {
-    response.status(500).json({ error: 'Internal server error', message: e })
-  }
-})
+const options = {
+  definition: {
+    openapi: '3.1.0',
+    info: {
+      title: 'AromaHome API with Swagger',
+      version: '0.1.0',
+      description:
+        'This is a simple CRUD API application made with Express and documented with Swagger',
+      license: {
+        name: 'MIT',
+        url: 'https://spdx.org/licenses/MIT.html'
+      },
+      contact: {
+        name: 'AromaHome',
+        url: 'https://github.com/dvelx/Aromeshop',
+        email: 'info@email.com'
+      }
+    },
+    servers: [
+      {
+        url: 'http://localhost:3000'
+      }
+    ]
+  },
+  apis: ['./routes/api/*.js']
+}
 
-/* Получение списка производителей */
-router.route('/brands').get(async (request, response) => {
-  try {
-    const brands = await DatabaseController.getBrands()
-    response.status(200).json(brands)
-  } catch (e) {
-    response.status(500).json({ error: 'Internal server error', message: e })
-  }
-})
+const specs = swaggerJsdoc(options)
 
-/* Получение списка товаров */
-router.route('/products').get(async (request, response) => {
-  try {
-    const { limit, page, sortBy, order, priceFrom, priceTo } = request.query
+const api = express.Router()
+api.use(express.json())
+api.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+)
 
-    const error = await checkRequestParams({ limit, page, sortBy, order, priceFrom, priceTo })
+api.use(bodyParser.json())
+api.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
 
-    if (Object.keys(error).length > 0) {
-      response.status(400).send({ error })
-      return
-    }
-
-    const products = await DatabaseController.getProducts({
-      limit,
-      page,
-      sortBy,
-      order,
-      priceFrom,
-      priceTo
-    })
-
-    response.status(200).json(products)
-  } catch (e) {
-    response.status(500).json({ error: 'Internal server error', message: e })
-  }
-})
-
-/* Получение товара по id */
-router.route('/products/:id').get(async (request, response) => {
-  try {
-    const productId = request.params.id
-
-    const product = await DatabaseController.getProductById(productId)
-    response.status(200).json(product)
-  } catch (e) {
-    response.status(500).json({ error: 'Internal server error', message: e })
-  }
-})
-
-/* Создание категории */
-router.route('/category').post(async (request, response) => {
-  try {
-    const { title, image } = request.body
-
-    const category = await DatabaseController.addCategory({ title, image })
-    response.status(200).json(category)
-  } catch (e) {
-    response.status(500).json({ error: 'Internal server error', message: e })
-  }
-})
-
-/* Создание продукта */
-router.route('/product').post(async (request, response) => {
-  try {
-    const { title, image, description, price } = request.body
-
-    const product = await DatabaseController.addProduct({
-      title,
-      image,
-      description,
-      price
-    }
-    )
-    response.status(200).json(product)
-  } catch (e) {
-    response.status(500).json({ error: 'Internal server error', message: e })
-  }
-})
+api.get('/baskets', getBaskets)
+api.get('/brands', getBrands)
+api.get('/categories', getCategories)
+api.get('/products', getProducts)
+api.get('/products/:id', getProductsById)
+api.post('/category', postCategory)
+api.post('/product', postProduct)
 
 /* Создание пользователя */
-router.route('/users/accessKey').get(async (request, response) => {
+api.route('/users/accessKey').get(async (request, response) => {
   try {
     const user = await DatabaseController.addUser()
     response.status(200).json(user)
@@ -106,21 +73,8 @@ router.route('/users/accessKey').get(async (request, response) => {
   }
 })
 
-/* Получение корзины */
-router.route('/baskets').get(async (request, response) => {
-  try {
-    const { accessKey } = request.query
-
-    const cart = await DatabaseController.getCart(accessKey)
-
-    response.status(200).json(cart)
-  } catch (e) {
-    response.status(500).json({ error: 'Internal server error', message: e })
-  }
-})
-
 /* Добавление в корзину */
-router.route('/baskets').post(async (request, response) => {
+api.route('/baskets').post(async (request, response) => {
   try {
     const { productId, quantity } = request.body
 
@@ -149,7 +103,7 @@ router.route('/baskets').post(async (request, response) => {
 })
 
 /* Изменение количества товара в корзине */
-router.route('/baskets').put(async (request, response) => {
+api.route('/baskets').put(async (request, response) => {
   try {
     const { productId, quantity } = request.body
     const { accessKey } = request.query
@@ -177,7 +131,7 @@ router.route('/baskets').put(async (request, response) => {
 })
 
 /* Удаление товара из корзины */
-router.route('/baskets').delete(async (request, response) => {
+api.route('/baskets').delete(async (request, response) => {
   try {
     const { productId } = request.body
     const { accessKey } = request.query
@@ -205,7 +159,7 @@ router.route('/baskets').delete(async (request, response) => {
 })
 
 /* Оформление заказа */
-router.route('/orders').post(async (request, response) => {
+api.route('/orders').post(async (request, response) => {
   try {
     const { name, address, phone, email, comment } = request.body
     const { accessKey } = request.query
@@ -232,7 +186,7 @@ router.route('/orders').post(async (request, response) => {
 })
 
 /* Получение заказа по id */
-router.route('/orders/:id').get(async (request, response) => {
+api.route('/orders/:id').get(async (request, response) => {
   try {
     const orderId = request.params.id
     const order = await DatabaseController.getOrderById(orderId)
@@ -247,4 +201,4 @@ router.route('/orders/:id').get(async (request, response) => {
   }
 })
 
-export default router
+export default api
