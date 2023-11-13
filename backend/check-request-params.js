@@ -1,5 +1,5 @@
 /* eslint-disable no-control-regex */
-import DatabaseController from './controllers/database.controller.js'
+import databaseController from './controllers/database.controller.js'
 
 const phoneRegex = /^(?:\+?\d{1,3})(?:\(?\d{3}\)[-\s]{0,}\d{3}[-\s]{0,}\d{2}[-\s]{0,}\d{2})$/
 
@@ -14,7 +14,7 @@ export default async function checkRequestParams (params) {
         if (!value) {
           error = { ...error, accessKey: '`accessKey` required' }
         } else {
-          const res = await DatabaseController.getCart(value)
+          const res = await databaseController.getCart(value)
           if (!res) {
             error = { ...error, accessKey: 'wrong `accessKey`' }
           }

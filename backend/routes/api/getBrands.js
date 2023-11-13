@@ -1,4 +1,4 @@
-import DatabaseController from '../../controllers/database.controller.js'
+import databaseController from '../../controllers/database.controller.js'
 
 /**
  * @swagger
@@ -54,7 +54,7 @@ import DatabaseController from '../../controllers/database.controller.js'
 
 export default async (request, response) => {
   try {
-    const brands = await DatabaseController.getBrands()
+    const brands = await databaseController.getBrands()
     response.status(200).json(brands)
   } catch (e) {
     response.status(500).json({ error: 'Internal server error', message: e })

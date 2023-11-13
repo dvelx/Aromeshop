@@ -1,7 +1,7 @@
 import { Op } from 'sequelize'
 import { Brand, Cart, CartItem, Category, Order, OrderItem, OrderStatus, Product, User } from '../models/index.js'
 
-class DatabaseController {
+class databaseController {
   /** Получает список категорий с БД */
   async getCategories () {
     return await Category.findAll()
@@ -238,4 +238,4 @@ class DatabaseController {
   }
 }
 
-export default new DatabaseController()
+export default new databaseController()
