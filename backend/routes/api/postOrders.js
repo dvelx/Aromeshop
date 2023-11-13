@@ -1,5 +1,7 @@
 import databaseController from '../../controllers/database.controller.js'
 import checkRequestParams from '../../check-request-params.js'
+import { sendOrderEmail } from '../../email/order-email.js'
+
 // import { getHtml, sendOrderEmail } from '../email/order-email.js'
 
 export default async (request, response) => {
@@ -20,10 +22,12 @@ export default async (request, response) => {
       cart
     )
 
-    const result = await databaseController.getOrderById(lastOrderId)
+    const order = await databaseController.getOrderById(lastOrderId)
 
-    response.status(200).json(result)
+    sendOrderEmail(order.get({ plain: true }))
+    response.status(200).json(order)
   } catch (e) {
+    console.log(e)
     response.status(500).json({ error: 'Internal server error', message: e })
   }
 }

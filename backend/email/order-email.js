@@ -1,7 +1,10 @@
 import fs from 'fs'
 import Mailer from './mailer.js'
+import config from '../config.js'
 
-function getHtml (order, hostname) {
+const hostname = `http://${config.hostname}:${config.port}`
+
+function getHtml (order) {
   let html = fs.readFileSync('./email/order-template.html', {
     encoding: 'utf-8'
   })
@@ -10,13 +13,13 @@ function getHtml (order, hostname) {
   })
 
   let orderItems = ''
-  order.items.forEach((item) => {
-    console.log('getHtml: ', item.product)
+  console.log(order)
+  order.OrderItems.forEach((item) => {
     orderItems += htmlItem
-      .replace('{%imgSrc%}', item.product.image_url)
-      .replace('{%imgAlt%}', item.product_title)
-      .replace('{%productLink%}', `${hostname}api/product/${item.product.slug}`)
-      .replace('{%productName%}', item.product_title)
+      .replace('{%imgSrc%}', item.Product.image)
+      .replace('{%imgAlt%}', item.productTitle)
+      .replace('{%productLink%}', `http://${config.hostname}/products/${item.Product.slug}`)
+      .replace('{%productName%}', item.productTitle)
       .replace('{%price%}', item.price)
       .replace('{%count%}', item.quantity)
       .replace('{%summary%}', `${(item.quantity * item.price).toFixed(2)}`)
@@ -31,10 +34,10 @@ function getHtml (order, hostname) {
 
   return html
 }
-function sendOrderEmail ({ order, hostname }) {
+function sendOrderEmail (order) {
   const mailer = new Mailer()
-  const html = getHtml(order, hostname)
-  console.log(html)
+  const html = getHtml(order)
+
   return mailer.sendMail({
     to: order.email,
     subject: `Интернет-магазин AromaHome: заказ №${order.id}`,
