@@ -35,7 +35,7 @@ const options = {
     },
     servers: [
       {
-        url: `${config.hostname}:${config.port}`
+        url: `http://${config.hostname}:${config.port}`
       }
     ]
   },

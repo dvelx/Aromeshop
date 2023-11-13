@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 import IP from 'ip'
 dotenv.config()
 const config = {
-  port: process.env.APP_PORT,
+  port: process.env.APP_PORT | 3000,
   domain: process.env.APP_DOMAIN,
   hostname: process.env.APP_DOMAIN ? process.env.APP_DOMAIN : IP.address(),
 
