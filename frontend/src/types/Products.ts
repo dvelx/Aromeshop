@@ -15,5 +15,5 @@ export default interface Products {
     price: number;
     slug: string;
     title: string;
-  }[];
+  };
 }

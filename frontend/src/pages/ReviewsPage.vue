@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h2 class="reviews__title">Отзывы</h2>
-    <ReviewItem v-for="item in reviews" :item="item" :key="item.id"/>
+    <ReviewItem v-for="item in reviews" :item="item" :key="item.id" />
   </div>
 </template>
 

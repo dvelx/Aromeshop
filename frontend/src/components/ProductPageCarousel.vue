@@ -1,42 +1,41 @@
 <template>
-  <Swiper 
+  <Swiper
     :spaceBetween="10"
     :navigation="true"
     :thumbs="{ swiper: thumbsSwiper }"
     :modules="[FreeMode, Navigation, Thumbs]"
     class="product-swiper top-swiper"
   >
-    <SwiperSlide v-for="item in 5" :key="item" class="product-slide  main-img">
-      <img :src="product.image_url" :alt="product.title">
+    <SwiperSlide v-for="item in 5" :key="item" class="product-slide main-img">
+      <img :src="product.image" :alt="product.title" />
     </SwiperSlide>
   </Swiper>
-  <Swiper 
+  <Swiper
     @swiper="setThumbsSwiper"
     :spaceBetween="10"
     :slidesPerView="4"
     :freeMode="true"
     :watchSlidesProgress="true"
     :modules="[FreeMode, Navigation, Thumbs]"
-    class="product-swiper"  
+    class="product-swiper"
   >
-
     <SwiperSlide v-for="item in 5" :key="item" class="product-slide">
-      <img :src="product.image_url" :alt="product.title">
+      <img :src="product.image" :alt="product.title" />
     </SwiperSlide>
   </Swiper>
 </template>
 
 <script setup lang="ts">
-import {Ref, ref} from "vue";
+import { Ref, ref } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
+import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { Swiper as SwiperClass } from "swiper/types";
 import Product from "@/types/Product.ts";
 
-import 'swiper/css';
-import 'swiper/css/free-mode';
-import 'swiper/css/navigation';
-import 'swiper/css/thumbs';
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
 
 defineProps<{
   product: Product;
@@ -83,13 +82,10 @@ const setThumbsSwiper = (swiper: SwiperClass) => {
 .product-slide.swiper-slide-thumb-active {
   opacity: 1;
 }
-.swiper-button-prev, .swiper-button-next {
- color: $primary; 
+.swiper-button-prev,
+.swiper-button-next {
+  color: $primary;
 }
-
-
-
-
 
 @media (max-width: 1780px) {
 }

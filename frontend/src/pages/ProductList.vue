@@ -26,14 +26,14 @@
         <div v-else class="product-list__list">
           <div v-for="item in products" :key="item.id" class="card">
             <router-link :to="'/product/' + item.slug">
-              <img :src="item.image_url" alt="" class="card__image" />
+              <img :src="item.image" alt="" class="card__image" />
             </router-link>
             <div class="card__desc">
-              <h5 class="card__title" @click="console.log(productsData)">
+              <h5 class="card__title">
                 {{ item.title }}
               </h5>
               <p class="card__text">
-                {{ item.brand_title }}
+                {{ item.Brand.title }}
               </p>
               <p class="card__price">
                 Цена: {{ numberFormatter(item.price) }} ₽
@@ -69,9 +69,10 @@
             </button>
           </div>
         </div>
-        <button v-show="showMoreBtn" class="show-more-btn" @click="showMore">
+        <button v-show="showMoreBtn" class="show-more-btn">
           показать еще
         </button>
+<!--         @click="showMore"-->
         <!--      <BasePagination-->
         <!--        v-model:page="page"-->
         <!--        :per-page="limit"-->
@@ -87,7 +88,6 @@ import FilteredProducts from "../components/FilteredProducts.vue";
 import { computed, ref, watch } from "vue";
 import apiDataService from "@/services/apiDataService.ts";
 import ResponseData from "@/types/ResponseData.ts";
-import Products from "@/types/Products.ts";
 import numberFormatter from "@/helpers/numberFormatter.ts";
 import { cartStore } from "@/store/cartStore.ts";
 import Product from "@/types/Product.ts";
@@ -97,7 +97,7 @@ const store = cartStore();
 
 const loader = ref(true);
 const showMoreBtn = ref(true);
-const productsData = ref({} as Products);
+const productsData = ref({} as Product[]);
 const page = ref(1);
 const limit = ref(8);
 const sortBy = ref("");
@@ -105,19 +105,18 @@ const order = ref("");
 const priceFrom = ref(0);
 const priceTo = ref(100000);
 
-const products = computed<Product[]>(() => {
-  return productsData.value.products;
+const products = computed(() => {
+  return productsData.value;
 });
-
-const showMore = () => {
-  if (
-    productsData.value.pagination.limit < productsData.value.pagination.count
-  ) {
-    limit.value = limit.value + 8;
-  } else {
-    showMoreBtn.value = false;
-  }
-};
+// const showMore = () => {
+//   if (
+//     productsData.value.pagination.limit < productsData.value.pagination.count
+//   ) {
+//     limit.value = limit.value + 8;
+//   } else {
+//     showMoreBtn.value = false;
+//   }
+// };
 
 const loadProducts = () => {
   apiDataService

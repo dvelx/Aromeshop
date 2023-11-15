@@ -22,7 +22,7 @@
         <swiper-slide v-for="item in products" :key="item.id">
           <router-link :to="'/product/' + item.slug">
             <div class="card">
-              <img :src="item.image_url" alt="" class="card__image" />
+              <img :src="item.image" alt="" class="card__image" />
               <div class="card__desc">
                 <h5 class="card__title">
                   {{ item.title }}
@@ -32,7 +32,7 @@
                 >
               </div>
               <p class="card__text">
-                {{ item.brand_title }}
+                {{ item.Brand.title }}
               </p>
             </div>
           </router-link>
@@ -51,13 +51,12 @@ import "swiper/css/pagination";
 import { computed, ref } from "vue";
 import apiDataService from "@/services/apiDataService.ts";
 import ResponseData from "@/types/ResponseData.ts";
-import Products from "@/types/Products.ts";
 import numberFormatter from "@/helpers/numberFormatter.ts";
 import Product from "@/types/Product.ts";
 
-const productsData = ref({} as Products);
-const products = computed<Product[]>(() => {
-  return productsData.value.products;
+const productsData = ref({} as Product[]);
+const products = computed(() => {
+  return productsData.value;
 });
 const swiperOptions = {
   breakpoints: {

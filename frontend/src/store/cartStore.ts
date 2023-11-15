@@ -32,7 +32,7 @@ export const cartStore = defineStore("cartStore", () => {
   // getters
   const cartTotalPrice = () => {
     return syncCart.value.reduce(
-      (acc, item) => item.price * item.quantity + acc,
+      (acc, item) => item.Product.price * item.quantity + acc,
       0,
     );
   };
@@ -40,7 +40,7 @@ export const cartStore = defineStore("cartStore", () => {
     return syncCart.value.reduce((acc, item) => item.quantity + acc, 0);
   };
   const updateCartProductQuantity = (productId: number, amount: number) => {
-    const item = syncCart.value.find((item) => item.id === productId);
+    const item = syncCart.value.find((item) => item.Product.id === productId);
     if (item) {
       item.quantity = amount;
     }
@@ -71,11 +71,11 @@ export const cartStore = defineStore("cartStore", () => {
     apiDataService.getBasket(accessKey).then(
       (res) => {
         if (!state.value.userAccessKey) {
-          localStorage.setItem("userAccessKeyAroma", res.data.user.accessKey);
-          updateUserAccessKey(res.data.user.accessKey);
+          localStorage.setItem("userAccessKeyAroma", res.data.User.accessKey);
+          updateUserAccessKey(res.data.User.accessKey);
         }
         state.value.cartId = res.data.id;
-        state.value.cartProduct = res.data.items;
+        state.value.cartProduct = res.data.CartItems;
       },
       (err) => {
         console.log(err.response.data);

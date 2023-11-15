@@ -1,8 +1,8 @@
 <template>
   <li class="form__cart-order">
-    <h3>{{ item.title }}</h3>
-    <b>{{ numberFormatter(item.price) }} ₽</b>
-    <span>Артикул: {{ item.id }}</span>
+    <h3>{{ item.Product.title }}</h3>
+    <b>{{ numberFormatter(item.Product.price) }} ₽</b>
+    <span>Артикул: {{ item.Product.id }}</span>
   </li>
 </template>
 

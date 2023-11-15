@@ -8,31 +8,31 @@
           нашими <span>ароматизаторами!</span>
         </h1>
         <router-link to="/catalog" class="right__btn btn"
-          >Смотреть товары <span class="right__btn-flare"></span></router-link
-        >
+          >Смотреть товары <span class="right__btn-flare"></span
+        ></router-link>
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import gsap from 'gsap'
+import gsap from "gsap";
 import { onMounted } from "vue";
 
 onMounted(() => {
-  gsap.fromTo('.right__main-text',
+  gsap.fromTo(
+    ".right__main-text",
     {
-    opacity: 0,
-    x: '-100%'
+      opacity: 0,
+      x: "-100%",
     },
     {
       duration: 1.5,
       opacity: 1,
-      x: 0
-    }
-  )
-})
-
+      x: 0,
+    },
+  );
+});
 </script>
 
 <style lang="scss" scoped>
@@ -95,7 +95,11 @@ onMounted(() => {
     width: 45px;
     transform: skewX(-45deg);
     left: -150%;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.4));
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.4)
+    );
     animation: flare 3s infinite linear;
   }
   &__btn:hover {

@@ -1,31 +1,34 @@
 <template>
   <li class="cart-item__wrapper">
     <div class="cart-item__image-block">
-      <img :src="item.image_url" :alt="item.title" />
+      <img :src="item.Product.image" :alt="item.Product.title" />
     </div>
     <div class="cart-item__right">
       <div class="cart-item__name-and-article-block">
-        <h3 class="cart-item__title">{{ item.title }}</h3>
-        <span class="cart-item__code"> Артикул: {{ item.id }} </span>
+        <h3 class="cart-item__title">{{ item.Product.title }}</h3>
+        <span class="cart-item__code"> Артикул: {{ item.Product.id }} </span>
       </div>
       <div class="cart-item__quantity-price">
         <div class="cart-item__actions-container">
-          <BaseCounter v-model:amount="productQuantity" class="cart-item__counter"/>
+          <BaseCounter
+            v-model:amount="productQuantity"
+            class="cart-item__counter"
+          />
           <button
             class="cart-item__action-del"
             style="cursor: pointer"
             type="button"
             aria-label="Удалить товар из корзины"
-            @click="deleteProduct(item.id)"
-          >Удалить</button>
+            @click="deleteProduct(item.Product.id)"
+          >
+            Удалить
+          </button>
         </div>
         <div class="cart-item__price">
           <span class="cart-item__main-value"> {{ productTotalPrice }} ₽ </span>
         </div>
       </div>
     </div>
-    
-    
   </li>
 </template>
 
@@ -39,10 +42,12 @@ const store = cartStore();
 
 interface Props {
   item: {
-    id: number;
-    title: string;
-    image_url: string;
-    price: number;
+    Product: {
+      id: number;
+      title: string;
+      image: string;
+      price: number;
+    },
     quantity: number;
   };
 }
@@ -50,7 +55,7 @@ interface Props {
 const props = defineProps<Props>();
 
 const productTotalPrice = computed(() => {
-  return numberFormatter(props.item.quantity * props.item.price);
+  return numberFormatter(props.item.quantity * props.item.Product.price);
 });
 
 const productQuantity = computed({
@@ -58,7 +63,7 @@ const productQuantity = computed({
     return props.item.quantity;
   },
   set(value) {
-    store.updateCartProductQuantity(props.item.id, value);
+    store.updateCartProductQuantity(props.item.Product.id, value);
   },
 });
 const deleteProduct = (id: number) => {
@@ -126,7 +131,6 @@ const deleteProduct = (id: number) => {
     font-size: 24px;
   }
 }
-
 
 @media (max-width: 1780px) {
 }

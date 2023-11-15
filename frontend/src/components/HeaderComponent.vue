@@ -100,7 +100,7 @@
               active-class="active"
               @click="close"
             >
-               ГЛАВНАЯ
+              ГЛАВНАЯ
             </router-link>
           </li>
           <li class="burger-nav__item">
@@ -153,7 +153,6 @@
 import HeaderPromotion from "./HeaderPromotion.vue";
 import { computed, ref } from "vue";
 import { cartStore } from "@/store/cartStore.ts";
-
 
 const store = cartStore();
 const toggle = ref(false);

@@ -84,7 +84,7 @@
             <ul class="form__cart-orders">
               <OrderPageCart
                 v-for="item in products"
-                :key="item.id"
+                :key="item.Product.id"
                 :item="item"
               />
             </ul>
@@ -93,7 +93,7 @@
               <p>
                 Итого: <b>{{ totalAmount }}</b>
                 {{ countTextFormatter(totalAmount) }} на сумму
-                <b>{{ totalPrice }} ₽</b>
+                <b @click="console.log(store.state.orderInfo)">{{ totalPrice }} ₽</b>
               </p>
             </div>
 
@@ -156,13 +156,11 @@ const order = () => {
       store.state.userAccessKey,
     )
     .then((res: ResponseData) => {
-      store.updateOrderInfo(res.data);
+      store.updateOrderInfo(res.data.items);
+      console.log(store.state.orderInfo)
       store.resetCart();
-      router.push({ name: "/order/:id", params: { id: res.data.id } });
+      router.push({ name: "/order/:id", params: { id: res.data.items.orderId } });
     })
-    .catch((error) => {
-      formError.value = error.response.data.error;
-    });
 };
 //маска
 const maskOptions = reactive({

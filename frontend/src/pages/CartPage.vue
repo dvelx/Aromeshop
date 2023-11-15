@@ -32,7 +32,9 @@
               class="cart__button"
               type="submit"
               :disabled="cartProducts.length === 0"
-              @click="navigate();test()"
+              @click="
+                navigate();
+              "
             >
               Оформить заказ
             </button>
@@ -51,9 +53,6 @@ import { computed } from "vue";
 import numberFormatter from "@/helpers/numberFormatter.ts";
 
 const store = cartStore();
-const test = () => {
-  console.log('тест')
-}
 
 const cartProducts = computed(() => {
   return store.state.cartProduct;

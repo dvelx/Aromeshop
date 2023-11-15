@@ -22,7 +22,7 @@ class productDataService {
   }
 
   getById(slug: string): Promise<any> {
-    return api.get(`/product/${slug}`);
+    return api.get(`/products/${slug}`);
   }
 
   getUserAccessKey(): Promise<any> {
@@ -118,7 +118,7 @@ class productDataService {
     );
   }
   getOrderById(orderId: number): Promise<any> {
-    return api.get("/order/" + orderId);
+    return api.get("/orders/" + orderId);
   }
 }
 
