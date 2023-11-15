@@ -72,7 +72,7 @@
 
           <div class="cart__total">
             <p>
-              Доставка: <b @click="console.log(totalItemOrder)">бесплатно</b>
+              Доставка: <b>бесплатно</b>
             </p>
             <p>
               Итого: <b>{{ totalItemOrder }}</b>
@@ -102,7 +102,7 @@ const orderInfo = computed<OrderInfo>(() => {
 });
 
 const totalItemOrder = computed(() => {
-  return orderInfo.value.items.reduce((acc, item) => item.quantity + acc, 0);
+  return orderInfo.value.OrderItems.reduce((acc, item) => item.quantity + acc, 0);
 });
 
 const datePurchased = computed(() => {

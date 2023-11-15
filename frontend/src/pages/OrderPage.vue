@@ -156,10 +156,10 @@ const order = () => {
       store.state.userAccessKey,
     )
     .then((res: ResponseData) => {
-      store.updateOrderInfo(res.data.items);
+      store.updateOrderInfo(res.data);
       console.log(store.state.orderInfo)
       store.resetCart();
-      router.push({ name: "/order/:id", params: { id: res.data.items.orderId } });
+      router.push({ name: "/order/:id", params: { id: res.data.id } });
     })
 };
 //маска
