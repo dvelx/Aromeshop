@@ -2,7 +2,7 @@ import express from 'express'
 
 import usersRouter from '../users/index.js'
 
-import swaggerJsdoc from 'swagger-jsdoc'
+//import swaggerJsdoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
 import config from '../../config.js'
 
@@ -19,35 +19,36 @@ import deleteBaskets from './deleteBaskets.js'
 import postOrders from './postOrders.js'
 import getOrdersId from './getOrdersId.js'
 
-const options = {
-  definition: {
-    openapi: '3.1.0',
-    info: {
-      title: 'AromaHome API with Swagger',
-      version: '0.1.0',
-      description:
-        'This is a simple CRUD API application made with Express and documented with Swagger',
-      contact: {
-        name: 'Dmitriy Goff',
-        url: 'https://github.com/dvelx/Aromeshop',
-        email: 'goffdmitriy@gmail.com'
-      }
-    },
-    servers: [
-      {
-        url: `http://${config.hostname}:${config.port}`
-      }
-    ]
-  },
-  apis: ['./routes/api/*.js']
-}
+import swaggerFile from '../../config/swagger-output.json' assert {type: 'json'}
+// const options = {
+//   definition: {
+//     openapi: '3.1.0',
+//     info: {
+//       title: 'AromaHome API with Swagger',
+//       version: '0.1.0',
+//       description:
+//         'This is a simple CRUD API application made with Express and documented with Swagger',
+//       contact: {
+//         name: 'Dmitriy Goff',
+//         url: 'https://github.com/dvelx/Aromeshop',
+//         email: 'goffdmitriy@gmail.com'
+//       }
+//     },
+//     servers: [
+//       {
+//         url: `http://${config.hostname}:${config.port}`
+//       }
+//     ]
+//   },
+//   apis: ['./routes/api/*.js']
+// }
 
-const specs = swaggerJsdoc(options)
+// const specs = swaggerJsdoc(options)
 
 const api = express.Router()
 api.use(express.json())
 
-api.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
+api.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 api.use('/users', usersRouter)
 
 api.get('/baskets', getBaskets)

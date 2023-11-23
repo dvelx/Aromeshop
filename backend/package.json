@@ -9,7 +9,9 @@
     "format:check": "prettier --check .",
     "format:write": "prettier --write .",
     "lint:check": "eslint .",
-    "lint:fix": "eslint --fix ."
+    "lint:fix": "eslint --fix .",
+    "swagger": "node ./swagger.js",
+    "start": "node ./app.js"
   },
   "author": "",
   "license": "ISC",
@@ -25,6 +27,7 @@
     "nodemailer": "^6.9.4",
     "sequelize": "^6.32.1",
     "slugify": "^1.6.6",
+    "swagger-autogen": "^2.23.7",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0"
   },
